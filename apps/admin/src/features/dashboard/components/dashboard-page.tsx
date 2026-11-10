@@ -5,6 +5,7 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarInset,
   SidebarMenu,
   SidebarMenuButton,
@@ -13,12 +14,14 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@workspace/ui/components/sidebar';
+import { Switch } from '@workspace/ui/components/switch';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@workspace/ui/components/tooltip';
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, Moon, Sun } from 'lucide-react';
+import { useTheme } from '@/components/theme-provider';
 
 function DashboardSidebarTrigger() {
   const { isMobile, open, openMobile } = useSidebar();
@@ -35,9 +38,20 @@ function DashboardSidebarTrigger() {
 }
 
 export function DashboardPage() {
+  const { resolvedTheme, setTheme } = useTheme();
+
   return (
     <SidebarProvider>
       <Sidebar collapsible="offcanvas">
+        <SidebarHeader className="flex-row items-center gap-3 px-4 py-4">
+          <Sun className="size-4 text-muted-foreground" aria-hidden="true" />
+          <Switch
+            aria-label="Тёмная тема"
+            checked={resolvedTheme === 'dark'}
+            onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
+          />
+          <Moon className="size-4 text-muted-foreground" aria-hidden="true" />
+        </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
