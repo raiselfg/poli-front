@@ -5,3 +5,10 @@ packages:
 allowBuilds:
   esbuild: true
   msw: false
+  sharp: false
+  unrs-resolver: false
+
+minimumReleaseAgeExclude:
+  - framer-motion@14.11.1
+  - motion-dom@14.11.1
+  - motion@14.11.1

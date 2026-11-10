@@ -4,3 +4,9 @@ node_modules/
 coverage/
 pnpm-lock.yaml
 .pnpm-store/
+.next/
+out/
+build/
+next-env.d.ts
+.agents/
+apps/admin/src/routeTree.gen.ts

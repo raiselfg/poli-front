@@ -1,21 +1,45 @@
-# shadcn/ui monorepo template
+# Poli monorepo
 
-This is a Vite monorepo template with shadcn/ui.
+Монорепозиторий на pnpm и Turborepo с приложениями Next.js и Vite и общими UI-компонентами.
 
-## Adding components
+## Установка
 
-To add components to your app, run the following command at the root of your `web` app:
+Требуется Node.js версии не ниже 20.19.0 и pnpm версии, указанной в `package.json`.
 
 ```bash
-pnpm dlx shadcn@latest add button -c apps/web
+pnpm install
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+## Запуск
 
-## Using components
+```bash
+pnpm dev                 # все приложения
+pnpm --filter web dev    # Next.js
+pnpm --filter admin dev  # Vite
+```
 
-To use the components in your app, import them from the `ui` package.
+## Проверки и сборка
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm format:check
+pnpm build
+pnpm format              # применить Prettier
+```
+
+Чтобы запустить команду для одного приложения, используйте фильтр, например `pnpm --filter web build`.
+
+## Общие компоненты
+
+Компоненты находятся в `packages/ui` и доступны приложениям через `@workspace/ui`:
 
 ```tsx
-import { Button } from "@workspace/ui/components/button";
+import { Button } from "@workspace/ui/components/button"
+```
+
+Чтобы добавить компонент shadcn/ui из корня репозитория:
+
+```bash
+pnpm dlx shadcn@latest add button -c apps/admin
 ```

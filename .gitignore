@@ -15,6 +15,11 @@ dist-ssr
 # env files (can opt-in for committing if needed)
 .env*
 
+# Next.js
+.next/
+out/
+next-env.d.ts
+
 # turbo
 .turbo
 
