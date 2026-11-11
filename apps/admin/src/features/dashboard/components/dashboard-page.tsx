@@ -11,31 +11,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-  SidebarTrigger,
-  useSidebar,
 } from '@workspace/ui/components/sidebar';
 import { Switch } from '@workspace/ui/components/switch';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@workspace/ui/components/tooltip';
 import { LayoutDashboard, Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/components/theme-provider';
-
-function DashboardSidebarTrigger() {
-  const { isMobile, open, openMobile } = useSidebar();
-  const label = (isMobile ? openMobile : open)
-    ? 'Скрыть боковую панель'
-    : 'Открыть боковую панель';
-
-  return (
-    <Tooltip>
-      <TooltipTrigger render={<SidebarTrigger aria-label={label} />} />
-      <TooltipContent side="bottom">{label}</TooltipContent>
-    </Tooltip>
-  );
-}
+import { DashboardSidebarTrigger } from '@/components/dashboard-sidebar-trigger';
 
 export function DashboardPage() {
   const { resolvedTheme, setTheme } = useTheme();
