@@ -8,24 +8,17 @@ import {
 } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const loginSchema = z.object({
-  login: z.string().trim().min(1, 'Введите логин'),
-  password: z.string().min(1, 'Введите пароль'),
-});
-
-type LoginValues = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginValues } from '../login-schema';
 
 type LoginFormProps = {
-  onSuccess: () => void;
+  onSuccess: (values: LoginValues) => Promise<void>;
 };
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { login: '', password: '' },
@@ -35,10 +28,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     <form onSubmit={handleSubmit(onSuccess)} noValidate>
       <FieldGroup>
         <Field data-invalid={!!errors.login} className="gap-2">
-          <FieldLabel htmlFor="login">Логин</FieldLabel>
+          <FieldLabel htmlFor="login">
+            Логин <span aria-hidden="true">*</span>
+          </FieldLabel>
           <Input
             id="login"
             className="h-11"
+            aria-required="true"
             autoComplete="username"
             placeholder="Введите логин"
             aria-invalid={!!errors.login}
@@ -50,11 +46,14 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           )}
         </Field>
         <Field data-invalid={!!errors.password} className="gap-2">
-          <FieldLabel htmlFor="password">Пароль</FieldLabel>
+          <FieldLabel htmlFor="password">
+            Пароль <span aria-hidden="true">*</span>
+          </FieldLabel>
           <Input
             id="password"
             className="h-11"
             type="password"
+            aria-required="true"
             autoComplete="current-password"
             placeholder="Введите пароль"
             aria-invalid={!!errors.password}
@@ -65,7 +64,12 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             <FieldError id="password-error" errors={[errors.password]} />
           )}
         </Field>
-        <Button type="submit" size="lg" className="h-11 w-full">
+        <Button
+          type="submit"
+          size="lg"
+          className="h-11 w-full"
+          disabled={isSubmitting}
+        >
           Войти
         </Button>
       </FieldGroup>

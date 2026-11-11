@@ -9,54 +9,155 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/_admin'
+import { Route as AdminIndexRouteImport } from './routes/_admin.index'
+import { Route as AdminContactsRouteImport } from './routes/_admin.contacts'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AdminCategoriesIndexRouteImport } from './routes/_admin.categories.index'
+import { Route as AdminCategoriesCategoryIdRouteImport } from './routes/_admin.categories.$categoryId'
+import { Route as AdminCategoriesNewRouteImport } from './routes/_admin.categories.new'
+import { Route as AdminRequestsIndexRouteImport } from './routes/_admin.requests.index'
+import { Route as AdminRequestsRequestIdRouteImport } from './routes/_admin.requests.$requestId'
 
-const IndexRoute = IndexRouteImport.update({
+const AdminRoute = AdminRouteImport.update({
+  id: '/_admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContactsRoute = AdminContactsRouteImport.update({
+  id: '/contacts',
+  path: '/contacts',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCategoriesIndexRoute = AdminCategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCategoriesCategoryIdRoute =
+  AdminCategoriesCategoryIdRouteImport.update({
+    id: '/categories/$categoryId',
+    path: '/categories/$categoryId',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminCategoriesNewRoute = AdminCategoriesNewRouteImport.update({
+  id: '/categories/new',
+  path: '/categories/new',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRequestsIndexRoute = AdminRequestsIndexRouteImport.update({
+  id: '/requests/',
+  path: '/requests/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRequestsRequestIdRoute = AdminRequestsRequestIdRouteImport.update({
+  id: '/requests/$requestId',
+  path: '/requests/$requestId',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AdminIndexRoute
+  '/contacts': typeof AdminContactsRoute
   '/auth/login': typeof AuthLoginRoute
+  '/categories/$categoryId': typeof AdminCategoriesCategoryIdRoute
+  '/categories/new': typeof AdminCategoriesNewRoute
+  '/requests/$requestId': typeof AdminRequestsRequestIdRoute
+  '/categories/': typeof AdminCategoriesIndexRoute
+  '/requests/': typeof AdminRequestsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/contacts': typeof AdminContactsRoute
   '/auth/login': typeof AuthLoginRoute
+  '/': typeof AdminIndexRoute
+  '/categories/$categoryId': typeof AdminCategoriesCategoryIdRoute
+  '/categories/new': typeof AdminCategoriesNewRoute
+  '/requests/$requestId': typeof AdminRequestsRequestIdRoute
+  '/categories': typeof AdminCategoriesIndexRoute
+  '/requests': typeof AdminRequestsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_admin': typeof AdminRouteWithChildren
+  '/_admin/contacts': typeof AdminContactsRoute
   '/auth/login': typeof AuthLoginRoute
+  '/_admin/': typeof AdminIndexRoute
+  '/_admin/categories/$categoryId': typeof AdminCategoriesCategoryIdRoute
+  '/_admin/categories/new': typeof AdminCategoriesNewRoute
+  '/_admin/requests/$requestId': typeof AdminRequestsRequestIdRoute
+  '/_admin/categories/': typeof AdminCategoriesIndexRoute
+  '/_admin/requests/': typeof AdminRequestsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/login'
+  fullPaths:
+    | '/'
+    | '/contacts'
+    | '/auth/login'
+    | '/categories/$categoryId'
+    | '/categories/new'
+    | '/requests/$requestId'
+    | '/categories/'
+    | '/requests/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/login'
-  id: '__root__' | '/' | '/auth/login'
+  to:
+    | '/contacts'
+    | '/auth/login'
+    | '/'
+    | '/categories/$categoryId'
+    | '/categories/new'
+    | '/requests/$requestId'
+    | '/categories'
+    | '/requests'
+  id:
+    | '__root__'
+    | '/_admin'
+    | '/_admin/contacts'
+    | '/auth/login'
+    | '/_admin/'
+    | '/_admin/categories/$categoryId'
+    | '/_admin/categories/new'
+    | '/_admin/requests/$requestId'
+    | '/_admin/categories/'
+    | '/_admin/requests/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_admin': {
+      id: '/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_admin/': {
+      id: '/_admin/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/contacts': {
+      id: '/_admin/contacts'
+      path: '/contacts'
+      fullPath: '/contacts'
+      preLoaderRoute: typeof AdminContactsRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/auth/login': {
       id: '/auth/login'
@@ -65,11 +166,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_admin/categories/': {
+      id: '/_admin/categories/'
+      path: '/categories'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof AdminCategoriesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/categories/$categoryId': {
+      id: '/_admin/categories/$categoryId'
+      path: '/categories/$categoryId'
+      fullPath: '/categories/$categoryId'
+      preLoaderRoute: typeof AdminCategoriesCategoryIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/categories/new': {
+      id: '/_admin/categories/new'
+      path: '/categories/new'
+      fullPath: '/categories/new'
+      preLoaderRoute: typeof AdminCategoriesNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/requests/': {
+      id: '/_admin/requests/'
+      path: '/requests'
+      fullPath: '/requests/'
+      preLoaderRoute: typeof AdminRequestsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/requests/$requestId': {
+      id: '/_admin/requests/$requestId'
+      path: '/requests/$requestId'
+      fullPath: '/requests/$requestId'
+      preLoaderRoute: typeof AdminRequestsRequestIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminContactsRoute: typeof AdminContactsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCategoriesCategoryIdRoute: typeof AdminCategoriesCategoryIdRoute
+  AdminCategoriesNewRoute: typeof AdminCategoriesNewRoute
+  AdminRequestsRequestIdRoute: typeof AdminRequestsRequestIdRoute
+  AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
+  AdminRequestsIndexRoute: typeof AdminRequestsIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminContactsRoute: AdminContactsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCategoriesCategoryIdRoute: AdminCategoriesCategoryIdRoute,
+  AdminCategoriesNewRoute: AdminCategoriesNewRoute,
+  AdminRequestsRequestIdRoute: AdminRequestsRequestIdRoute,
+  AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
+  AdminRequestsIndexRoute: AdminRequestsIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
 }
 export const routeTree = rootRouteImport

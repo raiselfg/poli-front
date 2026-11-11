@@ -18,6 +18,19 @@ pnpm --filter web dev    # Next.js
 pnpm --filter admin dev  # Vite
 ```
 
+## Подключение админки к API
+
+Адрес бэкенда задаётся через `VITE_API_URL` вместе с префиксом `/api/v1`. Для локальной разработки скопируйте пример окружения и запустите приложение:
+
+```bash
+cp apps/admin/.env.example apps/admin/.env.local
+pnpm --filter admin dev
+```
+
+Для production укажите, например, `VITE_API_URL=https://api.poli.ru/api/v1` при сборке админки. Без переменной используется адрес `https://api.poli.ru`.
+
+В настройках бэкенда добавьте точный origin админки в `ALLOWED_ORIGINS` (например, `https://admin.poli.ru` для production и origin Vite для локальной разработки). Авторизация использует cookie, поэтому production-размещение должно работать по HTTPS.
+
 ## Проверки и сборка
 
 ```bash
@@ -35,7 +48,7 @@ pnpm format              # применить Prettier
 Компоненты находятся в `packages/ui` и доступны приложениям через `@workspace/ui`:
 
 ```tsx
-import { Button } from "@workspace/ui/components/button"
+import { Button } from '@workspace/ui/components/button';
 ```
 
 Чтобы добавить компонент shadcn/ui из корня репозитория:

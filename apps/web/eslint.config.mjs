@@ -1,3 +1,3 @@
-import nextConfig from "@workspace/eslint-config-next"
+import nextConfig from '@workspace/eslint-config-next';
 
-export default nextConfig(import.meta.dirname)
+export default nextConfig(import.meta.dirname);

@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { FetchError } from 'ofetch';
 import { useNavigate } from '@tanstack/react-router';
 import {
   Card,
@@ -8,13 +10,27 @@ import {
 } from '@workspace/ui/components/card';
 import { toast } from 'sonner';
 import { LoginForm } from './login-form';
+import { api, userSchema } from '@/lib/api';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  function handleSuccess() {
-    toast.success('Вход выполнен');
-    void navigate({ to: '/' });
+  async function handleSuccess(values: { login: string; password: string }) {
+    try {
+      userSchema.parse(
+        await api('/auth/login', { method: 'POST', body: values })
+      );
+      queryClient.clear();
+      toast.success('Вход выполнен');
+      await navigate({ to: '/' });
+    } catch (error) {
+      toast.error(
+        error instanceof FetchError && error.statusCode === 401
+          ? 'Неверный логин или пароль.'
+          : 'Не удалось связаться с сервером. Попробуйте ещё раз.'
+      );
+    }
   }
 
   return (
