@@ -27,7 +27,7 @@ export const requestSchema = z.object({
     .file()
     .refine(
       (file) => file.size > 0 && file.size <= maxFileSize,
-      'Размер файла должен быть не более 10 Мб'
+      'Файл должен быть не больше 10 МБ'
     )
     .refine((file) => {
       const extensionStart = file.name.lastIndexOf('.');

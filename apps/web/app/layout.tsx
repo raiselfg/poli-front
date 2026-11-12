@@ -18,9 +18,9 @@ const spectral = Spectral({
 });
 
 export const metadata: Metadata = {
-  title: 'Изделия из полиуретана под заказ',
+  title: 'Полиуретановые изделия на заказ',
   description:
-    'Изготовление изделий из полиуретана, в том числе по чертежам заказчика.',
+    'Втулки, отбойники, демпферы, манжеты и детали по чертежам. Изготовление изделий из полиуретана по чертежу, ТЗ или фото.',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

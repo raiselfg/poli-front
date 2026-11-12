@@ -8,13 +8,9 @@ export function SiteFooter() {
   return (
     <footer id="contacts" className="scroll-mt-6 pt-[85px] pb-[25px]">
       <div className={wrap}>
-        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,480px)] gap-[50px] pb-[100px] max-[700px]:grid-cols-1 max-[700px]:gap-[45px] max-[700px]:pb-[70px]">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,480px)] gap-[50px] pb-[100px] max-[900px]:grid-cols-1 max-[900px]:gap-[45px] max-[900px]:pb-[70px]">
           <div>
-            <h2 className={heading}>
-              На связи
-              <br />
-              <span className="text-[#235778]">по делу.</span>
-            </h2>
+            <h2 className={heading}>Контакты</h2>
           </div>
           <ContactReveal>
             <Suspense fallback={<ContactsSkeleton />}>

@@ -25,10 +25,10 @@ export function CustomManufacturing() {
           id="custom-title"
           className="text-[clamp(32px,4.3vw,56px)] leading-[1.06] font-medium tracking-[-0.045em] max-[700px]:text-[clamp(30px,7.8vw,42px)]"
         >
-          Изготовим деталь
+          Чертёж
           <br />
           <Highlight className="from-[#92c6e9] to-[#c0b7e5] text-[#285f80]">
-            под вашу задачу.
+            не обязателен.
           </Highlight>
         </h2>
         <div>
@@ -36,17 +36,17 @@ export function CustomManufacturing() {
             effect="wipe"
             className="mb-5 text-[16px] leading-[1.65] text-[#36566c]"
           >
-            Чертёж пока не готов? Начнём с{' '}
+            Пришлите фото детали и опишите, где она используется.{' '}
             <AnimatedPhrase className={phraseHighlight} effect="underline">
-              фотографии или описания детали.
+              Размеры и материал
             </AnimatedPhrase>{' '}
-            Размеры и требования обсудим вместе.
+            уточним вместе.
           </AnimatedDescription>
           <a
             className={`${action} group/drawing-action gap-5 rounded-full`}
             href="#request"
           >
-            Обсудить деталь
+            Прислать фото
             <ArrowDown
               size={17}
               aria-hidden="true"

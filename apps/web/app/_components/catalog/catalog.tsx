@@ -23,7 +23,7 @@ export function Catalog() {
       <AnimatedCopy className="mb-20 grid grid-cols-[1fr_330px] items-start gap-[50px] max-[700px]:mb-[45px] max-[700px]:grid-cols-1 max-[700px]:gap-[25px]">
         <div>
           <h2 className={cn(heading, 'mt-0')}>
-            Форма следует
+            Что мы
             <br />
             <TextAnimate
               as="span"
@@ -36,14 +36,14 @@ export function Catalog() {
               className="text-[#285f80] motion-reduce:opacity-100!"
               segmentClassName="motion-reduce:opacity-100! motion-reduce:transform-none! motion-reduce:filter-none!"
             >
-              за задачей.
+              изготавливаем.
             </TextAnimate>
           </h2>
         </div>
         <div>
           <TextGenerateEffect
-            words="Изделия из полиуретана для разных задач. Нужна особая деталь?"
-            emphasis="Изготовим по вашему чертежу."
+            words="Основные категории. Не нашли нужное?"
+            emphasis="Сделаем по чертежу."
             emphasisClassName={serifHighlight}
             className="mb-[18px] text-[16px] leading-[1.65] text-[#36566c] max-[700px]:mb-[10px]"
           />
@@ -51,7 +51,7 @@ export function Catalog() {
             href="#custom"
             className={`${textLink} group/drawing-link relative after:pointer-events-none after:absolute after:inset-x-0 after:bottom-[-1px] after:h-[2px] after:origin-left after:bg-[#4389ad] after:opacity-0 after:transition-opacity after:duration-300 hover:after:opacity-100 focus-visible:after:opacity-100 motion-safe:after:scale-x-0 motion-safe:after:transition-[scale,opacity] motion-safe:hover:after:scale-x-100 motion-safe:focus-visible:after:scale-x-100`}
           >
-            Изготовление по чертежам
+            Если чертежа нет
             <ArrowUpRight
               size={17}
               aria-hidden="true"

@@ -27,21 +27,21 @@ export function Hero() {
             effect="focus"
             className="max-w-[440px] text-[17px] leading-[1.6] text-[#36566c] max-[700px]:text-[15px]"
           >
-            Изготавливаем изделия из полиуретана, в том числе{' '}
+            Втулки, отбойники, демпферы и манжеты —{' '}
             <AnimatedPhrase
               className={`${serifHighlight} italic`}
               effect="underline"
             >
-              по вашим чертежам
+              по чертежу, ТЗ или фотографии.
             </AnimatedPhrase>{' '}
-            и техническим требованиям.
+            Подберём материал и уточним размеры.
           </AnimatedDescription>
           <div className="mt-[38px] flex flex-wrap items-center justify-center gap-7 max-[700px]:mt-7 max-[700px]:gap-[18px]">
             <a
               className={`${action} group/hero-action rounded-full motion-safe:transition-[translate,background-color,box-shadow] motion-safe:duration-400 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_16px_28px_rgb(36_91_120_/_30%)] motion-safe:focus-visible:-translate-y-1.5 motion-safe:focus-visible:shadow-[0_16px_28px_rgb(36_91_120_/_30%)]`}
               href="#request"
             >
-              Отправить заявку
+              Прислать чертёж или фото
               <ArrowUpRight
                 size={18}
                 aria-hidden="true"

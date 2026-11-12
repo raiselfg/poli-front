@@ -17,7 +17,9 @@ const fileAccept = acceptedExtensions
   .map((extension) => `.${extension}`)
   .join(',');
 const fileFormats = new Intl.ListFormat('ru', { type: 'disjunction' }).format(
-  acceptedExtensions.map((extension) => extension.toUpperCase())
+  acceptedExtensions
+    .filter((extension) => extension !== 'jpeg')
+    .map((extension) => extension.toUpperCase())
 );
 
 export function RequestFileField({
@@ -81,7 +83,7 @@ export function RequestFileField({
         )}
       </FieldContent>
       <FieldDescription id="file-help" className="text-[11px] text-[#668594]">
-        Один файл до 10 Мб: {fileFormats}
+        Один файл до 10 МБ: {fileFormats}
       </FieldDescription>
       <FieldError id="file-error" className="text-rose-700" errors={[error]} />
     </Field>

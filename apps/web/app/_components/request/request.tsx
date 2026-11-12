@@ -15,7 +15,7 @@ export function Request() {
     >
       <AnimatedCopy>
         <h2 className={heading}>
-          Обсудим
+          Расчёт
           <br />
           <TextAnimate
             as="span"
@@ -26,17 +26,18 @@ export function Request() {
             className="text-[#285f80] motion-reduce:opacity-100!"
             segmentClassName="motion-reduce:[clip-path:none]!"
           >
-            ваш проект.
+            по вашей детали.
           </TextAnimate>
         </h2>
         <AnimatedDescription
           effect="soften"
           className="mt-[30px] mb-[18px] max-w-[380px] text-[16px] leading-[1.65] text-[#36566c]"
         >
+          Чертёж, фото или ТЗ — достаточно, чтобы начать.{' '}
           <AnimatedPhrase className={phraseHighlight} effect="color">
-            Расскажите, какое изделие вам нужно.
+            Посчитаем стоимость
           </AnimatedPhrase>{' '}
-          Можно приложить чертёж, фотографию или техническое задание.
+          и уточним детали по телефону.
         </AnimatedDescription>
       </AnimatedCopy>
       <RequestForm />

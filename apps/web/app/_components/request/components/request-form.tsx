@@ -64,7 +64,7 @@ export function RequestForm() {
       }
     } catch {
       setSubmissionError(
-        'Не удалось подтвердить отправку. Проверьте, получена ли заявка, прежде чем отправлять её повторно.'
+        'Не удалось отправить заявку. Попробуйте ещё раз или позвоните по номеру из раздела «Контакты».'
       );
     }
   }
@@ -107,11 +107,11 @@ export function RequestForm() {
             <RequestPhoneField control={control} setValue={setValue} />
           </div>
           <Field className={requestFieldClassName}>
-            <FieldLabel htmlFor="comment">Описание задачи</FieldLabel>
+            <FieldLabel htmlFor="comment">Что нужно изготовить</FieldLabel>
             <Textarea
               id="comment"
               rows={3}
-              placeholder="Расскажите, что нужно изготовить"
+              placeholder="Например: втулка 40×60 мм, 10 шт."
               className={`${requestInputClassName} min-h-[94px]`}
               {...register('comment')}
             />
