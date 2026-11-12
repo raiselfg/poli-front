@@ -3,6 +3,15 @@ import { ArrowUpRight } from 'lucide-react';
 import { textLink } from '../../landing-styles';
 import type { Category as CategoryData } from '../../../_lib/catalog/catalog-schema';
 import { categoryStyles } from '../constants/category-styles';
+import { CategoryModel } from './category-model';
+import type { CategoryModelName } from './category-model-renderer';
+
+const categoryModels = new Map<string, CategoryModelName>([
+  ['vtulki', 'bushing'],
+  ['otboyniki', 'bump-stop'],
+  ['dempfery', 'damper'],
+  ['manzhety', 'seal'],
+]);
 
 type CategoryProps = {
   category: CategoryData;
@@ -12,6 +21,7 @@ type CategoryProps = {
 export function Category({ category, index }: CategoryProps) {
   const style = categoryStyles.at(index % categoryStyles.length);
   const image = category.images.at(0);
+  const model = categoryModels.get(category.slug);
   return (
     <article className="group grid min-h-[500px] grid-cols-[1.1fr_0.9fr] gap-[8%] border-t border-[#dceaf0] py-[22px] even:grid-cols-[0.9fr_1.1fr] max-[900px]:min-h-[400px] max-[900px]:gap-[5%] max-[700px]:min-h-0 max-[700px]:grid-cols-1 max-[700px]:gap-0 max-[700px]:py-[14px] max-[700px]:pb-[30px] max-[700px]:even:grid-cols-1">
       <div
@@ -26,6 +36,8 @@ export function Category({ category, index }: CategoryProps) {
             unoptimized
             className="h-full max-h-[455px] w-full object-contain"
           />
+        ) : model !== undefined ? (
+          <CategoryModel model={model} title={category.title} />
         ) : (
           <>
             <div
