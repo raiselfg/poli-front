@@ -23,7 +23,10 @@ export function Hero() {
             <br />
             <ColourfulText text="полиуретана." />
           </h1>
-          <AnimatedDescription className="max-w-[440px] text-[17px] leading-[1.6] text-[#36566c] max-[700px]:text-[15px]">
+          <AnimatedDescription
+            effect="focus"
+            className="max-w-[440px] text-[17px] leading-[1.6] text-[#36566c] max-[700px]:text-[15px]"
+          >
             Изготавливаем изделия из полиуретана, в том числе{' '}
             <AnimatedPhrase
               className={`${serifHighlight} italic`}

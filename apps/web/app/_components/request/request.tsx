@@ -29,7 +29,10 @@ export function Request() {
             ваш проект.
           </TextAnimate>
         </h2>
-        <AnimatedDescription className="mt-[30px] mb-[18px] max-w-[380px] text-[16px] leading-[1.65] text-[#36566c]">
+        <AnimatedDescription
+          effect="soften"
+          className="mt-[30px] mb-[18px] max-w-[380px] text-[16px] leading-[1.65] text-[#36566c]"
+        >
           <AnimatedPhrase className={phraseHighlight} effect="color">
             Расскажите, какое изделие вам нужно.
           </AnimatedPhrase>{' '}

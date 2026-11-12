@@ -32,7 +32,10 @@ export function CustomManufacturing() {
           </Highlight>
         </h2>
         <div>
-          <AnimatedDescription className="mb-5 text-[16px] leading-[1.65] text-[#36566c]">
+          <AnimatedDescription
+            effect="wipe"
+            className="mb-5 text-[16px] leading-[1.65] text-[#36566c]"
+          >
             Чертёж пока не готов? Начнём с{' '}
             <AnimatedPhrase className={phraseHighlight} effect="underline">
               фотографии или описания детали.

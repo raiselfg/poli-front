@@ -9,18 +9,20 @@ const effects = {
   underline: { backgroundSize: ['0% 3px', '100% 3px'] },
 };
 
-const descriptionReveal: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: 'easeOut',
-      delayChildren: 0.59,
-    },
+const descriptionEffects = {
+  focus: {
+    hidden: { filter: 'blur(6px)' },
+    show: { filter: 'blur(0px)' },
   },
-};
+  wipe: {
+    hidden: { clipPath: 'inset(-8% 100% -8% -4%)' },
+    show: { clipPath: 'inset(-8% -4% -8% -4%)' },
+  },
+  soften: {
+    hidden: { scale: 0.97 },
+    show: { scale: 1 },
+  },
+} satisfies Record<string, Variants>;
 
 export function AnimatedCopy({
   children,
@@ -47,16 +49,31 @@ export function AnimatedCopy({
 export function AnimatedDescription({
   children,
   className,
+  effect,
 }: {
   children: ReactNode;
   className: string;
+  effect: keyof typeof descriptionEffects;
 }) {
+  const reveal = descriptionEffects[effect];
+
   return (
     <motion.p
-      variants={descriptionReveal}
+      variants={{
+        hidden: { ...reveal.hidden, opacity: 0 },
+        show: {
+          ...reveal.show,
+          opacity: 1,
+          transition: {
+            duration: 0.55,
+            ease: 'easeOut',
+            delayChildren: 0.59,
+          },
+        },
+      }}
       className={cn(
         className,
-        'motion-reduce:transform-none! motion-reduce:opacity-100!'
+        'origin-left motion-reduce:transform-none! motion-reduce:opacity-100! motion-reduce:filter-none! motion-reduce:[clip-path:none]!'
       )}
     >
       {children}
