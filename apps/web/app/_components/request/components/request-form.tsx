@@ -124,11 +124,11 @@ export function RequestForm() {
           />
         </FieldGroup>
       </FieldSet>
-      <div className="mt-[35px] flex items-center gap-[22px] max-[700px]:flex-col max-[700px]:items-start max-[700px]:gap-[14px]">
+      <div className="mt-[35px] flex flex-col items-center gap-[14px]">
         <Button
           disabled={isSubmitting}
           type="submit"
-          className="h-[58px] gap-[35px] rounded-full bg-[#326f91] px-5 text-white transition-colors duration-300 ease-in-out enabled:hover:bg-[#245b78] enabled:focus-visible:bg-[#245b78]"
+          className="h-[58px] w-full gap-5 rounded-full bg-[#326f91] px-5 text-white transition-colors duration-300 ease-in-out enabled:hover:bg-[#245b78] enabled:focus-visible:bg-[#245b78]"
         >
           {isSubmitting ? 'Отправляем…' : 'Отправить заявку'}{' '}
           <ArrowUpRight
@@ -138,7 +138,7 @@ export function RequestForm() {
           />
         </Button>
         {submissionError !== null && (
-          <FieldError className="max-w-[230px] text-sm leading-[1.5] text-red-700">
+          <FieldError className="max-w-[320px] text-center text-sm leading-[1.5] text-red-700">
             {submissionError}
           </FieldError>
         )}
