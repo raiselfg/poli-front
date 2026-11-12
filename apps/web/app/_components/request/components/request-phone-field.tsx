@@ -48,7 +48,7 @@ export function RequestPhoneField({
           aria-describedby={
             error !== undefined ? 'phone-prefix phone-error' : 'phone-prefix'
           }
-          className={`${requestInputClassName} pl-9`}
+          className={`${requestInputClassName} pl-7.5`}
           {...phone}
           value={phone.value.slice(3)}
           onChange={(event) => {
