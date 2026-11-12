@@ -25,7 +25,7 @@ export function HeaderNav() {
             onFocus={() => {
               setActiveHref(link.href);
             }}
-            className="relative rounded-lg px-2.5 py-2 text-[#36556a] transition-colors duration-300 ease-in-out group-data-compact/header:py-1.5 hover:text-[#174d71] focus-visible:text-[#174d71] motion-safe:transition-[color,padding]"
+            className="relative rounded-lg px-2.5 py-2 text-[#36556a] transition-colors duration-300 ease-in-out group-data-compact/header:py-1.5 hover:text-[#174d71] focus-visible:text-[#174d71] motion-safe:transition-[color,padding] motion-safe:duration-[var(--header-duration)] motion-safe:ease-[ease-in-out,var(--header-ease)]"
           >
             {link.label}
             {activeHref === link.href && (
