@@ -13,7 +13,7 @@ export function HeaderNav() {
     <MotionConfig reducedMotion="user">
       <nav
         aria-label="Основная навигация"
-        className="group/nav isolate flex gap-3 text-[13px] font-medium max-[900px]:gap-1 max-[700px]:hidden"
+        className="group/nav pointer-events-auto isolate flex gap-1.5 text-[13px] font-medium max-[900px]:gap-1 max-[700px]:hidden"
       >
         {links.map((link) => (
           <a
@@ -25,7 +25,7 @@ export function HeaderNav() {
             onFocus={() => {
               setActiveHref(link.href);
             }}
-            className="relative rounded-lg px-3 py-2 text-[#36556a] transition-colors duration-300 ease-in-out hover:text-[#174d71] focus-visible:text-[#174d71]"
+            className="relative rounded-lg px-2.5 py-2 text-[#36556a] transition-colors duration-300 ease-in-out group-data-compact/header:py-1.5 hover:text-[#174d71] focus-visible:text-[#174d71] motion-safe:transition-[color,padding]"
           >
             {link.label}
             {activeHref === link.href && (

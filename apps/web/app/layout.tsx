@@ -27,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`h-full font-sans antialiased motion-safe:scroll-smooth ${nunitoSans.variable} ${spectral.variable}`}
+      className={`h-full scroll-pt-[88px] font-sans antialiased motion-safe:scroll-smooth max-[700px]:scroll-pt-[74px] ${nunitoSans.variable} ${spectral.variable}`}
     >
       <body className="flex min-h-full flex-col">
         {children}

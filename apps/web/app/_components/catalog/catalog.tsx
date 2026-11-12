@@ -42,7 +42,7 @@ export function Catalog() {
             </TextAnimate>
           </h2>
         </div>
-        <div className="border-t border-[#d0e1e9] pt-[17px]">
+        <div className="pt-[17px]">
           <AnimatedDescription className="mt-[30px] mb-[18px] text-[16px] leading-[1.65] text-[#36566c] max-[700px]:mt-[18px] max-[700px]:mb-[10px]">
             Изделия из полиуретана для разных задач. Нужна особая деталь?{' '}
             <AnimatedPhrase className={serifHighlight} effect="marker">
