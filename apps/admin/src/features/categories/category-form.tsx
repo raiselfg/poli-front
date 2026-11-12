@@ -63,7 +63,7 @@ export function CategoryForm({ category }: { category?: Category }) {
       if (!alt.trim() || alt.trim().length > 200)
         throw new Error('Введите описание изображения длиной до 200 символов');
       if (file.size > 10 * 1024 * 1024)
-        throw new Error('Файл слишком большой. Максимальный размер — 10 МиБ.');
+        throw new Error('Файл слишком большой. Максимальный размер — 10 Мб.');
       const body = new FormData();
       body.append('file', file);
       body.append('alt', alt.trim());

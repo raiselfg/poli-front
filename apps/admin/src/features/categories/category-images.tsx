@@ -77,7 +77,7 @@ export function CategoryImages({
         const code = rejectedFiles[0]?.errors[0]?.code;
         toast.error(
           code === 'file-too-large'
-            ? 'Файл слишком большой. Максимальный размер — 10 МиБ.'
+            ? 'Файл слишком большой. Максимальный размер — 10 Мб.'
             : code === 'too-many-files'
               ? 'Выберите одно изображение.'
               : 'Выберите изображение JPG, PNG или WebP.'
@@ -244,7 +244,7 @@ export function CategoryImages({
             </p>
           </div>
           <p id="image-file-help" className="text-sm text-muted-foreground">
-            JPG, PNG или WebP, до 10 МиБ. Для загрузки выберите файл и укажите
+            JPG, PNG или WebP, до 10 Мб. Для загрузки выберите файл и укажите
             описание.
           </p>
         </Field>

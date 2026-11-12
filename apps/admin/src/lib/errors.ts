@@ -6,7 +6,7 @@ export function errorMessage(error: unknown) {
     if (error.statusCode === 409)
       return 'Данные конфликтуют с существующими. Проверьте slug и повторите попытку.';
     if (error.statusCode === 413)
-      return 'Файл слишком большой. Максимальный размер — 10 МиБ.';
+      return 'Файл слишком большой. Максимальный размер — 10 Мб.';
     if (error.statusCode === 415) return 'Неподдерживаемый формат файла.';
     if (error.statusCode === 404) return 'Данные не найдены.';
     if (error.statusCode === 422)

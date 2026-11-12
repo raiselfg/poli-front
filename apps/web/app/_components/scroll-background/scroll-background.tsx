@@ -22,25 +22,59 @@ function canAnimate() {
 }
 
 function AnimatedBackground() {
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 45,
-    damping: 24,
+  const { scrollY, scrollYProgress } = useScroll();
+  const backgroundProgress = useTransform(() => {
+    // Give the first few scroll gestures more weight, even on long pages.
+    const initialProgress = 1 - Math.exp(-Math.max(0, scrollY.get()) / 65);
+    return initialProgress * 0.52 + scrollYProgress.get() * 0.48;
+  });
+  const progress = useSpring(backgroundProgress, {
+    stiffness: 120,
+    damping: 21,
     mass: 0.8,
   });
-  const firstX = useTransform(progress, [0, 0.5, 1], ['-8%', '8%', '-4%']);
-  const firstY = useTransform(progress, [0, 0.5, 1], ['-5%', '7%', '-3%']);
-  const secondX = useTransform(progress, [0, 0.5, 1], ['7%', '-8%', '5%']);
-  const secondY = useTransform(progress, [0, 0.5, 1], ['5%', '-6%', '7%']);
+  const stops = [0, 0.35, 0.64, 0.76, 0.88, 1];
+  const firstX = useTransform(progress, stops, [
+    '-16%',
+    '23%',
+    '-14%',
+    '20%',
+    '-13%',
+    '18%',
+  ]);
+  const firstY = useTransform(progress, stops, [
+    '-9%',
+    '15%',
+    '-9%',
+    '12%',
+    '-10%',
+    '14%',
+  ]);
+  const secondX = useTransform(progress, stops, [
+    '16%',
+    '-22%',
+    '15%',
+    '-19%',
+    '14%',
+    '-18%',
+  ]);
+  const secondY = useTransform(progress, stops, [
+    '10%',
+    '-14%',
+    '15%',
+    '-12%',
+    '14%',
+    '-11%',
+  ]);
   const firstOpacity = useTransform(
     progress,
-    [0, 0.35, 0.7, 1],
-    [0.4, 0.65, 0.35, 0.6]
+    stops,
+    [0.42, 0.98, 0.32, 0.94, 0.34, 0.9]
   );
   const secondOpacity = useTransform(
     progress,
-    [0, 0.35, 0.7, 1],
-    [0.55, 0.3, 0.6, 0.4]
+    stops,
+    [0.96, 0.26, 0.95, 0.34, 0.96, 0.4]
   );
 
   return (
@@ -49,11 +83,11 @@ function AnimatedBackground() {
       aria-hidden="true"
     >
       <motion.div
-        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_32%_34%,#c5e9f8_0%,transparent_53%)]"
+        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_32%_34%,#53b9ed_0%,#9cdcf7_21%,#d9f1fb_38%,transparent_60%)]"
         style={{ x: firstX, y: firstY, opacity: firstOpacity }}
       />
       <motion.div
-        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_70%_68%,#d2e6fa_0%,transparent_54%)]"
+        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_70%_68%,#829ff1_0%,#b2ccfa_22%,#e1ebfc_39%,transparent_60%)]"
         style={{ x: secondX, y: secondY, opacity: secondOpacity }}
       />
     </div>

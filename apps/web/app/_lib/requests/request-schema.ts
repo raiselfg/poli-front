@@ -21,22 +21,23 @@ export const requestSchema = z.object({
   phone: z
     .string()
     .trim()
-    .min(1, 'Укажите телефон')
-    .max(15, 'Не более 15 символов'),
+    .regex(/^\+7 \d{3}-\d{3}-\d{2}-\d{2}$/, 'Введите номер телефона'),
   comment: z.string(),
   file: z
     .file()
     .refine(
       (file) => file.size > 0 && file.size <= maxFileSize,
-      'Размер файла должен быть не более 10 МиБ'
+      'Размер файла должен быть не более 10 Мб'
     )
-    .refine(
-      (file) =>
+    .refine((file) => {
+      const extensionStart = file.name.lastIndexOf('.');
+      return (
+        extensionStart > 0 &&
         acceptedExtensions.includes(
-          file.name.split('.').pop()?.toLowerCase() ?? ''
-        ),
-      'Неподдерживаемый формат файла'
-    )
+          file.name.slice(extensionStart + 1).toLowerCase()
+        )
+      );
+    }, 'Неподдерживаемый формат файла')
     .optional(),
 });
 

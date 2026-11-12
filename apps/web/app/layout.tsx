@@ -1,21 +1,20 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Nunito_Sans } from 'next/font/google';
+import { Nunito_Sans, Spectral } from 'next/font/google';
 import './globals.css';
-import { cn } from '@workspace/ui/lib/utils';
+import { Toaster } from '@workspace/ui/components/sonner';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-sans',
 });
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin', 'cyrillic'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin', 'cyrillic'],
+const spectral = Spectral({
+  subsets: ['cyrillic'],
+  weight: '600',
+  style: ['normal', 'italic'],
+  display: 'swap',
+  preload: false,
+  variable: '--font-spectral',
 });
 
 export const metadata: Metadata = {
@@ -28,16 +27,12 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={cn(
-        'h-full',
-        'antialiased',
-        geistSans.variable,
-        geistMono.variable,
-        'font-sans',
-        nunitoSans.variable
-      )}
+      className={`h-full font-sans antialiased motion-safe:scroll-smooth ${nunitoSans.variable} ${spectral.variable}`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        <Toaster duration={5000} />
+      </body>
     </html>
   );
 }

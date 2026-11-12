@@ -50,7 +50,10 @@ export function Category({ category, index }: CategoryProps) {
           <p className="my-5 max-w-[310px] text-[15px] leading-[1.7] text-[#607d8d] max-[700px]:my-[15px]">
             {category.description}
           </p>
-          <a href="#request" className={textLink}>
+          <a
+            href="#request"
+            className={`${textLink} motion-safe:transition-[color,translate] motion-safe:ease-in-out motion-safe:hover:translate-x-2 motion-safe:focus-visible:translate-x-2`}
+          >
             Обсудить изготовление <ArrowUpRight size={18} />
           </a>
         </div>
