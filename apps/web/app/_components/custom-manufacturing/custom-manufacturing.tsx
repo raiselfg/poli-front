@@ -1,53 +1,57 @@
-import { FileUp } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { Highlight } from '../aceternity-ui/highlight';
 import {
   AnimatedCopy,
   AnimatedDescription,
   AnimatedPhrase,
 } from '../animated-phrase';
-import { action, heading, phraseHighlight, wrap } from '../landing-styles';
-import { RequestSteps } from './components/request-steps';
+import { action, phraseHighlight, wrap } from '../landing-styles';
 
 export function CustomManufacturing() {
   return (
     <section
       id="custom"
-      className="scroll-mt-6 py-[130px] text-[#213b50] max-[700px]:py-[85px]"
+      aria-labelledby="custom-title"
+      className={`${wrap} scroll-mt-6 py-20 text-[#213b50] max-[700px]:py-14`}
     >
-      <div
-        className={`${wrap} grid grid-cols-[1fr_0.8fr] gap-[100px] max-[900px]:gap-[50px] max-[700px]:grid-cols-1 max-[700px]:gap-[55px]`}
-      >
-        <AnimatedCopy>
-          <h2 className={heading}>
-            Есть чертёж?
-            <br />
-            <Highlight className="from-[#92c6e9] to-[#c0b7e5] text-[#285f80]">
-              Есть решение.
-            </Highlight>
-          </h2>
-          <AnimatedDescription className="mt-[30px] mb-9 max-w-[450px] text-[16px] leading-[1.7] text-[#36566c]">
-            Расскажите о задаче и приложите{' '}
+      <AnimatedCopy className="group/custom relative isolate grid grid-cols-[1fr_minmax(0,320px)] items-center gap-x-12 gap-y-5 rounded-[32px] border border-white/80 bg-white/55 px-[clamp(24px,5vw,64px)] py-[clamp(28px,4vw,52px)] shadow-[0_20px_60px_rgb(79_141_174_/_12%)] max-[700px]:grid-cols-1">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+        >
+          <span className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,#fff_50%,transparent_80%)] opacity-0 transition-opacity duration-500 group-focus-within/custom:opacity-60 group-hover/custom:opacity-60 motion-safe:-translate-x-1/4 motion-safe:transition-[translate,opacity] motion-safe:duration-1000 motion-safe:group-focus-within/custom:translate-x-1/4 motion-safe:group-hover/custom:translate-x-1/4" />
+        </span>
+        <h2
+          id="custom-title"
+          className="text-[clamp(32px,4.3vw,56px)] leading-[1.06] font-medium tracking-[-0.045em] max-[700px]:text-[clamp(30px,7.8vw,42px)]"
+        >
+          Изготовим деталь
+          <br />
+          <Highlight className="from-[#92c6e9] to-[#c0b7e5] text-[#285f80]">
+            под вашу задачу.
+          </Highlight>
+        </h2>
+        <div>
+          <AnimatedDescription className="mb-5 text-[16px] leading-[1.65] text-[#36566c]">
+            Чертёж пока не готов? Начнём с{' '}
             <AnimatedPhrase className={phraseHighlight} effect="underline">
-              чертёж, фотографию или техническое задание.
+              фотографии или описания детали.
             </AnimatedPhrase>{' '}
-            Обсудим изготовление детали под ваши требования.
+            Размеры и требования обсудим вместе.
           </AnimatedDescription>
           <a
-            className={`${action} group/drawing-action relative isolate overflow-hidden rounded-full before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-linear-to-r before:from-[#245b78] before:to-[#4389ad] before:opacity-0 before:transition-opacity before:duration-500 hover:before:opacity-100 focus-visible:before:opacity-100`}
+            className={`${action} group/drawing-action gap-5 rounded-full`}
             href="#request"
           >
-            Отправить чертёж
-            <FileUp
-              size={18}
+            Обсудить деталь
+            <ArrowDown
+              size={17}
               aria-hidden="true"
-              className="motion-safe:transition-[translate] motion-safe:duration-400 motion-safe:ease-in-out motion-safe:group-hover/drawing-action:-translate-y-1 motion-safe:group-focus-visible/drawing-action:-translate-y-1"
+              className="motion-safe:transition-[translate] motion-safe:duration-300 motion-safe:ease-out motion-safe:group-hover/drawing-action:translate-y-1 motion-safe:group-focus-visible/drawing-action:translate-y-1"
             />
           </a>
-        </AnimatedCopy>
-        <div className="self-center rounded-[28px] border border-white/90 bg-white/70 shadow-[0_24px_60px_rgb(99_157_186_/_13%)]">
-          <RequestSteps />
         </div>
-      </div>
+      </AnimatedCopy>
     </section>
   );
 }

@@ -1,10 +1,8 @@
 import { Suspense } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import {
-  AnimatedCopy,
-  AnimatedDescription,
-  AnimatedPhrase,
-} from '../animated-phrase';
+import { cn } from '@workspace/ui/lib/utils';
+import { TextGenerateEffect } from '../aceternity-ui/text-generate-effect';
+import { AnimatedCopy } from '../animated-phrase';
 import {
   heading,
   textLink,
@@ -22,9 +20,9 @@ export function Catalog() {
       id="catalog"
       className={`${wrap} scroll-mt-6 py-[145px] max-[700px]:py-[95px]`}
     >
-      <AnimatedCopy className="mb-20 grid grid-cols-[1fr_330px] items-end gap-[50px] max-[700px]:mb-[45px] max-[700px]:grid-cols-1 max-[700px]:gap-[25px]">
+      <AnimatedCopy className="mb-20 grid grid-cols-[1fr_330px] items-start gap-[50px] max-[700px]:mb-[45px] max-[700px]:grid-cols-1 max-[700px]:gap-[25px]">
         <div>
-          <h2 className={heading}>
+          <h2 className={cn(heading, 'mt-0')}>
             Форма следует
             <br />
             <TextAnimate
@@ -42,13 +40,13 @@ export function Catalog() {
             </TextAnimate>
           </h2>
         </div>
-        <div className="pt-[17px]">
-          <AnimatedDescription className="mt-[30px] mb-[18px] text-[16px] leading-[1.65] text-[#36566c] max-[700px]:mt-[18px] max-[700px]:mb-[10px]">
-            Изделия из полиуретана для разных задач. Нужна особая деталь?{' '}
-            <AnimatedPhrase className={serifHighlight} effect="marker">
-              Изготовим по вашему чертежу.
-            </AnimatedPhrase>
-          </AnimatedDescription>
+        <div>
+          <TextGenerateEffect
+            words="Изделия из полиуретана для разных задач. Нужна особая деталь?"
+            emphasis="Изготовим по вашему чертежу."
+            emphasisClassName={serifHighlight}
+            className="mb-[18px] text-[16px] leading-[1.65] text-[#36566c] max-[700px]:mb-[10px]"
+          />
           <a
             href="#custom"
             className={`${textLink} group/drawing-link relative after:pointer-events-none after:absolute after:inset-x-0 after:bottom-[-1px] after:h-[2px] after:origin-left after:bg-[#4389ad] after:opacity-0 after:transition-opacity after:duration-300 hover:after:opacity-100 focus-visible:after:opacity-100 motion-safe:after:scale-x-0 motion-safe:after:transition-[scale,opacity] motion-safe:hover:after:scale-x-100 motion-safe:focus-visible:after:scale-x-100`}

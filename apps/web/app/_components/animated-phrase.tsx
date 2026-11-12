@@ -7,7 +7,6 @@ import { cn } from '@workspace/ui/lib/utils';
 const effects = {
   color: { color: ['#482d56', '#08648f', '#08648f', '#482d56'] },
   underline: { backgroundSize: ['0% 3px', '100% 3px'] },
-  marker: { backgroundSize: ['0% 75%', '100% 75%'] },
 };
 
 const descriptionReveal: Variants = {
@@ -81,9 +80,7 @@ export function AnimatedPhrase({
       className={cn(
         className,
         effect === 'underline' &&
-          'bg-linear-to-r from-[#4381ad] to-[#805a9d] box-decoration-clone bg-size-[0%_3px] bg-bottom-left bg-no-repeat',
-        effect === 'marker' &&
-          'bg-linear-to-r from-[#a9d9ee] to-[#d3bce9] box-decoration-clone bg-size-[0%_75%] bg-bottom-left bg-no-repeat'
+          'bg-linear-to-r from-[#4381ad] to-[#805a9d] box-decoration-clone bg-size-[0%_3px] bg-bottom-left bg-no-repeat'
       )}
     >
       {children}
