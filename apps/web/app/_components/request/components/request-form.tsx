@@ -83,7 +83,7 @@ export function RequestForm() {
           ЗАЯВКА НА ИЗГОТОВЛЕНИЕ
         </FieldLegend>
         <FieldGroup className="gap-0">
-          <div className="grid grid-cols-2 gap-6 max-[700px]:grid-cols-1 max-[700px]:gap-0">
+          <div className="grid grid-cols-2 gap-6 max-[900px]:grid-cols-1 max-[900px]:gap-0">
             <Field className={requestFieldClassName}>
               <FieldLabel htmlFor="name">Ваше имя *</FieldLabel>
               <Input

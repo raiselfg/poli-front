@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import { HeaderNav } from './components/header-nav';
+import { MobileNav } from './components/mobile-nav';
 import { StickyHeader } from './components/sticky-header';
 
 export function SiteHeader() {
@@ -39,7 +40,7 @@ export function SiteHeader() {
       <a
         href="#request"
         aria-label="Прислать чертёж"
-        className="group/cta pointer-events-auto relative flex shrink-0 items-center gap-[18px] justify-self-end rounded-full bg-[#e8f5fa] px-[18px] py-[13px] text-[13px] font-semibold text-[#286686] transition-colors duration-300 ease-in-out group-data-compact/header:gap-1.5 group-data-compact/header:px-2.5 group-data-compact/header:py-2 hover:bg-[#dceff7] focus-visible:bg-[#dceff7] motion-safe:transition-[translate,gap,padding,background-color,box-shadow] motion-safe:duration-[var(--header-duration)] motion-safe:ease-[ease-in-out,var(--header-ease),var(--header-ease),ease-in-out,ease-in-out] motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_6px_14px_rgb(79_141_174_/_18%)] motion-safe:focus-visible:-translate-y-1 motion-safe:focus-visible:shadow-[0_6px_14px_rgb(79_141_174_/_18%)] max-[900px]:gap-3 max-[900px]:px-3 max-[700px]:gap-[6px] max-[700px]:p-3 max-[700px]:text-[11px] max-[700px]:group-data-compact/header:gap-[6px] max-[700px]:group-data-compact/header:px-2.5 max-[700px]:group-data-compact/header:py-2 min-[701px]:right-[calc(var(--header-compactness)*var(--header-compact-offset))] min-[701px]:[transform:translateX(calc(100%*var(--header-compactness)))]"
+        className="group/cta pointer-events-auto relative flex shrink-0 items-center gap-[18px] justify-self-end rounded-full bg-[#e8f5fa] px-[18px] py-[13px] text-[13px] font-semibold text-[#286686] transition-colors duration-300 ease-in-out group-data-compact/header:gap-1.5 group-data-compact/header:px-2.5 group-data-compact/header:py-2 hover:bg-[#dceff7] focus-visible:bg-[#dceff7] motion-safe:transition-[translate,gap,padding,background-color,box-shadow] motion-safe:duration-[var(--header-duration)] motion-safe:ease-[ease-in-out,var(--header-ease),var(--header-ease),ease-in-out,ease-in-out] motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_6px_14px_rgb(79_141_174_/_18%)] motion-safe:focus-visible:-translate-y-1 motion-safe:focus-visible:shadow-[0_6px_14px_rgb(79_141_174_/_18%)] max-[900px]:gap-3 max-[900px]:px-3 max-[700px]:hidden min-[701px]:right-[calc(var(--header-compactness)*var(--header-compact-offset))] min-[701px]:[transform:translateX(calc(100%*var(--header-compactness)))]"
       >
         <span className="whitespace-nowrap">Прислать чертёж</span>
         <ArrowUpRight
@@ -48,6 +49,9 @@ export function SiteHeader() {
           className="shrink-0 motion-safe:transition-[translate] motion-safe:duration-300 motion-safe:ease-in-out motion-safe:group-hover/cta:translate-x-0.5 motion-safe:group-hover/cta:-translate-y-0.5 motion-safe:group-focus-visible/cta:translate-x-0.5 motion-safe:group-focus-visible/cta:-translate-y-0.5"
         />
       </a>
+      <div className="min-[700px]:hidden">
+        <MobileNav />
+      </div>
     </StickyHeader>
   );
 }
