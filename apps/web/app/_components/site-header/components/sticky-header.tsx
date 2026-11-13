@@ -21,7 +21,7 @@ export function StickyHeader({
   return (
     <div
       data-compact={compact || undefined}
-      className="pointer-events-none sticky top-0 z-30 min-h-[88px] pt-5 [--header-duration:420ms] data-compact:pt-2 data-compact:[--header-duration:300ms] motion-safe:transition-[padding-top] motion-safe:duration-[var(--header-duration)] motion-safe:ease-in-out max-[700px]:min-h-[74px] max-[700px]:pt-3 max-[700px]:data-compact:pt-1.5"
+      className="pointer-events-none sticky top-0 z-30 border-b border-transparent bg-transparent [--header-duration:420ms] data-compact:border-[#dbe8ee] data-compact:bg-[#fbfdff]/92 data-compact:backdrop-blur-md data-compact:[--header-duration:300ms] motion-safe:transition-[background-color,border-color] motion-safe:duration-[var(--header-duration)] motion-safe:ease-in-out"
     >
       <header data-compact={compact || undefined} className={className}>
         {children}

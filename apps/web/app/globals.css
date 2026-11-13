@@ -6,12 +6,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@property --header-compactness {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
