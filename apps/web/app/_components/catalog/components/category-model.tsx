@@ -1,21 +1,12 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { useInView, useReducedMotion } from 'motion/react';
-import type { CategoryModelName } from './category-model-renderer';
-
-const CategoryModelScene = dynamic(
-  () =>
-    import('./category-model-scene').then(
-      (module) => module.CategoryModelScene
-    ),
-  { ssr: false }
-);
+import { CategoryModelScene } from './category-model-scene';
 
 type CategoryModelProps = {
-  model: CategoryModelName;
+  model: string;
   title: string;
 };
 
@@ -36,7 +27,7 @@ export function CategoryModel({ model, title }: CategoryModelProps) {
           aria-hidden="true"
           className="absolute inset-x-[18%] bottom-[7%] h-[14%] bg-[radial-gradient(ellipse_at_center,#34556530_0%,transparent_72%)]"
         />
-        {animate && <CategoryModelScene model={model} />}
+        {animate && <CategoryModelScene path={path} />}
         <Image
           src={`${path}-hd.webp`}
           alt={`3D-иллюстрация категории «${title}»`}

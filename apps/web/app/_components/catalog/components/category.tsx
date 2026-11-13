@@ -4,9 +4,8 @@ import { textLink } from '../../landing-styles';
 import type { Category as CategoryData } from '../../../_lib/catalog/catalog-schema';
 import { categoryStyles } from '../constants/category-styles';
 import { CategoryModel } from './category-model';
-import type { CategoryModelName } from './category-model-renderer';
 
-const categoryModels = new Map<string, CategoryModelName>([
+const categoryModels = new Map([
   ['vtulki', 'bushing'],
   ['otboyniki', 'bump-stop'],
   ['dempfery', 'damper'],
