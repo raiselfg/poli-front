@@ -8,6 +8,7 @@ export type RequestFormValues = {
   name: string;
   phone: string;
   comment: string;
+  consent: boolean;
   file?: FileList;
 };
 export const resolveRequest: Resolver<
@@ -28,6 +29,7 @@ export const resolveRequest: Resolver<
       fieldName === 'name' ||
       fieldName === 'phone' ||
       fieldName === 'comment' ||
+      fieldName === 'consent' ||
       fieldName === 'file'
     ) {
       errors[fieldName] = { type: issue.code, message: issue.message };

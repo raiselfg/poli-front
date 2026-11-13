@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { action, heading, wrap } from '../landing-styles';
+import Link from 'next/link';
+import { copyrightYear, legalLinks, operator } from '@/lib/legal';
+import { heading, wrap } from '../landing-styles';
 import { ContactDetails } from './components/contact-details';
 import { ContactReveal } from './components/contact-reveal';
 import { ContactsSkeleton } from './components/contacts-skeleton';
@@ -64,10 +65,34 @@ export function SiteFooter() {
             </Suspense>
           </ContactReveal>
         </div>
-        <div className="flex justify-between gap-4 border-t border-[#c8dfe8] pt-[22px] text-[10px] font-[650] tracking-[0.1em] text-[#334f63] max-[700px]:text-[9px]">
-          <span className="max-[700px]:max-w-[220px]">
-            ПРОИЗВОДСТВО ПОЛИУРЕТАНОВЫХ ИЗДЕЛИЙ · САНКТ-ПЕТЕРБУРГ
-          </span>
+        <div className="border-t border-[#c8dfe8] pt-[22px]">
+          <nav
+            aria-label="Юридическая информация"
+            className="flex flex-wrap gap-x-6 gap-y-2 text-[12px] font-medium text-[#334f63] max-[700px]:text-[11px]"
+          >
+            {legalLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="transition-colors hover:text-[#174d71] focus-visible:text-[#174d71]"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <p className="mt-3 max-w-[760px] text-[11px] leading-[1.6] text-[#547183]">
+            Информация на сайте носит справочный характер и не является
+            публичной офертой (ст. 437 ГК РФ). Стоимость и сроки изготовления
+            рассчитываются по запросу.
+          </p>
+          <div className="mt-5 flex flex-wrap justify-between gap-4 text-[10px] font-[650] tracking-[0.1em] text-[#334f63] max-[700px]:text-[9px]">
+            <span className="max-[700px]:max-w-[220px]">
+              ПРОИЗВОДСТВО ПОЛИУРЕТАНОВЫХ ИЗДЕЛИЙ · САНКТ-ПЕТЕРБУРГ
+            </span>
+            <span>
+              © {copyrightYear} {operator.name}
+            </span>
+          </div>
         </div>
       </div>
     </footer>

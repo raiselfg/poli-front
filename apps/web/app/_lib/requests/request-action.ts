@@ -10,6 +10,7 @@ export async function submitRequest(formData: FormData) {
     name: formData.get('name'),
     phone: formData.get('phone'),
     comment: formData.get('comment') ?? '',
+    consent: formData.get('consent') === 'true',
     file: file instanceof File && file.name !== '' ? file : undefined,
   });
   if (!parsed.success)

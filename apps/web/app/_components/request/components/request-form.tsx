@@ -17,6 +17,7 @@ import { toast } from '@workspace/ui/components/sonner';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { submitRequest } from '../../../_lib/requests/request-action';
 import type { RequestInput } from '../../../_lib/requests/request-schema';
+import { RequestConsentField } from './request-consent-field';
 import {
   requestFieldClassName,
   requestInputClassName,
@@ -41,7 +42,7 @@ export function RequestForm() {
   } = useForm<RequestFormValues, undefined, RequestInput>({
     resolver: resolveRequest,
     reValidateMode: 'onChange',
-    defaultValues: { name: '', phone: '+7', comment: '' },
+    defaultValues: { name: '', phone: '+7', comment: '', consent: true },
   });
   const {
     errors: { name: nameError },
@@ -53,6 +54,7 @@ export function RequestForm() {
     body.set('name', values.name);
     body.set('phone', values.phone);
     body.set('comment', values.comment);
+    body.set('consent', String(values.consent));
     if (values.file !== undefined) body.set('file', values.file);
     try {
       const response = await submitRequest(body);
@@ -122,6 +124,7 @@ export function RequestForm() {
             resetField={resetField}
             setFocus={setFocus}
           />
+          <RequestConsentField control={control} />
         </FieldGroup>
       </FieldSet>
       <div className="mt-[35px] flex flex-col items-center gap-[14px]">
