@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
+import { cn } from '@workspace/ui/lib/utils';
 import { textLink } from '../../landing-styles';
 import type { Category as CategoryData } from '../../../_lib/catalog/catalog-schema';
 import { categoryStyles } from '../constants/category-styles';
-import { CategoryModel } from './category-model';
+import { CategoryModel, CategoryStory } from './category-model';
 
 const categoryModels = new Map([
   ['vtulki', 'bushing'],
@@ -21,10 +22,11 @@ export function Category({ category, index }: CategoryProps) {
   const style = categoryStyles.at(index % categoryStyles.length);
   const image = category.images.at(0);
   const model = categoryModels.get(category.slug);
-  return (
-    <article className="group grid min-h-[500px] grid-cols-[1.1fr_0.9fr] gap-[8%] border-t border-[#dceaf0] py-[22px] even:grid-cols-[0.9fr_1.1fr] max-[900px]:min-h-[400px] max-[900px]:gap-[5%] max-[700px]:min-h-0 max-[700px]:grid-cols-1 max-[700px]:gap-0 max-[700px]:py-[14px] max-[700px]:pb-[30px] max-[700px]:even:grid-cols-1">
+  const hasModel = model !== undefined && image === undefined;
+  const content = (
+    <div className="grid min-h-[500px] grid-cols-[1.1fr_0.9fr] gap-[8%] border-t border-[#dceaf0] py-[22px] group-even:grid-cols-[0.9fr_1.1fr] max-[900px]:min-h-[400px] max-[900px]:gap-[5%] max-[700px]:min-h-0 max-[700px]:grid-cols-1 max-[700px]:gap-0 max-[700px]:py-[14px] max-[700px]:pb-[30px] max-[700px]:group-even:grid-cols-1">
       <div
-        className={`relative grid min-h-[455px] place-items-center overflow-hidden rounded-[28px] border border-white/90 shadow-[0_20px_45px_rgb(102_160_190_/_14%),0_4px_12px_rgb(102_160_190_/_7%),inset_0_1px_2px_#fff] group-even:order-2 max-[900px]:min-h-[380px] max-[700px]:min-h-[310px] max-[700px]:group-even:order-0 ${style?.surface ?? ''}`}
+        className={`relative grid min-h-[455px] place-items-center overflow-hidden rounded-[28px] border border-white/90 shadow-[0_20px_45px_rgb(102_160_190_/_14%),0_4px_12px_rgb(102_160_190_/_7%),inset_0_1px_2px_#fff] group-even:order-2 max-[900px]:min-h-[380px] max-[700px]:min-h-[310px] max-[700px]:group-even:order-0 ${style?.surface ?? ''} ${hasModel ? 'motion-safe:[@media(min-height:620px)_and_(max-width:700px)]:min-h-[min(310px,43dvh)]' : ''}`}
       >
         {image !== undefined ? (
           <Image
@@ -53,7 +55,13 @@ export function Category({ category, index }: CategoryProps) {
           </>
         )}
       </div>
-      <div className="flex flex-col justify-center py-3 max-[700px]:min-h-[260px] max-[700px]:gap-[30px] max-[700px]:pt-5">
+      <div
+        className={cn(
+          'flex flex-col justify-center py-3 max-[700px]:min-h-[260px] max-[700px]:gap-[30px] max-[700px]:pt-5',
+          hasModel &&
+            'motion-safe:[@media(min-height:620px)_and_(max-width:700px)]:min-h-0'
+        )}
+      >
         <div>
           <h3 className="m-0 text-[clamp(42px,4vw,60px)] leading-none font-[550] tracking-[-0.055em] max-[700px]:text-[43px]">
             {category.title}
@@ -69,6 +77,13 @@ export function Category({ category, index }: CategoryProps) {
           </a>
         </div>
       </div>
+    </div>
+  );
+  return hasModel ? (
+    <CategoryStory>{content}</CategoryStory>
+  ) : (
+    <article className="group grid content-center motion-safe:min-h-[calc(100dvh-96px)]">
+      {content}
     </article>
   );
 }

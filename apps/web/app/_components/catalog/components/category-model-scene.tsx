@@ -1,19 +1,44 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore, type RefObject } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 
 const columns = 6;
 const rows = 5;
 const lastFrame = columns * rows - 1;
+const stickyViewport = '(min-height: 620px)';
 
-export function CategoryModelScene({ path }: { path: string }) {
+function subscribeToViewport(onChange: () => void) {
+  const query = window.matchMedia(stickyViewport);
+  query.addEventListener('change', onChange);
+  return () => {
+    query.removeEventListener('change', onChange);
+  };
+}
+
+function isStickyViewport() {
+  return window.matchMedia(stickyViewport).matches;
+}
+
+export function CategoryModelScene({
+  path,
+  story,
+}: {
+  path: string;
+  story: RefObject<HTMLElement | null> | null;
+}) {
   const viewport = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
+  const tallEnough = useSyncExternalStore(
+    subscribeToViewport,
+    isStickyViewport,
+    () => false
+  );
+  const pinned = story !== null && tallEnough;
   const { scrollYProgress } = useScroll({
-    target: viewport,
-    offset: ['start end', 'end start'],
+    target: pinned ? story : viewport,
+    offset: pinned ? ['start 96px', 'end end'] : ['start end', 'end start'],
   });
   const transform = useTransform(scrollYProgress, (progress) => {
     const index = Math.round(progress * lastFrame);
