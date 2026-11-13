@@ -28,7 +28,7 @@ export function CustomManufacturing() {
           Чертёж
           <br />
           <Highlight className="from-[#92c6e9] to-[#c0b7e5] text-[#285f80]">
-            не обязателен.
+            не обязателен
           </Highlight>
         </h2>
         <div>

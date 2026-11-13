@@ -26,7 +26,7 @@ export function Request() {
             className="text-[#285f80] motion-reduce:opacity-100!"
             segmentClassName="motion-reduce:[clip-path:none]!"
           >
-            по вашей детали.
+            по вашей детали
           </TextAnimate>
         </h2>
         <AnimatedDescription

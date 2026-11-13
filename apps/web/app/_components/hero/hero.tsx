@@ -60,7 +60,7 @@ export function Hero() {
           >
             Изделия из
             <br />
-            <ColourfulText text="полиуретана." />
+            <ColourfulText text="полиуретана" />
           </h1>
           <AnimatedDescription
             effect="focus"
@@ -131,37 +131,15 @@ export function Hero() {
             ))}
           </ul>
         </AnimatedCopy>
-        <div className="relative mx-auto w-full max-w-[560px] max-[900px]:max-w-[480px] max-[700px]:max-w-[360px]">
-          <div className="relative aspect-square overflow-hidden rounded-[36px] border border-white/80 bg-[linear-gradient(145deg,#fafdff_0%,#e1f3fa_65%,#effaff_100%)] shadow-[0_30px_70px_rgb(79_141_174_/_18%)] max-[700px]:rounded-[28px]">
-            <span
-              aria-hidden="true"
-              className="absolute top-1/2 left-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/80"
-            />
-            <span
-              aria-hidden="true"
-              className="absolute top-1/2 left-1/2 aspect-square w-[54%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#a7cad9]/70"
-            />
-            <Image
-              src="/category-models/bushing-hd.webp"
-              alt="Полиуретановая втулка — 3D-иллюстрация"
-              width={960}
-              height={960}
-              priority
-              sizes="(max-width: 900px) 100vw, 45vw"
-              className="relative h-full w-full object-contain p-[7%]"
-            />
-            <span className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-white/90 bg-white/85 px-3.5 py-2 text-[11px] font-medium text-[#36566c] shadow-[0_6px_18px_rgb(79_141_174_/_14%)] backdrop-blur-sm">
-              <FileImage size={14} aria-hidden="true" />
-              По чертежу, ТЗ или фото
-            </span>
-            <span
-              aria-hidden="true"
-              className="absolute right-4 bottom-4 text-[10px] text-[#527587]"
-            >
-              3D-иллюстрация
-            </span>
-          </div>
-        </div>
+        <Image
+          src="/images/polyurethane-workshop.webp"
+          alt="Промышленный пресс с формой и полиуретановые заготовки в цехе"
+          width={1120}
+          height={1120}
+          preload
+          sizes="(max-width: 700px) min(100vw, 360px), (max-width: 900px) 480px, min(45vw, 560px)"
+          className="mx-auto h-auto w-full max-w-[560px] rounded-[28px] max-[900px]:max-w-[480px] max-[700px]:max-w-[360px]"
+        />
       </div>
     </section>
   );

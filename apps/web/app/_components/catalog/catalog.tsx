@@ -36,7 +36,7 @@ export function Catalog() {
               className="text-[#285f80] motion-reduce:opacity-100!"
               segmentClassName="motion-reduce:opacity-100! motion-reduce:transform-none! motion-reduce:filter-none!"
             >
-              изготавливаем.
+              изготавливаем
             </TextAnimate>
           </h2>
         </div>
