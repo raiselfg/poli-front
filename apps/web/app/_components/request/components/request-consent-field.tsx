@@ -37,7 +37,7 @@ export function RequestConsentField({
       <FieldContent className="gap-1.5">
         <FieldLabel
           htmlFor="consent"
-          className="block w-full text-[12px] leading-[1.55] font-normal text-[#456479]"
+          className="block w-full text-[length:calc(12px*var(--text-scale))] leading-[1.55] font-normal text-[#456479]"
         >
           Я даю{' '}
           <Link href="/consent" className={consentLinkClassName}>
@@ -51,7 +51,7 @@ export function RequestConsentField({
         </FieldLabel>
         <FieldError
           id="consent-error"
-          className="text-[12px] text-rose-700"
+          className="text-[length:calc(12px*var(--text-scale))] text-rose-700"
           errors={[error]}
         />
       </FieldContent>

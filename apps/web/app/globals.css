@@ -51,6 +51,12 @@
 }
 
 :root {
+  --text-scale: 1.2;
+  --text-xs: calc(0.75rem * var(--text-scale));
+  --text-sm: calc(0.875rem * var(--text-scale));
+  --text-base: calc(1rem * var(--text-scale));
+  --text-lg: calc(1.125rem * var(--text-scale));
+  --text-3xl: calc(1.875rem * var(--text-scale));
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -125,8 +131,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: var(--text-base);
   }
   html {
     @apply font-sans;
   }
+}
+
+.toaster [data-sonner-toast][data-styled='true'] {
+  font-size: calc(13px * var(--text-scale));
 }

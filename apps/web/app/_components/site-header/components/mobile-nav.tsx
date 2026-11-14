@@ -27,7 +27,7 @@ export function MobileNav() {
         className="w-[86%] max-w-[360px] overflow-y-auto rounded-l-[28px] border-[#dbeaf1] bg-[#fbfeff] text-[#213b50]"
       >
         <SheetHeader className="px-6 pt-6 pb-2">
-          <SheetTitle className="text-[18px] font-semibold text-[#213b50]">
+          <SheetTitle className="text-[length:calc(18px*var(--text-scale))] font-semibold text-[#213b50]">
             Меню
           </SheetTitle>
         </SheetHeader>
@@ -42,7 +42,7 @@ export function MobileNav() {
               onClick={() => {
                 setOpen(false);
               }}
-              className="rounded-xl px-3 py-3.5 text-[16px] font-medium text-[#36556a] transition-colors duration-200 hover:bg-[#eef7fb] hover:text-[#174d71] focus-visible:bg-[#eef7fb] focus-visible:text-[#174d71]"
+              className="rounded-xl px-3 py-3.5 text-[length:calc(16px*var(--text-scale))] font-medium text-[#36556a] transition-colors duration-200 hover:bg-[#eef7fb] hover:text-[#174d71] focus-visible:bg-[#eef7fb] focus-visible:text-[#174d71]"
             >
               {link.label}
             </a>
@@ -54,7 +54,7 @@ export function MobileNav() {
             onClick={() => {
               setOpen(false);
             }}
-            className="flex min-h-[54px] items-center justify-center gap-2.5 rounded-full bg-[#326f91] px-5 text-[14px] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-[#245b78] focus-visible:bg-[#245b78]"
+            className="flex min-h-[54px] items-center justify-center gap-2.5 rounded-full bg-[#326f91] px-5 text-[length:calc(14px*var(--text-scale))] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-[#245b78] focus-visible:bg-[#245b78]"
           >
             Прислать чертёж
             <ArrowUpRight size={16} aria-hidden="true" />

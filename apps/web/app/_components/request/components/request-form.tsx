@@ -81,7 +81,7 @@ export function RequestForm() {
       className="rounded-[28px] border border-white/90 bg-[linear-gradient(145deg,#fff,#f7fcff)] p-7 shadow-[0_24px_60px_rgb(99_157_186_/_13%),0_4px_15px_rgb(99_157_186_/_6%),inset_0_1px_0_#fff] max-[700px]:p-[22px]"
     >
       <FieldSet className="min-w-0 gap-0">
-        <FieldLegend className="mb-[24px] font-[650] tracking-[0.1em] text-[#587485] data-[variant=legend]:text-[10px] max-[700px]:mb-[30px]">
+        <FieldLegend className="mb-[24px] font-[650] tracking-[0.1em] text-[#587485] data-[variant=legend]:text-[length:calc(10px*var(--text-scale))] max-[700px]:mb-[30px]">
           ЗАЯВКА НА ИЗГОТОВЛЕНИЕ
         </FieldLegend>
         <FieldGroup className="gap-0">

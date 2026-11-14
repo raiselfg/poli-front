@@ -23,7 +23,7 @@ export function CustomManufacturing() {
         </span>
         <h2
           id="custom-title"
-          className="text-[clamp(32px,4.3vw,56px)] leading-[1.06] font-medium tracking-[-0.045em] max-[700px]:text-[clamp(30px,7.8vw,42px)]"
+          className="text-[length:calc(clamp(32px,4.3vw,56px)*var(--text-scale))] leading-[1.06] font-medium tracking-[-0.045em] max-[700px]:text-[length:calc(clamp(30px,7.8vw,42px)*var(--text-scale))]"
         >
           Чертёж
           <br />
@@ -34,7 +34,7 @@ export function CustomManufacturing() {
         <div>
           <AnimatedDescription
             effect="wipe"
-            className="mb-5 text-[16px] leading-[1.65] text-[#36566c]"
+            className="mb-5 text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-[#36566c]"
           >
             Пришлите фото детали и опишите, где она используется.{' '}
             <AnimatedPhrase className={phraseHighlight} effect="underline">

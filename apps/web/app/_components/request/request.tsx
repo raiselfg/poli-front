@@ -31,7 +31,7 @@ export function Request() {
         </h2>
         <AnimatedDescription
           effect="soften"
-          className="mt-[30px] mb-[18px] max-w-[380px] text-[16px] leading-[1.65] text-[#36566c]"
+          className="mt-[30px] mb-[18px] max-w-[380px] text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-[#36566c]"
         >
           Чертёж, фото или ТЗ — достаточно, чтобы начать.{' '}
           <AnimatedPhrase className={phraseHighlight} effect="color">

@@ -45,7 +45,7 @@ export function Catalog() {
             words="Основные категории. Не нашли нужное?"
             emphasis="Сделаем по чертежу."
             emphasisClassName={serifHighlight}
-            className="mb-[18px] text-[16px] leading-[1.65] text-[#36566c] max-[700px]:mb-[10px]"
+            className="mb-[18px] text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-[#36566c] max-[700px]:mb-[10px]"
           />
           <a
             href="#custom"

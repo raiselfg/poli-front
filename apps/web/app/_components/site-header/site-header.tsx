@@ -9,7 +9,7 @@ export function SiteHeader() {
       <a
         href="#top"
         aria-label="На главную"
-        className="pointer-events-auto flex items-center gap-2.5 justify-self-start text-[17px] leading-none font-semibold tracking-[-0.02em] text-[#1f3a4d] focus-visible:text-[#174d71] max-[700px]:min-w-0 max-[700px]:text-[16px]"
+        className="pointer-events-auto flex items-center gap-2.5 justify-self-start text-[length:calc(17px*var(--text-scale))] leading-none font-semibold tracking-[-0.02em] text-[#1f3a4d] focus-visible:text-[#174d71] max-[700px]:min-w-0 max-[700px]:text-[length:calc(16px*var(--text-scale))]"
       >
         <svg
           aria-hidden="true"
@@ -28,7 +28,7 @@ export function SiteHeader() {
       <a
         href="#request"
         aria-label="Прислать чертёж"
-        className="group/cta pointer-events-auto inline-flex shrink-0 items-center gap-2 justify-self-end rounded-full bg-[#326f91] px-4 py-2.5 text-[13px] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-[#245b78] focus-visible:bg-[#245b78] max-[900px]:px-3.5 max-[700px]:hidden"
+        className="group/cta pointer-events-auto inline-flex shrink-0 items-center gap-2 justify-self-end rounded-full bg-[#326f91] px-4 py-2.5 text-[length:calc(13px*var(--text-scale))] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-[#245b78] focus-visible:bg-[#245b78] max-[900px]:px-3.5 max-[700px]:hidden"
       >
         <span className="whitespace-nowrap">Прислать чертёж</span>
         <ArrowUpRight

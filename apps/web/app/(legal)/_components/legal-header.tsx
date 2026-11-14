@@ -9,7 +9,7 @@ export function LegalHeader() {
         <Link
           href="/"
           aria-label="На главную"
-          className="flex items-center gap-2.5 text-[17px] leading-none font-semibold tracking-[-0.02em] text-[#1f3a4d] transition-colors hover:text-[#174d71] max-[700px]:text-[16px]"
+          className="flex items-center gap-2.5 text-[length:calc(17px*var(--text-scale))] leading-none font-semibold tracking-[-0.02em] text-[#1f3a4d] transition-colors hover:text-[#174d71] max-[700px]:text-[length:calc(16px*var(--text-scale))]"
         >
           <svg
             aria-hidden="true"
@@ -26,7 +26,7 @@ export function LegalHeader() {
         </Link>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-full border border-[#dbeaf1] bg-white/70 px-4 py-2 text-[13px] font-semibold text-[#2d607c] transition-colors duration-200 hover:bg-white focus-visible:bg-white max-[700px]:px-3.5"
+          className="inline-flex items-center gap-2 rounded-full border border-[#dbeaf1] bg-white/70 px-4 py-2 text-[length:calc(13px*var(--text-scale))] font-semibold text-[#2d607c] transition-colors duration-200 hover:bg-white focus-visible:bg-white max-[700px]:px-3.5"
         >
           <ArrowLeft size={15} aria-hidden="true" />
           На главную

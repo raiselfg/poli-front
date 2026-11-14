@@ -17,10 +17,10 @@ export function OperatorRequisites() {
           key={row.label}
           className="grid grid-cols-[200px_minmax(0,1fr)] gap-4 border-b border-[#cfe3ec] py-2.5 max-[700px]:grid-cols-1 max-[700px]:gap-0.5"
         >
-          <dt className="text-[13px] font-semibold text-[#213b50]">
+          <dt className="text-[length:calc(13px*var(--text-scale))] font-semibold text-[#213b50]">
             {row.label}
           </dt>
-          <dd className="text-[14px]">
+          <dd className="text-[length:calc(14px*var(--text-scale))]">
             {row.isEmail === true ? (
               <a href={`mailto:${row.value}`}>{row.value}</a>
             ) : (

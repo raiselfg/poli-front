@@ -98,7 +98,7 @@ export function Category({ category, index }: CategoryProps) {
               <span />
               <span />
             </div>
-            <span className="absolute bottom-[22px] left-[22px] flex items-center gap-[10px] text-[11px] text-[#527587]">
+            <span className="absolute bottom-[22px] left-[22px] flex items-center gap-[10px] text-[length:calc(11px*var(--text-scale))] text-[#527587]">
               Фотография пока не добавлена <ArrowUpRight size={14} />
             </span>
           </>
@@ -112,10 +112,10 @@ export function Category({ category, index }: CategoryProps) {
         )}
       >
         <div>
-          <h3 className="m-0 text-[clamp(42px,4vw,60px)] leading-none font-[550] tracking-[-0.055em] max-[700px]:text-[43px]">
+          <h3 className="m-0 text-[length:calc(clamp(42px,4vw,60px)*var(--text-scale))] leading-none font-[550] tracking-[-0.055em] max-[700px]:text-[length:calc(43px*var(--text-scale))]">
             {category.title}
           </h3>
-          <p className="my-5 max-w-[310px] text-[15px] leading-[1.7] text-[#607d8d] max-[700px]:my-[15px]">
+          <p className="my-5 max-w-[310px] text-[length:calc(15px*var(--text-scale))] leading-[1.7] text-[#607d8d] max-[700px]:my-[15px]">
             {category.description}
           </p>
           {previews.length > 0 && (

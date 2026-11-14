@@ -21,22 +21,26 @@ function canAnimate() {
   );
 }
 
-function AnimatedBackground() {
+export function ScrollBackground() {
+  const enabled = useSyncExternalStore(subscribe, canAnimate, () => false);
   const { scrollY, scrollYProgress } = useScroll();
   const backgroundProgress = useTransform(() => {
-    // Give the first few scroll gestures more weight, even on long pages.
-    const initialProgress = 1 - Math.exp(-Math.max(0, scrollY.get()) / 65);
-    return initialProgress * 0.52 + scrollYProgress.get() * 0.48;
+    if (!enabled) return 0;
+
+    // Ease in from the top while keeping the hero responsive on long pages.
+    const initialProgress = 1 - Math.exp(-Math.max(0, scrollY.get()) / 180);
+    return initialProgress ** 2 * 0.52 + scrollYProgress.get() * 0.48;
   });
   const progress = useSpring(backgroundProgress, {
-    stiffness: 120,
-    damping: 21,
+    stiffness: 90,
+    damping: 19,
     mass: 0.8,
   });
   const stops = [0, 0.35, 0.64, 0.76, 0.88, 1];
+  // With -35% insets, a shift of 20% keeps both horizontal edges offscreen.
   const firstX = useTransform(progress, stops, [
     '-16%',
-    '23%',
+    '20%',
     '-14%',
     '20%',
     '-13%',
@@ -52,7 +56,7 @@ function AnimatedBackground() {
   ]);
   const secondX = useTransform(progress, stops, [
     '16%',
-    '-22%',
+    '-20%',
     '15%',
     '-19%',
     '14%',
@@ -79,7 +83,7 @@ function AnimatedBackground() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden motion-reduce:hidden"
       aria-hidden="true"
     >
       <motion.div
@@ -92,10 +96,4 @@ function AnimatedBackground() {
       />
     </div>
   );
-}
-
-export function ScrollBackground() {
-  const enabled = useSyncExternalStore(subscribe, canAnimate, () => false);
-
-  return enabled ? <AnimatedBackground /> : null;
 }

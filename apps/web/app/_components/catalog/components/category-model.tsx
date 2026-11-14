@@ -70,7 +70,8 @@ type CategoryModelProps = {
 export function CategoryModel({ model, title }: CategoryModelProps) {
   const story = useContext(CategoryStoryRef);
   const viewport = useRef<HTMLDivElement>(null);
-  const nearViewport = useInView(viewport, { margin: '240px' });
+  // Give the atlas time to decode before the model enters the viewport.
+  const nearViewport = useInView(viewport, { margin: '480px 0px' });
   const reduceMotion = useReducedMotion();
   const animate = nearViewport && reduceMotion !== true;
   const path = `/category-models/${model}`;

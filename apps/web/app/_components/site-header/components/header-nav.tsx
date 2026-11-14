@@ -4,7 +4,7 @@ export function HeaderNav() {
   return (
     <nav
       aria-label="Основная навигация"
-      className="pointer-events-auto flex items-center gap-5 text-[13px] max-[900px]:gap-4 max-[700px]:hidden"
+      className="pointer-events-auto flex items-center gap-5 text-[length:calc(13px*var(--text-scale))] max-[900px]:gap-4 max-[700px]:hidden"
     >
       {links.map((link) => (
         <a

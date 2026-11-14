@@ -35,7 +35,7 @@ export function RequestPhoneField({
       <FieldContent className="relative flex-none">
         <span
           id="phone-prefix"
-          className="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-[14px]"
+          className="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-[length:calc(14px*var(--text-scale))]"
         >
           +7
         </span>

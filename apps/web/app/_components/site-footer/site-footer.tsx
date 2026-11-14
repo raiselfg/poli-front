@@ -28,11 +28,11 @@ export function SiteFooter() {
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,480px)] gap-[50px] pb-[100px] max-[900px]:grid-cols-1 max-[900px]:gap-[45px] max-[900px]:pb-[70px]">
           <div className="max-w-[480px]">
             <h2 className={heading}>Контакты</h2>
-            <p className="mt-[30px] text-[16px] leading-[1.65] text-[#36566c]">
+            <p className="mt-[30px] text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-[#36566c]">
               Производство в Санкт-Петербурге. Напишите или позвоните — обсудим
               деталь, уточним размеры и материал, посчитаем стоимость.
             </p>
-            <p className="mt-9 text-[15px] font-semibold text-[#213b50]">
+            <p className="mt-9 text-[length:calc(15px*var(--text-scale))] font-semibold text-[#213b50]">
               Как оформить заказ
             </p>
             <ol className="mt-3 border-t border-[#cfe3ec]">
@@ -43,15 +43,15 @@ export function SiteFooter() {
                 >
                   <span
                     aria-hidden="true"
-                    className="grid size-8 shrink-0 place-items-center rounded-full border border-[#b9d4e1] text-[12px] font-semibold text-[#326f91]"
+                    className="grid size-8 shrink-0 place-items-center rounded-full border border-[#b9d4e1] text-[length:calc(12px*var(--text-scale))] font-semibold text-[#326f91]"
                   >
                     {index + 1}
                   </span>
                   <div>
-                    <p className="text-[14px] leading-snug font-semibold text-[#213b50]">
+                    <p className="text-[length:calc(14px*var(--text-scale))] leading-snug font-semibold text-[#213b50]">
                       {step.title}
                     </p>
-                    <p className="mt-1 text-[13px] leading-[1.5] text-[#547183]">
+                    <p className="mt-1 text-[length:calc(13px*var(--text-scale))] leading-[1.5] text-[#547183]">
                       {step.text}
                     </p>
                   </div>
@@ -68,7 +68,7 @@ export function SiteFooter() {
         <div className="border-t border-[#c8dfe8] pt-[22px]">
           <nav
             aria-label="Юридическая информация"
-            className="flex flex-wrap gap-x-6 gap-y-2 text-[12px] font-medium text-[#334f63] max-[700px]:text-[11px]"
+            className="flex flex-wrap gap-x-6 gap-y-2 text-[length:calc(12px*var(--text-scale))] font-medium text-[#334f63] max-[700px]:text-[length:calc(11px*var(--text-scale))]"
           >
             {legalLinks.map((link) => (
               <Link
@@ -80,12 +80,12 @@ export function SiteFooter() {
               </Link>
             ))}
           </nav>
-          <p className="mt-3 max-w-[760px] text-[11px] leading-[1.6] text-[#547183]">
+          <p className="mt-3 max-w-[760px] text-[length:calc(11px*var(--text-scale))] leading-[1.6] text-[#547183]">
             Информация на сайте носит справочный характер и не является
             публичной офертой (ст. 437 ГК РФ). Стоимость и сроки изготовления
             рассчитываются по запросу.
           </p>
-          <div className="mt-5 flex flex-wrap justify-between gap-4 text-[10px] font-[650] tracking-[0.1em] text-[#334f63] max-[700px]:text-[9px]">
+          <div className="mt-5 flex flex-wrap justify-between gap-4 text-[length:calc(10px*var(--text-scale))] font-[650] tracking-[0.1em] text-[#334f63] max-[700px]:text-[length:calc(9px*var(--text-scale))]">
             <span className="max-[700px]:max-w-[220px]">
               ПРОИЗВОДСТВО ПОЛИУРЕТАНОВЫХ ИЗДЕЛИЙ · САНКТ-ПЕТЕРБУРГ
             </span>

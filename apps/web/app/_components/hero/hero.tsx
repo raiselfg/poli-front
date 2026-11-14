@@ -56,7 +56,7 @@ export function Hero() {
         <AnimatedCopy className="max-w-[620px]">
           <h1
             id="hero-title"
-            className="text-[clamp(40px,4.5vw,68px)] leading-[0.98] font-[600] tracking-[-0.045em] max-[700px]:text-[clamp(36px,10vw,56px)]"
+            className="text-[length:calc(clamp(40px,4.5vw,68px)*var(--text-scale))] leading-[0.98] font-[600] tracking-[-0.045em] max-[700px]:text-[length:calc(clamp(36px,10vw,56px)*var(--text-scale))]"
           >
             Изделия из
             <br />
@@ -64,7 +64,7 @@ export function Hero() {
           </h1>
           <AnimatedDescription
             effect="focus"
-            className="mt-6 max-w-[470px] text-[17px] leading-[1.6] text-[#36566c] max-[700px]:mt-4 max-[700px]:text-[15px]"
+            className="mt-6 max-w-[470px] text-[length:calc(17px*var(--text-scale))] leading-[1.6] text-[#36566c] max-[700px]:mt-4 max-[700px]:text-[length:calc(15px*var(--text-scale))]"
           >
             Производим в Санкт-Петербурге втулки, отбойники, демпферы и манжеты
             —{' '}
@@ -83,7 +83,7 @@ export function Hero() {
             {products.map((product) => (
               <li
                 key={product}
-                className="rounded-full border border-[#d9e9f1] bg-white/60 px-3.5 py-1.5 text-[12px] leading-none font-medium text-[#4b6c80]"
+                className="rounded-full border border-[#d9e9f1] bg-white/60 px-3.5 py-1.5 text-[length:calc(12px*var(--text-scale))] leading-none font-medium text-[#4b6c80]"
               >
                 {product}
               </li>
@@ -120,10 +120,10 @@ export function Hero() {
                   <fact.icon size={17} />
                 </span>
                 <div>
-                  <p className="text-[13px] leading-[1.35] font-semibold text-[#213b50]">
+                  <p className="text-[length:calc(13px*var(--text-scale))] leading-[1.35] font-semibold text-[#213b50]">
                     {fact.title}
                   </p>
-                  <p className="mt-1 text-[12px] leading-[1.45] text-[#607d8d]">
+                  <p className="mt-1 text-[length:calc(12px*var(--text-scale))] leading-[1.45] text-[#607d8d]">
                     {fact.text}
                   </p>
                 </div>
