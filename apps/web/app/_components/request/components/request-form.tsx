@@ -78,10 +78,10 @@ export function RequestForm() {
         setSubmissionError(null);
         void handleSubmit(onSubmit)(event);
       }}
-      className="rounded-[28px] border border-white/90 bg-[linear-gradient(145deg,#fff,#f7fcff)] p-7 shadow-[0_24px_60px_rgb(99_157_186_/_13%),0_4px_15px_rgb(99_157_186_/_6%),inset_0_1px_0_#fff] max-[700px]:p-[22px]"
+      className="rounded-[28px] border border-white/90 bg-[linear-gradient(145deg,#fff,#fafafa)] p-7 shadow-[0_24px_60px_rgb(63_63_70_/_13%),0_4px_15px_rgb(63_63_70_/_6%),inset_0_1px_0_#fff] max-[700px]:p-[22px]"
     >
       <FieldSet className="min-w-0 gap-0">
-        <FieldLegend className="mb-[24px] font-[650] tracking-[0.1em] text-[#587485] data-[variant=legend]:text-[length:calc(10px*var(--text-scale))] max-[700px]:mb-[30px]">
+        <FieldLegend className="mb-[24px] font-[650] tracking-[0.1em] text-zinc-600 data-[variant=legend]:text-[length:calc(10px*var(--text-scale))] max-[700px]:mb-[30px]">
           ЗАЯВКА НА ИЗГОТОВЛЕНИЕ
         </FieldLegend>
         <FieldGroup className="gap-0">
@@ -131,7 +131,7 @@ export function RequestForm() {
         <Button
           disabled={isSubmitting}
           type="submit"
-          className="h-[58px] w-full gap-5 rounded-full bg-[#326f91] px-5 text-white transition-colors duration-300 ease-in-out enabled:hover:bg-[#245b78] enabled:focus-visible:bg-[#245b78]"
+          className="h-[58px] w-full gap-5 rounded-full bg-zinc-700 px-5 text-white transition-colors duration-300 ease-in-out enabled:hover:bg-zinc-950 enabled:focus-visible:bg-zinc-950"
         >
           {isSubmitting ? 'Отправляем…' : 'Отправить заявку'}{' '}
           <ArrowUpRight

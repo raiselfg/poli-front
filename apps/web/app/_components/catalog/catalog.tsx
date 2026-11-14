@@ -1,16 +1,7 @@
 import { Suspense } from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { cn } from '@workspace/ui/lib/utils';
-import { TextGenerateEffect } from '../aceternity-ui/text-generate-effect';
-import { AnimatedCopy } from '../animated-phrase';
-import {
-  heading,
-  textLink,
-  wordReveal,
-  serifHighlight,
-  wrap,
-} from '../landing-styles';
-import { TextAnimate } from '../magic-ui/text-animate';
+import { ArrowDown } from 'lucide-react';
+import { buttonVariants } from '@workspace/ui/components/button';
+import { wrap } from '../landing-styles';
 import { CatalogList } from './components/catalog-list';
 import { CatalogSkeleton } from './components/catalog-skeleton';
 
@@ -18,48 +9,36 @@ export function Catalog() {
   return (
     <section
       id="catalog"
-      className={`${wrap} scroll-mt-6 py-[145px] max-[700px]:py-[95px]`}
+      aria-labelledby="catalog-title"
+      className={`${wrap} scroll-mt-6 pt-16 pb-24 max-[700px]:pt-10 max-[700px]:pb-14`}
     >
-      <AnimatedCopy className="mb-20 grid grid-cols-[1fr_330px] items-start gap-[50px] max-[700px]:mb-[45px] max-[700px]:grid-cols-1 max-[700px]:gap-[25px]">
-        <div>
-          <h2 className={cn(heading, 'mt-0')}>
-            Что мы
-            <br />
-            <TextAnimate
-              as="span"
-              by="word"
-              startOnView={false}
-              delay={0.05}
-              duration={0.6}
-              animate={undefined}
-              variants={wordReveal}
-              className="text-[#285f80] motion-reduce:opacity-100!"
-              segmentClassName="motion-reduce:opacity-100! motion-reduce:transform-none! motion-reduce:filter-none!"
-            >
-              изготавливаем
-            </TextAnimate>
-          </h2>
-        </div>
-        <div>
-          <TextGenerateEffect
-            words="Основные категории. Не нашли нужное?"
-            emphasis="Сделаем по чертежу."
-            emphasisClassName={serifHighlight}
-            className="mb-[18px] text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-[#36566c] max-[700px]:mb-[10px]"
+      <div className="mb-6 flex items-end justify-between gap-x-8 gap-y-2 max-[900px]:flex-col max-[900px]:items-start">
+        <h2
+          id="catalog-title"
+          className="text-[length:calc(clamp(28px,4.35vw,60px)*var(--text-scale))] leading-[0.98] font-medium tracking-[-0.045em] wrap-anywhere hyphens-auto max-[700px]:text-[length:calc(clamp(27px,7vw,42px)*var(--text-scale))]"
+        >
+          Что мы изготавливаем
+        </h2>
+        <a
+          href="#request"
+          className={buttonVariants({
+            className:
+              'group/custom-link relative isolate h-auto min-h-13 justify-between gap-4 overflow-hidden rounded-full bg-zinc-800 py-1.5 pr-1.5 pl-4 text-sm font-semibold text-white shadow-md shadow-zinc-900/20 transition-none hover:bg-zinc-950 hover:shadow-lg hover:shadow-zinc-900/25 focus-visible:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-700 focus-visible:outline-solid motion-safe:transition-[background-color,box-shadow]',
+          })}
+        >
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 -z-10 w-1/2 -translate-x-[130%] -skew-x-12 bg-linear-to-r from-transparent via-white/20 to-transparent duration-500 ease-out group-hover/custom-link:translate-x-[230%] group-focus-visible/custom-link:translate-x-[230%] motion-safe:group-hover/custom-link:transition-transform motion-safe:group-focus-visible/custom-link:transition-transform motion-reduce:hidden"
           />
-          <a
-            href="#custom"
-            className={`${textLink} group/drawing-link relative after:pointer-events-none after:absolute after:inset-x-0 after:bottom-[-1px] after:h-[2px] after:origin-left after:bg-[#4389ad] after:opacity-0 after:transition-opacity after:duration-300 hover:after:opacity-100 focus-visible:after:opacity-100 motion-safe:after:scale-x-0 motion-safe:after:transition-[scale,opacity] motion-safe:hover:after:scale-x-100 motion-safe:focus-visible:after:scale-x-100`}
+          Изготовление на заказ
+          <span
+            aria-hidden="true"
+            className="grid size-9 shrink-0 place-items-center rounded-full bg-white text-zinc-900"
           >
-            Если чертежа нет
-            <ArrowUpRight
-              size={17}
-              aria-hidden="true"
-              className="motion-safe:transition-[translate] motion-safe:duration-300 motion-safe:ease-in-out motion-safe:group-hover/drawing-link:translate-x-1.5 motion-safe:group-focus-visible/drawing-link:translate-x-1.5"
-            />
-          </a>
-        </div>
-      </AnimatedCopy>
+            <ArrowDown className="size-[18px]" />
+          </span>
+        </a>
+      </div>
       <Suspense fallback={<CatalogSkeleton />}>
         <CatalogList />
       </Suspense>

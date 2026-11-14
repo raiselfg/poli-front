@@ -87,11 +87,11 @@ export function ScrollBackground() {
       aria-hidden="true"
     >
       <motion.div
-        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_32%_34%,#53b9ed_0%,#9cdcf7_21%,#d9f1fb_38%,transparent_60%)]"
+        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_32%_34%,#b1b1b8_0%,#d4d4d8_21%,#ededf0_38%,transparent_60%)]"
         style={{ x: firstX, y: firstY, opacity: firstOpacity }}
       />
       <motion.div
-        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_70%_68%,#829ff1_0%,#b2ccfa_22%,#e1ebfc_39%,transparent_60%)]"
+        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_70%_68%,#c1c1c8_0%,#dedee2_22%,#f4f4f5_39%,transparent_60%)]"
         style={{ x: secondX, y: secondY, opacity: secondOpacity }}
       />
     </div>

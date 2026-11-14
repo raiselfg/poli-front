@@ -5,7 +5,7 @@ import { motion, stagger, useReducedMotion, type Variants } from 'motion/react';
 import { cn } from '@workspace/ui/lib/utils';
 
 const effects = {
-  color: { color: ['#482d56', '#08648f', '#08648f', '#482d56'] },
+  color: { color: ['#18181b', '#27272a', '#27272a', '#18181b'] },
   underline: { backgroundSize: ['0% 3px', '100% 3px'] },
 };
 
@@ -97,7 +97,7 @@ export function AnimatedPhrase({
       className={cn(
         className,
         effect === 'underline' &&
-          'bg-linear-to-r from-[#4381ad] to-[#805a9d] box-decoration-clone bg-size-[0%_3px] bg-bottom-left bg-no-repeat'
+          'bg-linear-to-r from-zinc-800 to-zinc-500 box-decoration-clone bg-size-[0%_3px] bg-bottom-left bg-no-repeat'
       )}
     >
       {children}

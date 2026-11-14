@@ -1,57 +1,37 @@
-import Image from 'next/image';
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Building2,
-  Calculator,
-  FileImage,
-  Layers,
-} from 'lucide-react';
-import { ColourfulText } from '../aceternity-ui/colourful-text';
-import {
-  AnimatedCopy,
-  AnimatedDescription,
-  AnimatedPhrase,
-} from '../animated-phrase';
-import { action, textLink, serifHighlight, wrap } from '../landing-styles';
+import Image from "next/image";
+import { ArrowDown, ArrowUpRight, Building2, Calculator, FileImage, Layers } from "lucide-react";
+import { ColourfulText } from "../aceternity-ui/colourful-text";
+import { AnimatedCopy, AnimatedDescription, AnimatedPhrase } from "../animated-phrase";
+import { action, textLink, serifHighlight, wrap } from "../landing-styles";
 
-const products = [
-  'Втулки',
-  'Отбойники',
-  'Демпферы',
-  'Манжеты',
-  'Детали по чертежу',
-];
+const products = ["Втулки", "Отбойники", "Демпферы", "Манжеты", "Детали по чертежу"];
 
 const facts = [
   {
     icon: FileImage,
-    title: 'Чертёж не обязателен',
-    text: 'Подойдёт эскиз, образец или фото.',
+    title: "Чертёж не обязателен",
+    text: "Подойдёт эскиз, образец или фото.",
   },
   {
     icon: Layers,
-    title: 'Подберём материал',
-    text: 'Уточним размеры и подберём полиуретан.',
+    title: "Подберём материал",
+    text: "Уточним размеры и подберём полиуретан.",
   },
   {
     icon: Calculator,
-    title: 'Цена по запросу',
-    text: 'После уточнения деталей и объёма.',
+    title: "Цена по запросу",
+    text: "После уточнения деталей и объёма.",
   },
   {
     icon: Building2,
-    title: 'Для предприятий и частных лиц',
-    text: 'Работаем с юрлицами и частными заказчиками.',
+    title: "Для предприятий и частных лиц",
+    text: "Работаем с юрлицами и частными заказчиками.",
   },
 ];
 
 export function Hero() {
   return (
-    <section
-      className={`${wrap} scroll-mt-6 pt-[22px]`}
-      aria-labelledby="hero-title"
-    >
+    <section className={`${wrap} scroll-mt-6 pt-[22px]`} aria-labelledby="hero-title">
       <div className="grid grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] items-center gap-x-[clamp(32px,5vw,72px)] gap-y-10 pt-10 pb-10 max-[900px]:grid-cols-1 max-[900px]:gap-y-8 max-[700px]:pt-3 max-[700px]:pb-8">
         <AnimatedCopy className="max-w-[620px]">
           <h1
@@ -64,26 +44,18 @@ export function Hero() {
           </h1>
           <AnimatedDescription
             effect="focus"
-            className="mt-6 max-w-[470px] text-[length:calc(17px*var(--text-scale))] leading-[1.6] text-[#36566c] max-[700px]:mt-4 max-[700px]:text-[length:calc(15px*var(--text-scale))]"
+            className="mt-6 max-w-[470px] text-[length:calc(17px*var(--text-scale))] leading-[1.6] text-zinc-600 max-[700px]:mt-4 max-[700px]:text-[length:calc(15px*var(--text-scale))]"
           >
-            Производим в Санкт-Петербурге втулки, отбойники, демпферы и манжеты
-            —{' '}
-            <AnimatedPhrase
-              className={`${serifHighlight} italic`}
-              effect="underline"
-            >
+            Производство в Санкт-Петербурге деталей на заказ{" "}
+            <AnimatedPhrase className={`${serifHighlight} italic`} effect="underline">
               по чертежу, ТЗ или фотографии.
-            </AnimatedPhrase>{' '}
-            Подберём материал и уточним размеры.
+            </AnimatedPhrase>{" "}
           </AnimatedDescription>
-          <ul
-            aria-label="Ассортимент"
-            className="mt-6 flex flex-wrap gap-2 max-[700px]:mt-5"
-          >
+          <ul aria-label="Ассортимент" className="mt-6 flex flex-wrap gap-2 max-[700px]:mt-5">
             {products.map((product) => (
               <li
                 key={product}
-                className="rounded-full border border-[#d9e9f1] bg-white/60 px-3.5 py-1.5 text-[length:calc(12px*var(--text-scale))] leading-none font-medium text-[#4b6c80]"
+                className="rounded-full border border-zinc-200 bg-white/60 px-3.5 py-1.5 text-[length:calc(12px*var(--text-scale))] leading-none font-medium text-zinc-600"
               >
                 {product}
               </li>
@@ -91,7 +63,7 @@ export function Hero() {
           </ul>
           <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 max-[700px]:mt-7">
             <a
-              className={`${action} group/hero-action rounded-full motion-safe:transition-[translate,background-color,box-shadow] motion-safe:duration-400 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_16px_28px_rgb(36_91_120_/_30%)] motion-safe:focus-visible:-translate-y-1.5 motion-safe:focus-visible:shadow-[0_16px_28px_rgb(36_91_120_/_30%)] max-[700px]:w-full`}
+              className={`${action} group/hero-action rounded-full motion-safe:transition-[translate,background-color,box-shadow] motion-safe:duration-400 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_16px_28px_rgb(39_39_42_/_30%)] motion-safe:focus-visible:-translate-y-1.5 motion-safe:focus-visible:shadow-[0_16px_28px_rgb(39_39_42_/_30%)] max-[700px]:w-full`}
               href="#request"
             >
               Прислать чертёж или фото
@@ -110,20 +82,20 @@ export function Hero() {
               />
             </a>
           </div>
-          <ul className="mt-9 grid grid-cols-2 gap-x-5 gap-y-4 border-t border-[#dbeaf1] pt-6 max-[900px]:grid-cols-1 max-[900px]:gap-y-3 max-[700px]:mt-7 max-[700px]:gap-y-4 max-[700px]:pt-5">
+          <ul className="mt-9 grid grid-cols-2 gap-x-5 gap-y-4 border-t border-zinc-200 pt-6 max-[900px]:grid-cols-1 max-[900px]:gap-y-3 max-[700px]:mt-7 max-[700px]:gap-y-4 max-[700px]:pt-5">
             {facts.map((fact) => (
               <li key={fact.title} className="flex gap-3">
                 <span
                   aria-hidden="true"
-                  className="grid size-9 shrink-0 place-items-center rounded-full bg-[#e8f4fa] text-[#326f91]"
+                  className="grid size-9 shrink-0 place-items-center rounded-full bg-zinc-200 text-zinc-700"
                 >
                   <fact.icon size={17} />
                 </span>
                 <div>
-                  <p className="text-[length:calc(13px*var(--text-scale))] leading-[1.35] font-semibold text-[#213b50]">
+                  <p className="text-[length:calc(13px*var(--text-scale))] leading-[1.35] font-semibold text-zinc-900">
                     {fact.title}
                   </p>
-                  <p className="mt-1 text-[length:calc(12px*var(--text-scale))] leading-[1.45] text-[#607d8d]">
+                  <p className="mt-1 text-[length:calc(12px*var(--text-scale))] leading-[1.45] text-zinc-600">
                     {fact.text}
                   </p>
                 </div>

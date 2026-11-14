@@ -9,14 +9,17 @@ export async function CatalogList() {
       return { error: true as const };
     }
   );
-  if (result.error)
+
+  if (result.error || result.categories.length === 0) {
     return (
-      <p className="text-[#607d8d]">
-        Не удалось загрузить продукцию. Попробуйте обновить страницу.
+      <p className="text-zinc-600">
+        {result.error
+          ? 'Не удалось загрузить продукцию. Попробуйте обновить страницу.'
+          : 'Продукция пока не добавлена.'}
       </p>
     );
-  if (result.categories.length === 0)
-    return <p className="text-[#607d8d]">Продукция пока не добавлена.</p>;
+  }
+
   return (
     <div>
       {result.categories.map((category, index) => (

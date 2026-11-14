@@ -23,7 +23,7 @@ export function Request() {
             startOnView={false}
             animate={undefined}
             variants={lineReveal}
-            className="text-[#285f80] motion-reduce:opacity-100!"
+            className="text-zinc-800 motion-reduce:opacity-100!"
             segmentClassName="motion-reduce:[clip-path:none]!"
           >
             по вашей детали
@@ -31,13 +31,13 @@ export function Request() {
         </h2>
         <AnimatedDescription
           effect="soften"
-          className="mt-[30px] mb-[18px] max-w-[380px] text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-[#36566c]"
+          className="mt-[30px] mb-[18px] max-w-[380px] text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-zinc-600"
         >
-          Чертёж, фото или ТЗ — достаточно, чтобы начать.{' '}
           <AnimatedPhrase className={phraseHighlight} effect="color">
-            Посчитаем стоимость
+            Оставьте имя и телефон.
           </AnimatedPhrase>{' '}
-          и уточним детали по телефону.
+          Фото, чертёж, ТЗ и описание детали можно добавить по желанию. По
+          телефону уточним размеры и материал, затем рассчитаем стоимость.
         </AnimatedDescription>
       </AnimatedCopy>
       <RequestForm />

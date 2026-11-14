@@ -42,7 +42,7 @@ export function CategoryPhotoGallery({
         >
           {photo}
           {photoIndex === 0 && (
-            <span className="pointer-events-none absolute right-2 bottom-2 grid size-7 place-items-center rounded-md bg-white/95 text-[#213b50]">
+            <span className="pointer-events-none absolute right-2 bottom-2 grid size-7 place-items-center rounded-md bg-white/95 text-zinc-900">
               <Images aria-hidden="true" />
             </span>
           )}

@@ -1,5 +1,5 @@
 export const links = [
   { href: '#catalog', label: 'Продукция' },
-  { href: '#custom', label: 'По чертежам' },
+  { href: '#request', label: 'Заказ детали' },
   { href: '#contacts', label: 'Контакты' },
 ];

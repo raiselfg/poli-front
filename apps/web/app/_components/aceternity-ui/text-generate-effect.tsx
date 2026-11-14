@@ -51,7 +51,7 @@ export function TextGenerateEffect({
         onAnimationComplete={() => setEmphasisRevealed(true)}
         className={cn(
           emphasisClassName,
-          'bg-linear-to-r from-[#a9d9ee] to-[#d3bce9] box-decoration-clone bg-size-[0%_75%] bg-bottom-left bg-no-repeat motion-safe:transition-[background-size] motion-safe:duration-1000 motion-safe:ease-in-out',
+          'bg-linear-to-r from-zinc-400 to-zinc-300 box-decoration-clone bg-size-[0%_75%] bg-bottom-left bg-no-repeat motion-safe:transition-[background-size] motion-safe:duration-1000 motion-safe:ease-in-out',
           emphasisRevealed && 'bg-size-[100%_75%]'
         )}
       >

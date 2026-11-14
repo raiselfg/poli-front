@@ -3,23 +3,23 @@ import { copyrightYear, legalLinks, operator } from '@/lib/legal';
 
 export function LegalFooter() {
   return (
-    <footer className="border-t border-[#c8dfe8] py-8">
+    <footer className="border-t border-zinc-300 py-8">
       <div className="mx-auto w-[min(100%-96px,1320px)] max-[900px]:w-[min(100%-48px,1320px)] max-[700px]:w-[calc(100%-36px)]">
         <nav
           aria-label="Юридическая информация"
-          className="flex flex-wrap gap-x-6 gap-y-2 text-[length:calc(12px*var(--text-scale))] font-medium text-[#334f63] max-[700px]:text-[length:calc(11px*var(--text-scale))]"
+          className="flex flex-wrap gap-x-6 gap-y-2 text-[length:calc(12px*var(--text-scale))] font-medium text-zinc-700 max-[700px]:text-[length:calc(11px*var(--text-scale))]"
         >
           {legalLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="transition-colors hover:text-[#174d71] focus-visible:text-[#174d71]"
+              className="transition-colors hover:text-zinc-950 focus-visible:text-zinc-950"
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <p className="mt-4 text-[length:calc(11px*var(--text-scale))] leading-[1.6] text-[#547183]">
+        <p className="mt-4 text-[length:calc(11px*var(--text-scale))] leading-[1.6] text-zinc-600">
           © {copyrightYear} {operator.name} · {operator.city}. Информация на
           сайте носит справочный характер и не является публичной офертой (ст.
           437 ГК РФ).

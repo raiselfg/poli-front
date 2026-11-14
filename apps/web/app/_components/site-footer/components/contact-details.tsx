@@ -19,20 +19,20 @@ export async function ContactDetails() {
   );
   if (result.error)
     return (
-      <p className="my-7 text-[#334f63]">
+      <p className="my-7 text-zinc-700">
         Не удалось загрузить контакты. Попробуйте обновить страницу.
       </p>
     );
   const contacts = result.contacts;
   if (contacts === null)
-    return <p className="my-7 text-[#334f63]">Контакты пока не добавлены.</p>;
+    return <p className="my-7 text-zinc-700">Контакты пока не добавлены.</p>;
   const phoneNumber = contacts.phone.replace(/\D/g, '');
   const phoneHref =
     phoneNumber !== ''
       ? `tel:${contacts.phone.trimStart().startsWith('+') ? '+' : ''}${phoneNumber}`
       : undefined;
   return (
-    <address className="mb-7 grid divide-y divide-[#235778]/20 text-[#173b58] not-italic">
+    <address className="grid divide-y divide-zinc-800/20 text-zinc-900 not-italic max-[900px]:mb-7">
       {contacts.phone !== '' && (
         <ContactRow
           icon={Phone}
@@ -92,14 +92,14 @@ function ContactRow({
 }) {
   const row = (
     <>
-      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/50 text-[#235778] transition-colors duration-300 group-hover:bg-white/80 group-focus-visible:bg-white/80">
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/50 text-zinc-800 transition-colors duration-300 group-hover:bg-white/80 group-focus-visible:bg-white/80">
         <Icon size={18} aria-hidden="true" />
       </span>
       <span className="min-w-0">
-        <span className="block text-xs font-semibold text-[#425f76]">
+        <span className="block text-xs font-semibold text-zinc-600">
           {label}
         </span>
-        <span className="block text-base leading-snug font-bold wrap-anywhere decoration-[#235778]/35 underline-offset-4 group-hover:underline group-focus-visible:underline">
+        <span className="block text-base leading-snug font-bold wrap-anywhere decoration-zinc-800/35 underline-offset-4 group-hover:underline group-focus-visible:underline">
           {value}
         </span>
       </span>

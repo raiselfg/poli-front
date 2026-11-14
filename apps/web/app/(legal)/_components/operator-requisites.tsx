@@ -11,13 +11,13 @@ export function OperatorRequisites() {
   ].filter((row) => row.value !== '');
 
   return (
-    <dl className="border-t border-[#cfe3ec]">
+    <dl className="border-t border-zinc-300">
       {rows.map((row) => (
         <div
           key={row.label}
-          className="grid grid-cols-[200px_minmax(0,1fr)] gap-4 border-b border-[#cfe3ec] py-2.5 max-[700px]:grid-cols-1 max-[700px]:gap-0.5"
+          className="grid grid-cols-[200px_minmax(0,1fr)] gap-4 border-b border-zinc-300 py-2.5 max-[700px]:grid-cols-1 max-[700px]:gap-0.5"
         >
-          <dt className="text-[length:calc(13px*var(--text-scale))] font-semibold text-[#213b50]">
+          <dt className="text-[length:calc(13px*var(--text-scale))] font-semibold text-zinc-900">
             {row.label}
           </dt>
           <dd className="text-[length:calc(14px*var(--text-scale))]">

@@ -3,12 +3,12 @@
 import { motion, type Variants } from 'motion/react';
 
 // Adapted from Aceternity UI's Colourful Text for a single viewport reveal.
-const colors = ['#195a78', '#314a91', '#663a79', '#22677b'];
+const colors = ['#18181b', '#3f3f46', '#27272a', '#52525b'];
 const letter: Variants = {
   hidden: { opacity: 0 },
   show: (index: number) => ({
     opacity: 1,
-    color: ['#285f80', colors[index % colors.length], '#285f80'],
+    color: ['#27272a', colors[index % colors.length], '#27272a'],
     y: [0, -12, 0],
     transition: {
       duration: 0.62,
@@ -22,7 +22,7 @@ export function ColourfulText({ text }: { text: string }) {
   return (
     <motion.span
       variants={{ show: {} }}
-      className="inline-block whitespace-nowrap text-[#285f80]"
+      className="inline-block whitespace-nowrap text-zinc-800"
     >
       <span className="sr-only">{text}</span>
       {Array.from(text, (character, index) => (

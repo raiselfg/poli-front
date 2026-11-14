@@ -1,7 +1,7 @@
-import { ArrowUpRight } from 'lucide-react';
-import { HeaderNav } from './components/header-nav';
-import { MobileNav } from './components/mobile-nav';
-import { StickyHeader } from './components/sticky-header';
+import { ArrowUpRight } from "lucide-react";
+import { HeaderNav } from "./components/header-nav";
+import { MobileNav } from "./components/mobile-nav";
+import { StickyHeader } from "./components/sticky-header";
 
 export function SiteHeader() {
   return (
@@ -9,12 +9,12 @@ export function SiteHeader() {
       <a
         href="#top"
         aria-label="На главную"
-        className="pointer-events-auto flex items-center gap-2.5 justify-self-start text-[length:calc(17px*var(--text-scale))] leading-none font-semibold tracking-[-0.02em] text-[#1f3a4d] focus-visible:text-[#174d71] max-[700px]:min-w-0 max-[700px]:text-[length:calc(16px*var(--text-scale))]"
+        className="pointer-events-auto flex items-center gap-2.5 justify-self-start text-[length:calc(17px*var(--text-scale))] leading-none font-semibold tracking-[-0.02em] text-zinc-900 focus-visible:text-zinc-950 max-[700px]:min-w-0 max-[700px]:text-[length:calc(16px*var(--text-scale))]"
       >
         <svg
           aria-hidden="true"
           viewBox="0 0 32 32"
-          className="size-[28px] shrink-0 text-[#326f91]"
+          className="size-[28px] shrink-0 text-zinc-700"
           fill="currentColor"
         >
           <path
@@ -22,13 +22,13 @@ export function SiteHeader() {
             d="M16 2a14 14 0 1 1 0 28 14 14 0 0 1 0-28Zm0 8.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
           />
         </svg>
-        Полиуретан
+        Название компании
       </a>
       <HeaderNav />
       <a
         href="#request"
         aria-label="Прислать чертёж"
-        className="group/cta pointer-events-auto inline-flex shrink-0 items-center gap-2 justify-self-end rounded-full bg-[#326f91] px-4 py-2.5 text-[length:calc(13px*var(--text-scale))] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-[#245b78] focus-visible:bg-[#245b78] max-[900px]:px-3.5 max-[700px]:hidden"
+        className="group/cta pointer-events-auto inline-flex shrink-0 items-center gap-2 justify-self-end rounded-full bg-zinc-700 px-4 py-2.5 text-[length:calc(13px*var(--text-scale))] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-zinc-950 focus-visible:bg-zinc-950 max-[900px]:px-3.5 max-[700px]:hidden"
       >
         <span className="whitespace-nowrap">Прислать чертёж</span>
         <ArrowUpRight

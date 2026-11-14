@@ -10,7 +10,7 @@ export function HeaderNav() {
         <a
           key={link.href}
           href={link.href}
-          className="relative py-2 font-medium text-[#36556a] transition-colors duration-200 ease-in-out after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-current after:opacity-0 after:transition-opacity after:duration-200 after:ease-in-out hover:text-[#174d71] hover:after:opacity-100 focus-visible:text-[#174d71] focus-visible:after:opacity-100"
+          className="relative py-2 font-medium text-zinc-600 transition-colors duration-200 ease-in-out after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-current after:opacity-0 after:transition-opacity after:duration-200 after:ease-in-out hover:text-zinc-950 hover:after:opacity-100 focus-visible:text-zinc-950 focus-visible:after:opacity-100"
         >
           {link.label}
         </a>
