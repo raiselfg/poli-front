@@ -7,7 +7,6 @@ export const action =
 export const textLink =
   'inline-flex items-center gap-5 border-b border-current py-[10px] text-[length:calc(13px*var(--text-scale))] font-[650] transition-colors duration-300 hover:text-zinc-800 focus-visible:text-zinc-800';
 
-export const phraseHighlight = 'font-bold text-zinc-900';
 export const serifHighlight = 'font-accent font-semibold text-zinc-900';
 
 export const wordReveal: import('motion/react').Variants = {
