@@ -55,7 +55,7 @@ export function CategoryPhotoGallery({
             render={
               <Button
                 variant="ghost"
-                className="relative aspect-[4/3] h-auto w-full cursor-zoom-in overflow-hidden rounded-[28px] border border-zinc-200 bg-zinc-100 p-0"
+                className="relative aspect-[4/3] h-auto w-full cursor-default overflow-hidden rounded-[28px] border border-zinc-200 bg-zinc-100 p-0"
               />
             }
           >
@@ -69,7 +69,7 @@ export function CategoryPhotoGallery({
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute right-3 bottom-3 grid size-9 place-items-center rounded-full bg-white/95 text-zinc-900 shadow-sm"
+              className="absolute right-3 bottom-3 grid size-9 cursor-pointer place-items-center rounded-full bg-white/95 text-zinc-900 shadow-sm"
             >
               <Maximize2 />
             </span>
@@ -140,7 +140,7 @@ export function CategoryPhotoGallery({
       <SheetContent
         side="bottom"
         showCloseButton={false}
-        className="top-0 grid cursor-zoom-out grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] bg-zinc-950 px-3 text-white data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 motion-reduce:transition-none sm:px-5"
+        className="top-0 grid grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] bg-zinc-950 px-3 text-white data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 motion-reduce:transition-none sm:px-5"
         onKeyDown={handleArrowKeys}
         onClick={(event) => {
           if (event.target === event.currentTarget) setOpen(false);
