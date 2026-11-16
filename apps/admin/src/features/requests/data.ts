@@ -12,3 +12,6 @@ export const requestQuery = (id: string) => ({
   queryFn: async () =>
     requestDetailSchema.parse(await api(`/admin/requests/${id}`)),
 });
+
+export const fetchRequestFile = (id: string, signal?: AbortSignal) =>
+  api(`/admin/requests/${id}/file`, { responseType: 'blob', signal });
