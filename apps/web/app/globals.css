@@ -18,7 +18,8 @@
   --color-ink-on-dark-muted: var(--landing-ink-on-dark-muted);
   --color-line: var(--landing-line);
   --color-line-dark: var(--landing-line-dark);
-  --color-amber-accent: var(--landing-accent);
+  --color-landing-accent: var(--landing-accent);
+  --color-landing-accent-light: var(--landing-accent-light);
   --color-field-line: var(--landing-field-line);
   --color-field-error: var(--landing-field-error);
   --radius-control: var(--landing-control-radius);
@@ -27,7 +28,6 @@
   --font-mono: var(--font-jetbrains-mono), monospace;
   --spacing-section: var(--landing-section-space);
   --spacing-header: var(--landing-header-height);
-  --spacing-gallery: 16.25rem;
   --spacing-submit: 3.375rem;
   --spacing-brand-mark: 0.875rem;
   --spacing-order-form: 32.5rem;
@@ -35,8 +35,6 @@
   --container-landing: 82.5rem;
   --text-hero: var(--landing-hero-size);
   --text-section-heading: clamp(2rem, 5.2vw, 3.5rem);
-  --text-card-title: 1.75rem;
-  --text-fact: clamp(1.125rem, 2.15vw, 2.125rem);
   --tracking-heading: -0.025em;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -187,7 +185,8 @@
   --landing-ink-on-dark-muted: #c9ccd1;
   --landing-line: #d8d8d3;
   --landing-line-dark: #3a3d42;
-  --landing-accent: #f28c00;
+  --landing-accent: #2a7b76;
+  --landing-accent-light: color-mix(in srgb, var(--landing-accent) 47%, white);
   --landing-field-line: #bdbdb7;
   --landing-field-error: #a51932;
   --landing-control-radius: 6px;
@@ -218,9 +217,7 @@ html:has(.landing) {
   }
 
   .landing-footer:has(.landing-contact-bar) {
-    padding-block-end: calc(
-      var(--landing-section-space) + var(--landing-contact-bar-height)
-    );
+    padding-block-end: calc(25px + var(--landing-contact-bar-height));
   }
 
   .landing-contact-bar {
@@ -260,7 +257,7 @@ html:has(.landing) {
 }
 
 .landing .hero-highlight {
-  box-shadow: inset 0 -0.18em 0 var(--landing-accent);
+  box-shadow: inset 0 -0.18em 0 var(--landing-accent-light);
   box-decoration-break: clone;
 }
 

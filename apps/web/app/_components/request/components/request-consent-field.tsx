@@ -10,7 +10,7 @@ import {
 import type { RequestFormMethods } from './request-form-resolver';
 
 const consentLinkClassName =
-  'landing-link font-medium text-ink underline decoration-amber-accent underline-offset-4 hover:decoration-current';
+  'landing-link font-medium text-ink underline decoration-landing-accent underline-offset-4 hover:decoration-current';
 
 export function RequestConsentField({
   control,

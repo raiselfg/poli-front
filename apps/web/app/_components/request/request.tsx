@@ -8,7 +8,7 @@ const steps = [
         Оставьте заявку,{' '}
         <a
           href="#contacts"
-          className="landing-link decoration-amber-accent underline underline-offset-4 hover:decoration-current"
+          className="landing-link decoration-landing-accent-light underline underline-offset-4 hover:decoration-current"
         >
           напишите или позвоните
         </a>
@@ -51,7 +51,7 @@ export function Request() {
               >
                 <span
                   aria-hidden="true"
-                  className="text-amber-accent shrink-0 font-mono text-lg font-bold"
+                  className="text-landing-accent-light shrink-0 font-mono text-lg font-bold"
                 >
                   {String(index + 1).padStart(2, '0')}
                 </span>

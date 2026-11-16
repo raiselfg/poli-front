@@ -12,7 +12,7 @@ export async function CatalogList() {
 
   if (result.error || result.categories.length === 0) {
     return (
-      <p className="text-ink-muted">
+      <p className="text-zinc-700">
         {result.error
           ? 'Не удалось загрузить продукцию. Попробуйте обновить страницу.'
           : 'Продукция пока не добавлена.'}
@@ -21,9 +21,9 @@ export async function CatalogList() {
   }
 
   return (
-    <div className="landing:grid-cols-2 grid gap-6">
-      {result.categories.map((category) => (
-        <Category key={category.id} category={category} />
+    <div>
+      {result.categories.map((category, index) => (
+        <Category key={category.id} category={category} index={index} />
       ))}
     </div>
   );

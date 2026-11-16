@@ -1,6 +1,6 @@
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { CatalogSkeleton } from './_components/catalog/components/catalog-skeleton';
-import { wrap } from './_components/landing-styles';
+import { catalogFooterWrap, wrap } from './_components/landing-styles';
 
 export default function Loading() {
   return (
@@ -28,7 +28,7 @@ export default function Loading() {
           </div>
         </div>
       </div>
-      <div className={`${wrap} py-section`}>
+      <div className={`${catalogFooterWrap} pt-16 pb-24 max-[700px]:py-6`}>
         <CatalogSkeleton />
       </div>
     </main>

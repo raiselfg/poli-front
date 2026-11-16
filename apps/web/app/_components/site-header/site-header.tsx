@@ -32,7 +32,7 @@ export function SiteHeader() {
         >
           <span
             aria-hidden="true"
-            className="size-brand-mark bg-amber-accent shrink-0"
+            className="size-brand-mark bg-landing-accent shrink-0"
           />
           Название компании
         </a>
