@@ -57,7 +57,7 @@ export function RequestFileField({
           />
           <span
             aria-hidden="true"
-            className="request-file-control rounded-control border-field-line bg-surface peer-hover:bg-bg peer-disabled:bg-bg peer-disabled:text-ink-muted peer-aria-invalid:border-field-error flex min-h-12 min-w-0 items-center gap-2 border px-2.5 py-2 text-sm"
+            className="request-file-control rounded-control border-field-line bg-surface peer-hover:bg-bg peer-disabled:bg-bg peer-disabled:text-ink-muted peer-aria-invalid:border-field-error pointer-events-none flex min-h-12 min-w-0 items-center gap-2 border px-2.5 py-2 text-sm"
           >
             <span className="rounded-chip bg-bg shrink-0 px-2 py-1 font-semibold">
               Выбрать файл

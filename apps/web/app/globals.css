@@ -299,8 +299,7 @@ body:has(.landing) [data-slot='sheet-overlay'] {
     transition: scale 220ms var(--landing-motion-ease);
   }
 
-  .landing-link,
-  .request-file-control {
+  .landing-link {
     transition: opacity 220ms var(--landing-motion-ease);
   }
 
@@ -317,8 +316,7 @@ body:has(.landing) [data-slot='sheet-overlay'] {
       scale: 1.12;
     }
 
-    .landing-link:hover,
-    .request-file:has(input:enabled:hover) .request-file-control {
+    .landing-link:hover {
       opacity: 0.8;
     }
   }
