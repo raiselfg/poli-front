@@ -17,9 +17,9 @@ export default function Home() {
       <main>
         <Hero />
         <ProductionCapabilities />
-        <OrderTerms />
         <Catalog />
         <Industries />
+        <OrderTerms />
         <Request />
       </main>
       <SiteFooter />
