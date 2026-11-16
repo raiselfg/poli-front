@@ -26,3 +26,7 @@ export const requestDetailSchema = z.object({
     })
     .nullable(),
 });
+
+export type RequestFile = NonNullable<
+  z.infer<typeof requestDetailSchema>['file']
+>;

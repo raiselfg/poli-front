@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { unstable_rethrow } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import { operator } from '@/lib/legal';
 import { getContacts, getPhoneHref } from '../../_lib/contacts/contacts';
@@ -7,7 +8,10 @@ import { HeaderNav } from './components/header-nav';
 import { MobileNav } from './components/mobile-nav';
 
 async function HeaderPhone() {
-  const contacts = await getContacts().catch(() => null);
+  const contacts = await getContacts().catch((error: unknown) => {
+    unstable_rethrow(error);
+    return null;
+  });
   const href = getPhoneHref(contacts?.phone ?? '');
   if (contacts === null || href === undefined) return null;
 

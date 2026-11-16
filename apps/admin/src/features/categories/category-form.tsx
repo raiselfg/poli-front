@@ -5,30 +5,25 @@ import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@workspace/ui/components/popover';
 import { Textarea } from '@workspace/ui/components/textarea';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@workspace/ui/components/tooltip';
-import { ArrowLeft, CircleHelp } from 'lucide-react';
-import { useState } from 'react';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { ArrowLeft } from 'lucide-react';
+import { useRef } from 'react';
+import { Controller, useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
-import { api } from '@/lib/api';
 import { errorMessage } from '@/lib/errors';
+import { CategoryHelp } from './category-help';
 import { CategoryImages } from './category-images';
-import { categorySchema, imageSchema, type Category } from './schemas';
 import {
   categoryFormSchema,
   type CategoryFormValues,
 } from './category-form-schema';
+import {
+  categoriesQuery,
+  saveCategory,
+  updateCategoryImageAlt,
+  uploadCategoryImage,
+} from './data';
+import type { Category } from './schemas';
 
 const slugHelp =
   'Slug — часть адреса категории. Используйте строчные латинские буквы, цифры и дефисы, например: polyurethane-products. Пробелы и другие символы недопустимы.';
@@ -36,14 +31,13 @@ const slugHelp =
 export function CategoryForm({ category }: { category?: Category }) {
   const navigate = useNavigate();
   const client = useQueryClient();
-  const [file, setFile] = useState<File | null>(null);
-  const [alt, setAlt] = useState('');
-  const [savedAlts, setSavedAlts] = useState<Record<string, string | null>>(
-    () =>
-      Object.fromEntries(
-        (category?.images ?? []).map((image) => [image.id, image.alt])
-      )
-  );
+  // Сохранённые подписи учитываются при повторной попытке сохранить категорию.
+  const savedAlts = useRef<Map<string, string | null> | null>(null);
+  if (savedAlts.current === null) {
+    savedAlts.current = new Map(
+      category?.images.map(({ id, alt }) => [id, alt])
+    );
+  }
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
@@ -56,28 +50,18 @@ export function CategoryForm({ category }: { category?: Category }) {
         [],
     },
   });
-  const images = useWatch({ control: form.control, name: 'images' });
+  const { errors } = useFormState({
+    control: form.control,
+    name: ['title', 'slug'],
+    exact: true,
+  });
   const upload = useMutation({
-    mutationFn: async () => {
-      if (!file) throw new Error('Выберите изображение');
-      if (!alt.trim() || alt.trim().length > 200)
-        throw new Error('Введите описание изображения длиной до 200 символов');
-      if (file.size > 10 * 1024 * 1024)
-        throw new Error('Файл слишком большой. Максимальный размер — 10 Мб.');
-      const body = new FormData();
-      body.append('file', file);
-      body.append('alt', alt.trim());
-      return imageSchema
-        .extend({ alt: z.string().trim().min(1) })
-        .parse(await api('/admin/media', { method: 'POST', body }));
-    },
+    mutationFn: uploadCategoryImage,
     onSuccess: (image) => {
-      setSavedAlts((previous) => ({ ...previous, [image.id]: image.alt }));
+      savedAlts.current?.set(image.id, image.alt);
       form.setValue('images', [...form.getValues('images'), image], {
         shouldDirty: true,
       });
-      setFile(null);
-      setAlt('');
       toast.success('Изображение добавлено');
     },
     onError: (error) =>
@@ -89,42 +73,22 @@ export function CategoryForm({ category }: { category?: Category }) {
   });
   const save = useMutation({
     mutationFn: async (values: CategoryFormValues) => {
-      for (const image of values.images) {
-        if (savedAlts[image.id] !== image.alt) {
-          await api(`/admin/media/${image.id}`, {
-            method: 'PATCH',
-            body: { alt: image.alt },
-          });
-          setSavedAlts((previous) => ({ ...previous, [image.id]: image.alt }));
+      for (const { id, alt } of values.images) {
+        if (savedAlts.current?.get(id) !== alt) {
+          await updateCategoryImageAlt(id, alt);
+          savedAlts.current?.set(id, alt);
         }
       }
-      const body = {
-        title: values.title,
-        slug: values.slug,
-        description: values.description,
-        is_published: values.is_published,
-        mediaIds: values.images.map((image) => image.id),
-      };
-      return categorySchema.parse(
-        await api(
-          category ? `/admin/categories/${category.id}` : '/admin/categories',
-          { method: category ? 'PATCH' : 'POST', body }
-        )
-      );
+      return saveCategory(category?.id, values);
     },
     onSuccess: async () => {
-      await client.invalidateQueries({ queryKey: ['categories'] });
+      await client.invalidateQueries({ queryKey: categoriesQuery.queryKey });
       toast.success('Категория сохранена');
       await navigate({ to: '/categories' });
     },
     onError: (error) => toast.error(errorMessage(error)),
   });
-  function move(index: number, direction: number) {
-    const items = [...form.getValues('images')];
-    const target = index + direction;
-    [items[index], items[target]] = [items[target]!, items[index]!];
-    form.setValue('images', items, { shouldDirty: true });
-  }
+
   return (
     <div className="max-w-3xl space-y-6">
       <div className="flex flex-col items-start gap-3">
@@ -146,7 +110,7 @@ export function CategoryForm({ category }: { category?: Category }) {
         onSubmit={form.handleSubmit((values) => save.mutate(values))}
         noValidate
       >
-        <Field data-invalid={!!form.formState.errors.title}>
+        <Field data-invalid={!!errors.title}>
           <FieldLabel htmlFor="title">
             Название <span aria-hidden="true">*</span>
           </FieldLabel>
@@ -154,63 +118,28 @@ export function CategoryForm({ category }: { category?: Category }) {
             id="title"
             className="h-11"
             aria-required="true"
-            aria-invalid={!!form.formState.errors.title}
-            aria-describedby={
-              form.formState.errors.title ? 'title-error' : undefined
-            }
+            aria-invalid={!!errors.title}
+            aria-describedby={errors.title ? 'title-error' : undefined}
             {...form.register('title')}
           />
-          <FieldError id="title-error" errors={[form.formState.errors.title]} />
+          <FieldError id="title-error" errors={[errors.title]} />
         </Field>
-        <Field data-invalid={!!form.formState.errors.slug}>
+        <Field data-invalid={!!errors.slug}>
           <div className="flex items-center gap-2">
             <FieldLabel htmlFor="slug">
               Slug <span aria-hidden="true">*</span>
             </FieldLabel>
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="size-8 [@media(hover:none)]:hidden"
-                    aria-label="Что такое slug?"
-                  />
-                }
-              >
-                <CircleHelp />
-              </TooltipTrigger>
-              <TooltipContent side="bottom">{slugHelp}</TooltipContent>
-            </Tooltip>
-            <Popover>
-              <PopoverTrigger
-                render={
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="hidden size-8 [@media(hover:none)]:inline-flex"
-                    aria-label="Что такое slug?"
-                  />
-                }
-              >
-                <CircleHelp />
-              </PopoverTrigger>
-              <PopoverContent>{slugHelp}</PopoverContent>
-            </Popover>
+            <CategoryHelp label="Что такое slug?" text={slugHelp} />
           </div>
           <Input
             id="slug"
             className="h-11"
             aria-required="true"
-            aria-invalid={!!form.formState.errors.slug}
-            aria-describedby={
-              form.formState.errors.slug ? 'slug-error' : undefined
-            }
+            aria-invalid={!!errors.slug}
+            aria-describedby={errors.slug ? 'slug-error' : undefined}
             {...form.register('slug')}
           />
-          <FieldError id="slug-error" errors={[form.formState.errors.slug]} />
+          <FieldError id="slug-error" errors={[errors.slug]} />
         </Field>
         <Field>
           <FieldLabel htmlFor="description">Описание</FieldLabel>
@@ -235,15 +164,11 @@ export function CategoryForm({ category }: { category?: Category }) {
         />
         <CategoryImages
           form={form}
-          images={images}
-          move={move}
-          file={file}
-          alt={alt}
-          setFile={setFile}
-          setAlt={setAlt}
+          disabled={save.isPending || upload.isPending}
           uploadPending={upload.isPending}
-          savePending={save.isPending}
-          onUpload={() => upload.mutate()}
+          onUpload={(draft, onSuccess) => {
+            upload.mutate(draft, { onSuccess });
+          }}
         />
         <Button type="submit" disabled={save.isPending || upload.isPending}>
           {save.isPending ? 'Сохранение…' : 'Сохранить'}

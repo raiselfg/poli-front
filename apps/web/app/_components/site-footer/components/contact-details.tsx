@@ -1,3 +1,4 @@
+import { unstable_rethrow } from 'next/navigation';
 import {
   ArrowUpRight,
   Clock,
@@ -15,6 +16,7 @@ export async function ContactDetails() {
   const result = await getContacts().then(
     (contacts) => ({ contacts, error: false as const }),
     (error: unknown) => {
+      unstable_rethrow(error);
       console.error('Не удалось загрузить контакты', error);
       return { error: true as const };
     }
@@ -30,11 +32,37 @@ export async function ContactDetails() {
     return <p className="my-7 text-zinc-700">Контакты пока не добавлены.</p>;
 
   const phoneHref = getPhoneHref(contacts.phone);
+  const email = contacts.email ?? '';
+  const telegramHref = contacts.telegram_url ?? '';
+  const whatsappHref = contacts.whatsapp_url ?? '';
+  const rows = [
+    { icon: Phone, label: 'Телефон', value: contacts.phone, href: phoneHref },
+    {
+      icon: Mail,
+      label: 'Почта',
+      value: email,
+      href: email === '' ? undefined : `mailto:${email}`,
+    },
+    { icon: MapPin, label: 'Адрес', value: contacts.address },
+    { icon: Clock, label: 'Часы работы', value: contacts.working_hours ?? '' },
+    {
+      icon: MessageCircle,
+      label: 'Мессенджер',
+      value: telegramHref === '' ? '' : 'Telegram',
+      href: telegramHref,
+    },
+    {
+      icon: MessageCircle,
+      label: 'Мессенджер',
+      value: whatsappHref === '' ? '' : 'WhatsApp',
+      href: whatsappHref,
+    },
+  ].filter(({ value }) => value !== '');
   const shortcuts = [
-    { label: 'Позвонить', href: phoneHref },
-    { label: 'Telegram', href: contacts.telegram_url ?? undefined },
-    { label: 'WhatsApp', href: contacts.whatsapp_url ?? undefined },
-  ].filter(({ href }) => href !== undefined && href !== '');
+    { label: 'Позвонить', href: phoneHref ?? '' },
+    { label: 'Telegram', href: telegramHref },
+    { label: 'WhatsApp', href: whatsappHref },
+  ].filter(({ href }) => href !== '');
 
   return (
     <>
@@ -44,48 +72,9 @@ export async function ContactDetails() {
           longitude={contacts.longitude}
         />
         <address className="grid w-full min-w-0 divide-y divide-zinc-800/20 self-start text-zinc-900 not-italic min-[900px]:max-w-[min(40%,480px)]">
-          {contacts.phone !== '' && (
-            <ContactRow
-              icon={Phone}
-              label="Телефон"
-              value={contacts.phone}
-              href={phoneHref}
-            />
-          )}
-          {contacts.email !== null && contacts.email !== '' && (
-            <ContactRow
-              icon={Mail}
-              label="Почта"
-              value={contacts.email}
-              href={`mailto:${contacts.email}`}
-            />
-          )}
-          {contacts.address !== '' && (
-            <ContactRow icon={MapPin} label="Адрес" value={contacts.address} />
-          )}
-          {contacts.working_hours !== null && contacts.working_hours !== '' && (
-            <ContactRow
-              icon={Clock}
-              label="Часы работы"
-              value={contacts.working_hours}
-            />
-          )}
-          {contacts.telegram_url !== null && contacts.telegram_url !== '' && (
-            <ContactRow
-              icon={MessageCircle}
-              label="Мессенджер"
-              value="Telegram"
-              href={contacts.telegram_url}
-            />
-          )}
-          {contacts.whatsapp_url !== null && contacts.whatsapp_url !== '' && (
-            <ContactRow
-              icon={MessageCircle}
-              label="Мессенджер"
-              value="WhatsApp"
-              href={contacts.whatsapp_url}
-            />
-          )}
+          {rows.map((row) => (
+            <ContactRow key={`${row.label}:${row.value}`} {...row} />
+          ))}
         </address>
       </div>
       {shortcuts.length > 0 ? (

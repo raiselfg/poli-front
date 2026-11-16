@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import Image from 'next/image';
+import { unstable_rethrow } from 'next/navigation';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { getCategories } from '../../_lib/catalog/catalog';
 import type { Category } from '../../_lib/catalog/catalog-schema';
@@ -41,7 +42,10 @@ function ProductLinks({ categories = [] }: { categories?: Category[] }) {
 }
 
 async function CatalogProductLinks() {
-  const categories = await getCategories().catch(() => []);
+  const categories = await getCategories().catch((error: unknown) => {
+    unstable_rethrow(error);
+    return [];
+  });
   return <ProductLinks categories={categories} />;
 }
 

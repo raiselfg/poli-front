@@ -15,13 +15,15 @@ import {
 import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { api } from '@/lib/api';
-import { categoriesQuery } from '@/features/categories/data';
 import { errorMessage } from '@/lib/errors';
 import { QueryState } from '@/components/query-state';
+import { categoriesQuery } from './data';
+
 export function Categories() {
   const query = useQuery(categoriesQuery);
   const client = useQueryClient();
-  const refresh = () => client.invalidateQueries({ queryKey: ['categories'] });
+  const refresh = () =>
+    client.invalidateQueries({ queryKey: categoriesQuery.queryKey });
   const order = useMutation({
     mutationFn: (ids: string[]) =>
       api('/admin/categories/order', { method: 'PUT', body: { ids } }),
@@ -38,9 +40,14 @@ export function Categories() {
     onError: (error) => toast.error(errorMessage(error)),
   });
   function move(index: number, direction: number) {
-    const ids = query.data!.map((item) => item.id);
+    const ids = query.data?.map((item) => item.id) ?? [];
     const target = index + direction;
-    [ids[index], ids[target]] = [ids[target]!, ids[index]!];
+    const currentId = ids[index];
+    const targetId = ids[target];
+    if (currentId === undefined || targetId === undefined) return;
+
+    ids[index] = targetId;
+    ids[target] = currentId;
     order.mutate(ids);
   }
   return (

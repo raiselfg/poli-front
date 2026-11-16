@@ -1,5 +1,5 @@
-import { Link } from '@tanstack/react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link } from '@tanstack/react-router';
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardHeader } from '@workspace/ui/components/card';
 import { Field, FieldLabel } from '@workspace/ui/components/field';
@@ -10,62 +10,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from '@workspace/ui/components/sheet';
-import { ArrowLeft, Maximize2, Paperclip, X } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
-import { api } from '@/lib/api';
+import { QueryState } from '@/components/query-state';
 import { categoriesQuery } from '@/features/categories/data';
-import { fetchRequestFile, requestQuery } from '@/features/requests/data';
 import { date } from '@/lib/date';
 import { errorMessage } from '@/lib/errors';
-import { QueryState } from '@/components/query-state';
-import { requestDetailSchema, statusSchema } from '@/features/requests/schemas';
-import { statusLabels } from '@/features/requests/request-constants';
+import {
+  requestFileQuery,
+  requestQuery,
+  requestsQuery,
+  updateRequestStatus,
+} from './data';
+import { RequestAttachment } from './request-attachment';
+import { statusLabels } from './request-constants';
+import { statusSchema } from './schemas';
+
 export function RequestPage({ requestId }: { requestId: string }) {
   const query = useQuery(requestQuery(requestId));
   const categories = useQuery(categoriesQuery);
-  const file = query.data?.file;
+  const file = query.data?.file ?? null;
   const isImage = file?.mimeType.toLowerCase().startsWith('image/') ?? false;
   const preview = useQuery({
-    queryKey: ['request-file', requestId, file?.id],
-    queryFn: ({ signal }) => fetchRequestFile(requestId, signal),
+    ...requestFileQuery(requestId, file?.id),
     enabled: isImage,
   });
   const client = useQueryClient();
   const update = useMutation({
-    mutationFn: async (status: string) =>
-      requestDetailSchema.parse(
-        await api(`/admin/requests/${requestId}`, {
-          method: 'PATCH',
-          body: { status: statusSchema.parse(status) },
-        })
-      ),
+    mutationFn: (status: string) => updateRequestStatus(requestId, status),
     onSuccess: async () => {
-      await client.invalidateQueries({ queryKey: ['requests'] });
+      await client.invalidateQueries({ queryKey: requestsQuery.queryKey });
       toast.success('Статус обновлён');
     },
     onError: (error) => toast.error(errorMessage(error)),
   });
-  async function download() {
-    try {
-      const blob = preview.data ?? (await fetchRequestFile(requestId));
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = query.data?.file?.originalName ?? 'file';
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      toast.error(errorMessage(error));
-    }
-  }
   const item = query.data;
   return (
     <div className="max-w-3xl space-y-6">
@@ -143,157 +121,14 @@ export function RequestPage({ requestId }: { requestId: string }) {
                 </div>
               ))}
             </dl>
-            <section
-              aria-labelledby="request-file-heading"
-              className="space-y-4 border-t pt-5"
-            >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex min-w-0 items-start gap-3">
-                  <Paperclip
-                    aria-hidden="true"
-                    className="mt-0.5 size-4 shrink-0 text-muted-foreground"
-                  />
-                  <div className="min-w-0">
-                    <h2 id="request-file-heading" className="font-medium">
-                      {file ? 'Прикреплённый файл' : 'Вложение'}
-                    </h2>
-                    <p
-                      id="request-file-name"
-                      className="mt-1 wrap-anywhere text-muted-foreground"
-                    >
-                      {file?.originalName ?? 'Файл не прикреплён'}
-                    </p>
-                  </div>
-                </div>
-                {file && (
-                  <Button
-                    variant="outline"
-                    className="h-11 motion-reduce:transition-none"
-                    aria-describedby="request-file-name"
-                    onClick={() => void download()}
-                  >
-                    Скачать
-                  </Button>
-                )}
-              </div>
-              {isImage &&
-                (preview.data ? (
-                  <RequestImagePreview file={preview.data} />
-                ) : (
-                  <QueryState
-                    loading={preview.isPending}
-                    error={preview.error}
-                    retry={() => void preview.refetch()}
-                  />
-                ))}
-            </section>
+            <RequestAttachment
+              requestId={requestId}
+              file={file}
+              preview={preview}
+            />
           </CardContent>
         </Card>
       )}
     </div>
-  );
-}
-
-function RequestImagePreview({ file }: { file: Blob }) {
-  const imageRef = useRef<HTMLImageElement>(null);
-  const fullscreenImageRef = useRef<HTMLImageElement>(null);
-  const [failedFile, setFailedFile] = useState<Blob | null>(null);
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!imageRef.current) return;
-    const url = URL.createObjectURL(file);
-    imageRef.current.src = url;
-    if (fullscreenImageRef.current) fullscreenImageRef.current.src = url;
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
-
-  return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
-        aria-label="Открыть изображение на весь экран"
-        hidden={failedFile === file}
-        render={
-          <Button
-            variant="ghost"
-            className="relative h-auto max-w-full cursor-zoom-in rounded-md border-0 p-0 motion-reduce:transition-none"
-          />
-        }
-      >
-        <img
-          ref={imageRef}
-          alt="Изображение из заявки"
-          className="max-h-112 max-w-full rounded-md object-contain"
-          onError={() => setFailedFile(file)}
-        />
-        <span
-          aria-hidden="true"
-          className="absolute right-2 bottom-2 grid size-8 place-items-center rounded-full bg-background/90 text-foreground"
-        >
-          <Maximize2 />
-        </span>
-      </SheetTrigger>
-      <SheetContent
-        side="bottom"
-        showCloseButton={false}
-        className="top-0 grid grid-rows-[auto_minmax(0,1fr)] gap-4 p-4 data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 motion-reduce:transition-none sm:p-6"
-        onClick={(event) => {
-          if (event.target === event.currentTarget) setOpen(false);
-        }}
-      >
-        <div className="pointer-events-none flex items-center justify-between gap-4">
-          <SheetTitle className="pointer-events-auto">
-            Изображение из заявки
-          </SheetTitle>
-          <SheetClose
-            aria-label="Закрыть просмотр изображения"
-            render={
-              <Button
-                variant="secondary"
-                size="icon-lg"
-                className="pointer-events-auto size-11"
-              />
-            }
-          >
-            <X aria-hidden="true" />
-          </SheetClose>
-        </div>
-        <img
-          ref={(image) => {
-            fullscreenImageRef.current = image;
-            if (image && imageRef.current) image.src = imageRef.current.src;
-          }}
-          alt="Изображение из заявки"
-          className="size-full min-h-0 min-w-0 object-contain"
-          onClick={(event) => {
-            const { naturalWidth, naturalHeight } = event.currentTarget;
-            if (!naturalWidth || !naturalHeight) {
-              setOpen(false);
-              return;
-            }
-            // object-contain оставляет поля внутри элемента img.
-            const { left, top, width, height } =
-              event.currentTarget.getBoundingClientRect();
-            const scale = Math.min(
-              width / naturalWidth,
-              height / naturalHeight
-            );
-            const x = event.clientX - left - width / 2;
-            const y = event.clientY - top - height / 2;
-            if (
-              Math.abs(x) > (naturalWidth * scale) / 2 ||
-              Math.abs(y) > (naturalHeight * scale) / 2
-            ) {
-              setOpen(false);
-            }
-          }}
-        />
-      </SheetContent>
-      {failedFile === file && (
-        <p role="alert" className="text-muted-foreground">
-          Не удалось показать изображение.
-        </p>
-      )}
-    </Sheet>
   );
 }

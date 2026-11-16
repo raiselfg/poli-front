@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import {
   animate,
@@ -16,13 +14,10 @@ import {
 } from 'react';
 import { cn } from '@workspace/ui/lib/utils';
 import type { Category } from '../../../_lib/catalog/catalog-schema';
+import type { PhotoDirection, PhotoTrackNavigation } from './photo-navigation';
 
 const slideOffsets = [-1, 0, 1];
 const dragSlop = 8;
-
-export type PhotoTrackNavigation = {
-  step: (direction: -1 | 1) => void;
-};
 
 type PhotoTrackProps = Pick<Category, 'images' | 'title'> & {
   index: number;
@@ -55,7 +50,7 @@ export function CategoryPhotoTrack({
     };
   }, [index, x]);
 
-  function settle(direction: -1 | 0 | 1, width: number) {
+  function settle(direction: PhotoDirection | 0, width: number) {
     void animate(x, -direction * width, {
       duration: reduceMotion === true ? 0 : direction === 0 ? 0.28 : 0.42,
       ease: [0.22, 0.8, 0.35, 1],
@@ -81,12 +76,13 @@ export function CategoryPhotoTrack({
   }
 
   function startDrag(event: PointerEvent<HTMLSpanElement>) {
-    suppressClick.current = x.isAnimating();
+    const animating = x.isAnimating();
+    suppressClick.current = animating;
     if (
       images.length < 2 ||
       event.pointerType !== 'touch' ||
       !event.isPrimary ||
-      x.isAnimating()
+      animating
     ) {
       cancelDrag();
       return;
