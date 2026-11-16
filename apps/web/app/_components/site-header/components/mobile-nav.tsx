@@ -9,6 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@workspace/ui/components/sheet';
+import { accentAction } from '../../landing-styles';
 import { links } from '../constants/links';
 
 export function MobileNav() {
@@ -18,18 +19,16 @@ export function MobileNav() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         aria-label="Открыть меню"
-        className="pointer-events-auto grid size-11 shrink-0 place-items-center rounded-full border border-zinc-200 bg-white/70 text-zinc-800 transition-colors duration-200 ease-in-out hover:bg-white focus-visible:bg-white"
+        className="rounded-control border-line bg-surface text-ink hover:bg-line grid size-11 shrink-0 place-items-center border"
       >
         <Menu size={20} aria-hidden="true" />
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[86%] max-w-[360px] overflow-y-auto rounded-l-[28px] border-zinc-300 bg-zinc-200 text-zinc-900"
+        className="landing-dialog border-line bg-bg text-ink w-full overflow-y-auto shadow-none transition-[opacity,translate] motion-reduce:transition-none"
       >
         <SheetHeader className="px-6 pt-6 pb-2">
-          <SheetTitle className="text-[length:calc(18px*var(--text-scale))] font-semibold text-zinc-900">
-            Меню
-          </SheetTitle>
+          <SheetTitle className="text-ink text-lg font-bold">Меню</SheetTitle>
         </SheetHeader>
         <nav
           aria-label="Мобильная навигация"
@@ -42,7 +41,7 @@ export function MobileNav() {
               onClick={() => {
                 setOpen(false);
               }}
-              className="rounded-xl px-3 py-3.5 text-[length:calc(16px*var(--text-scale))] font-medium text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:bg-zinc-100 focus-visible:text-zinc-950"
+              className="rounded-control text-ink-muted hover:bg-line hover:text-ink px-3 py-3.5 font-medium"
             >
               {link.label}
             </a>
@@ -54,7 +53,7 @@ export function MobileNav() {
             onClick={() => {
               setOpen(false);
             }}
-            className="flex min-h-[54px] items-center justify-center gap-2.5 rounded-full bg-zinc-700 px-5 text-[length:calc(14px*var(--text-scale))] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-zinc-950 focus-visible:bg-zinc-950"
+            className={`${accentAction} w-full`}
           >
             Прислать чертёж
             <ArrowUpRight size={16} aria-hidden="true" />

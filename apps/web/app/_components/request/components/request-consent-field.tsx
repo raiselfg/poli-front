@@ -10,13 +10,14 @@ import {
 import type { RequestFormMethods } from './request-form-resolver';
 
 const consentLinkClassName =
-  'font-medium text-zinc-800 underline decoration-zinc-400 underline-offset-4 transition-colors hover:decoration-zinc-800 focus-visible:decoration-zinc-800';
+  'font-medium text-ink underline decoration-amber-accent underline-offset-4 hover:decoration-current';
 
 export function RequestConsentField({
   control,
-}: Pick<RequestFormMethods, 'control'>) {
+  disabled,
+}: Pick<RequestFormMethods, 'control'> & { disabled: boolean }) {
   const {
-    field: consent,
+    field: { value, onChange, ref },
     fieldState: { error },
   } = useController({ control, name: 'consent' });
 
@@ -28,16 +29,18 @@ export function RequestConsentField({
     >
       <Checkbox
         id="consent"
-        checked={consent.value}
-        onCheckedChange={consent.onChange}
+        ref={ref}
+        disabled={disabled}
+        checked={value}
+        onCheckedChange={onChange}
         aria-invalid={error !== undefined}
         aria-describedby={error !== undefined ? 'consent-error' : undefined}
-        className="mt-px size-[18px] rounded-[6px] border-zinc-500 bg-white data-checked:border-zinc-700 data-checked:bg-zinc-700"
+        className="rounded-control border-ink-muted bg-surface aria-invalid:border-field-error data-checked:border-ink data-checked:bg-ink data-checked:text-surface mt-px size-[18px] transition-none"
       />
       <FieldContent className="gap-1.5">
         <FieldLabel
           htmlFor="consent"
-          className="block w-full text-[length:calc(12px*var(--text-scale))] leading-[1.55] font-normal text-zinc-600"
+          className="text-ink-muted block w-full text-sm leading-relaxed font-normal"
         >
           Я даю{' '}
           <Link href="/consent" className={consentLinkClassName}>
@@ -51,7 +54,7 @@ export function RequestConsentField({
         </FieldLabel>
         <FieldError
           id="consent-error"
-          className="text-[length:calc(12px*var(--text-scale))] text-rose-700"
+          className="text-field-error text-sm"
           errors={[error]}
         />
       </FieldContent>

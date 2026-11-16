@@ -112,6 +112,8 @@ export function CategoryPhotoTrack({
       suppressClick.current = true;
     }
 
+    if (reduceMotion === true) return;
+
     const width = event.currentTarget.clientWidth;
     x.set(Math.max(-width, Math.min(width, dx)));
   }
@@ -119,12 +121,12 @@ export function CategoryPhotoTrack({
   function endDrag(event: PointerEvent<HTMLSpanElement>) {
     if (event.pointerType !== 'touch' || !event.isPrimary) return;
 
-    const dragging = start.current?.dragging === true;
+    const gesture = start.current;
     start.current = null;
-    if (!dragging) return;
+    if (gesture?.dragging !== true) return;
 
     const width = event.currentTarget.clientWidth;
-    const displacement = x.get();
+    const displacement = event.clientX - gesture.x;
     const direction =
       Math.abs(displacement) >= Math.min(56, width / 5)
         ? displacement < 0
@@ -160,6 +162,7 @@ export function CategoryPhotoTrack({
             (index + offset + images.length) % images.length
           );
           if (image === undefined) return null;
+          const alt = image.alt?.trim() ?? '';
 
           return (
             <span
@@ -174,7 +177,13 @@ export function CategoryPhotoTrack({
             >
               <Image
                 src={image.url}
-                alt={offset === 0 ? (image.alt ?? title) : ''}
+                alt={
+                  offset === 0
+                    ? alt !== ''
+                      ? alt
+                      : `${title}, фото ${String(index + 1)}`
+                    : ''
+                }
                 width={fullscreen ? (image.width ?? 1200) : undefined}
                 height={fullscreen ? (image.height ?? 900) : undefined}
                 fill={!fullscreen}

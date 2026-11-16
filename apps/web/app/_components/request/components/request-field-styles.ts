@@ -1,4 +1,4 @@
 export const requestFieldClassName =
-  'mb-7 gap-[10px] [&_label]:text-[length:calc(12px*var(--text-scale))] [&_label]:font-[650]';
+  'mb-5 gap-2 [&_label]:text-sm [&_label]:font-bold';
 export const requestInputClassName =
-  'h-auto min-h-[46px] rounded-xl border-0 bg-zinc-100 px-2.5 py-3 text-[length:calc(14px*var(--text-scale))] shadow-none transition-none focus-visible:bg-zinc-200 focus-visible:ring-2 focus-visible:ring-zinc-600 forced-colors:focus-visible:outline-2 motion-safe:transition-colors motion-safe:duration-150 aria-invalid:bg-rose-50 aria-invalid:ring-0 aria-invalid:focus-visible:bg-rose-100';
+  'h-auto min-h-12 rounded-control border border-field-line bg-surface px-2.5 py-3 text-base shadow-none transition-none focus-visible:border-ink focus-visible:ring-0 disabled:bg-bg disabled:text-ink-muted disabled:opacity-100 aria-invalid:border-field-error aria-invalid:ring-0 md:text-base';

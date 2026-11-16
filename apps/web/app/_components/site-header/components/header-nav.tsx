@@ -4,13 +4,13 @@ export function HeaderNav() {
   return (
     <nav
       aria-label="Основная навигация"
-      className="pointer-events-auto flex items-center gap-5 text-[length:calc(13px*var(--text-scale))] max-[900px]:gap-4 max-[700px]:hidden"
+      className="landing:flex hidden items-center gap-5 text-sm"
     >
       {links.map((link) => (
         <a
           key={link.href}
           href={link.href}
-          className="relative py-2 font-medium text-zinc-600 transition-colors duration-200 ease-in-out after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-current after:opacity-0 after:transition-opacity after:duration-200 after:ease-in-out hover:text-zinc-950 hover:after:opacity-100 focus-visible:text-zinc-950 focus-visible:after:opacity-100"
+          className="text-ink-muted hover:text-ink py-2 font-medium whitespace-nowrap underline-offset-4 hover:underline"
         >
           {link.label}
         </a>

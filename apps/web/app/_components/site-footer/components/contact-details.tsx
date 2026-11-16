@@ -1,13 +1,7 @@
-import {
-  ArrowUpRight,
-  Clock,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-  type LucideIcon,
-} from 'lucide-react';
-import { getContacts } from '../../../_lib/contacts/contacts';
+import { ArrowUpRight } from 'lucide-react';
+import { getContacts, getPhoneHref } from '../../../_lib/contacts/contacts';
+import { accentAction } from '../../landing-styles';
+import { ContactMap } from './contact-map';
 
 export async function ContactDetails() {
   const result = await getContacts().then(
@@ -19,111 +13,137 @@ export async function ContactDetails() {
   );
   if (result.error)
     return (
-      <p className="my-7 text-zinc-700">
+      <p className="text-ink-muted">
         Не удалось загрузить контакты. Попробуйте обновить страницу.
       </p>
     );
   const contacts = result.contacts;
   if (contacts === null)
-    return <p className="my-7 text-zinc-700">Контакты пока не добавлены.</p>;
-  const phoneNumber = contacts.phone.replace(/\D/g, '');
-  const phoneHref =
-    phoneNumber !== ''
-      ? `tel:${contacts.phone.trimStart().startsWith('+') ? '+' : ''}${phoneNumber}`
-      : undefined;
+    return <p className="text-ink-muted">Контакты пока не добавлены.</p>;
+
+  const phoneHref = getPhoneHref(contacts.phone);
+  const email = contacts.email ?? '';
+  const telegram = contacts.telegram_url ?? '';
+  const whatsapp = contacts.whatsapp_url ?? '';
+  const hours = contacts.working_hours ?? '';
+  const contactRows = [
+    { label: 'Телефон', value: contacts.phone, href: phoneHref },
+    {
+      label: 'Почта',
+      value: email,
+      href: email !== '' ? `mailto:${email}` : undefined,
+    },
+    {
+      label: 'Мессенджер',
+      value: telegram !== '' ? 'Telegram' : '',
+      href: telegram,
+    },
+    {
+      label: 'Мессенджер',
+      value: whatsapp !== '' ? 'WhatsApp' : '',
+      href: whatsapp,
+    },
+  ];
+  const shortcuts = [
+    { label: 'Позвонить', href: phoneHref },
+    { label: 'Telegram', href: telegram },
+    { label: 'WhatsApp', href: whatsapp },
+  ].filter(({ href }) => href !== undefined && href !== '');
+
   return (
-    <address className="grid divide-y divide-zinc-800/20 text-zinc-900 not-italic max-[900px]:mb-7">
-      {contacts.phone !== '' && (
-        <ContactRow
-          icon={Phone}
-          label="Телефон"
-          value={contacts.phone}
-          href={phoneHref}
+    <>
+      <address className="landing:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.5fr)] grid gap-8 not-italic">
+        <div>
+          <p className="tracking-heading mb-4 text-xl font-extrabold">
+            Название компании
+          </p>
+          <dl className="grid gap-4">
+            {contacts.address !== '' ? (
+              <div>
+                <dt className="text-ink-muted text-sm">Адрес</dt>
+                <dd className="mt-1 wrap-anywhere">{contacts.address}</dd>
+              </div>
+            ) : null}
+            {hours !== '' ? (
+              <div>
+                <dt className="text-ink-muted text-sm">Часы работы</dt>
+                <dd className="mt-1 font-mono text-sm wrap-anywhere">
+                  {hours}
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+        </div>
+        <dl>
+          {contactRows.map(({ label, value, href }) =>
+            value !== '' ? (
+              <ContactRow
+                key={`${label}:${value}`}
+                label={label}
+                value={value}
+                href={href}
+              />
+            ) : null
+          )}
+        </dl>
+        <ContactMap
+          latitude={contacts.latitude}
+          longitude={contacts.longitude}
         />
-      )}
-      {contacts.email !== null && contacts.email !== '' && (
-        <ContactRow
-          icon={Mail}
-          label="Почта"
-          value={contacts.email}
-          href={`mailto:${contacts.email}`}
-        />
-      )}
-      {contacts.address !== '' && (
-        <ContactRow icon={MapPin} label="Адрес" value={contacts.address} />
-      )}
-      {contacts.working_hours !== null && contacts.working_hours !== '' && (
-        <ContactRow
-          icon={Clock}
-          label="Часы работы"
-          value={contacts.working_hours}
-        />
-      )}
-      {contacts.telegram_url !== null && contacts.telegram_url !== '' && (
-        <ContactRow
-          icon={MessageCircle}
-          label="Мессенджер"
-          value="Telegram"
-          href={contacts.telegram_url}
-        />
-      )}
-      {contacts.whatsapp_url !== null && contacts.whatsapp_url !== '' && (
-        <ContactRow
-          icon={MessageCircle}
-          label="Мессенджер"
-          value="WhatsApp"
-          href={contacts.whatsapp_url}
-        />
-      )}
-    </address>
+      </address>
+      {shortcuts.length > 0 ? (
+        <nav
+          aria-label="Быстрая связь"
+          className="landing-contact-bar border-line bg-bg landing:hidden fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t"
+        >
+          {shortcuts.map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              className={
+                href === phoneHref
+                  ? `${accentAction} flex-1 px-2`
+                  : 'rounded-control border-ink bg-surface hover:bg-ink hover:text-surface inline-flex min-h-11 flex-1 items-center justify-center border px-2 text-sm font-bold'
+              }
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+      ) : null}
+    </>
   );
 }
 
 function ContactRow({
-  icon: Icon,
   label,
   value,
   href,
 }: {
-  icon: LucideIcon;
   label: string;
   value: string;
   href?: string;
 }) {
-  const row = (
-    <>
-      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/50 text-zinc-800 transition-colors duration-300 group-hover:bg-white/80 group-focus-visible:bg-white/80">
-        <Icon size={18} aria-hidden="true" />
-      </span>
-      <span className="min-w-0">
-        <span className="block text-xs font-semibold text-zinc-600">
-          {label}
-        </span>
-        <span className="block text-base leading-snug font-bold wrap-anywhere decoration-zinc-800/35 underline-offset-4 group-hover:underline group-focus-visible:underline">
-          {value}
-        </span>
-      </span>
-      {href !== undefined && (
-        <ArrowUpRight
-          size={16}
-          aria-hidden="true"
-          className="ml-auto shrink-0 motion-safe:transition-[translate] motion-safe:duration-300 motion-safe:group-hover:translate-x-0.5 motion-safe:group-focus-visible:translate-x-0.5"
-        />
-      )}
-    </>
-  );
-  const className = 'flex items-center gap-4 py-3';
-  if (href === undefined) return <div className={className}>{row}</div>;
+  const external = href?.startsWith('http') === true;
 
-  const external = href.startsWith('http');
   return (
-    <a
-      href={href}
-      target={external ? '_blank' : undefined}
-      rel={external ? 'noopener noreferrer' : undefined}
-      className={`${className} group rounded-lg`}
-    >
-      {row}
-    </a>
+    <div className="border-line border-t py-3">
+      <dt className="text-ink-muted text-sm">{label}</dt>
+      <dd className="mt-1 font-mono text-sm font-bold wrap-anywhere">
+        {href === undefined ? (
+          value
+        ) : (
+          <a
+            href={href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener noreferrer' : undefined}
+            className="decoration-amber-accent inline-flex max-w-full items-center gap-2 underline underline-offset-4 hover:decoration-current"
+          >
+            <span className="min-w-0">{value}</span>
+            <ArrowUpRight size={14} className="shrink-0" aria-hidden="true" />
+          </a>
+        )}
+      </dd>
+    </div>
   );
 }

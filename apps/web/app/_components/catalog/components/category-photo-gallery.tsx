@@ -48,14 +48,14 @@ export function CategoryPhotoGallery({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <div className="grid min-w-0 gap-2" onKeyDown={handleArrowKeys}>
+      <div className="grid min-w-0" onKeyDown={handleArrowKeys}>
         <div className="relative">
           <SheetTrigger
             aria-label={`Открыть фото ${String(activeIndex + 1)} категории «${title}» на весь экран`}
             render={
               <Button
                 variant="ghost"
-                className="relative aspect-[4/3] h-auto w-full cursor-default overflow-hidden rounded-[28px] border border-zinc-200 bg-zinc-100 p-0"
+                className="h-gallery rounded-t-panel border-line bg-bg hover:bg-bg hover:text-ink relative w-full cursor-zoom-in overflow-hidden rounded-b-none border-0 border-b p-0 transition-none"
               />
             }
           >
@@ -69,7 +69,7 @@ export function CategoryPhotoGallery({
             />
             <span
               aria-hidden="true"
-              className="absolute right-3 bottom-3 grid size-9 cursor-pointer place-items-center rounded-full bg-white/95 text-zinc-900 shadow-sm"
+              className="rounded-control border-line bg-surface text-ink absolute right-3 bottom-3 grid size-9 cursor-pointer place-items-center border"
             >
               <Maximize2 />
             </span>
@@ -81,7 +81,7 @@ export function CategoryPhotoGallery({
                 variant="outline"
                 size="icon-lg"
                 aria-label="Предыдущее фото в карточке"
-                className="absolute top-1/2 left-3 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,translate] duration-100 active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden"
+                className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink absolute top-1/2 left-3 size-11 -translate-y-1/2 transition-none"
                 onClick={() => {
                   cardTrack.current?.step(-1);
                 }}
@@ -93,7 +93,7 @@ export function CategoryPhotoGallery({
                 variant="outline"
                 size="icon-lg"
                 aria-label="Следующее фото в карточке"
-                className="absolute top-1/2 right-3 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,translate] duration-100 active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden"
+                className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink absolute top-1/2 right-3 size-11 -translate-y-1/2 transition-none"
                 onClick={() => {
                   cardTrack.current?.step(1);
                 }}
@@ -104,7 +104,7 @@ export function CategoryPhotoGallery({
           ) : null}
         </div>
         {hasMultipleImages ? (
-          <div className="flex min-w-0 items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3 px-3 pt-2">
             <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto p-1">
               {images.map((photo, photoIndex) => (
                 <Button
@@ -113,7 +113,7 @@ export function CategoryPhotoGallery({
                   variant="outline"
                   aria-label={`Показать фото ${String(photoIndex + 1)}`}
                   aria-pressed={activeIndex === photoIndex}
-                  className="relative aspect-[4/3] h-auto w-20 overflow-hidden rounded-lg border-zinc-200 bg-zinc-100 p-0 aria-pressed:border-zinc-800 aria-pressed:ring-1 aria-pressed:ring-zinc-800"
+                  className="rounded-control border-line bg-bg aria-pressed:border-ink aria-pressed:ring-ink relative aspect-[4/3] h-auto w-20 overflow-hidden p-0 transition-none aria-pressed:ring-1"
                   onClick={() => {
                     setIndex(photoIndex);
                   }}
@@ -130,7 +130,7 @@ export function CategoryPhotoGallery({
             </div>
             <span
               role="status"
-              className="shrink-0 pr-1 text-xs text-zinc-700 tabular-nums"
+              className="text-ink-muted shrink-0 pr-1 font-mono text-xs tabular-nums"
             >
               {position}
             </span>
@@ -140,14 +140,14 @@ export function CategoryPhotoGallery({
       <SheetContent
         side="bottom"
         showCloseButton={false}
-        className="top-0 grid grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] bg-zinc-950 px-3 text-white data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 motion-reduce:transition-none sm:px-5"
+        className="landing-dialog bg-ink text-surface top-0 grid grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] px-3 shadow-none transition-opacity data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 motion-reduce:transition-none sm:px-5"
         onKeyDown={handleArrowKeys}
         onClick={(event) => {
           if (event.target === event.currentTarget) setOpen(false);
         }}
       >
         <div className="pointer-events-none flex min-w-0 items-center justify-between gap-4">
-          <SheetTitle className="min-w-0 truncate text-white">
+          <SheetTitle className="text-surface min-w-0 truncate">
             {title}
           </SheetTitle>
           <SheetClose
@@ -156,7 +156,7 @@ export function CategoryPhotoGallery({
               <Button
                 variant="secondary"
                 size="icon-lg"
-                className="pointer-events-auto size-11 cursor-pointer rounded-full"
+                className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
               />
             }
           >
@@ -177,21 +177,21 @@ export function CategoryPhotoGallery({
               variant="secondary"
               size="icon-lg"
               aria-label="Предыдущее фото"
-              className="pointer-events-auto size-11 cursor-pointer rounded-full pointer-coarse:hidden"
+              className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
               onClick={() => {
                 fullscreenTrack.current?.step(-1);
               }}
             >
               <ChevronLeft aria-hidden="true" />
             </Button>
-            <span role="status" className="tabular-nums">
+            <span role="status" className="font-mono tabular-nums">
               {position}
             </span>
             <Button
               variant="secondary"
               size="icon-lg"
               aria-label="Следующее фото"
-              className="pointer-events-auto size-11 cursor-pointer rounded-full pointer-coarse:hidden"
+              className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
               onClick={() => {
                 fullscreenTrack.current?.step(1);
               }}

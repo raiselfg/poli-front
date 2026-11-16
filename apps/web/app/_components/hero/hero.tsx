@@ -1,118 +1,136 @@
-import Image from "next/image";
-import { ArrowDown, ArrowUpRight, Building2, Calculator, FileImage, Layers } from "lucide-react";
-import { ColourfulText } from "../aceternity-ui/colourful-text";
-import { AnimatedCopy, AnimatedDescription, AnimatedPhrase } from "../animated-phrase";
-import { action, textLink, serifHighlight, wrap } from "../landing-styles";
+import { Suspense } from 'react';
+import Image from 'next/image';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { getCategories } from '../../_lib/catalog/catalog';
+import type { Category } from '../../_lib/catalog/catalog-schema';
+import { action, textLink, wrap } from '../landing-styles';
 
-const products = ["Втулки", "Отбойники", "Демпферы", "Манжеты", "Детали по чертежу"];
+const products = [
+  'Втулки',
+  'Отбойники',
+  'Демпферы',
+  'Манжеты',
+  'Детали по чертежу',
+];
 
 const facts = [
   {
-    icon: FileImage,
-    title: "Чертёж не обязателен",
-    text: "Подойдёт эскиз, образец или фото.",
+    title: 'Чертёж не обязателен',
+    text: 'Подойдёт эскиз, образец или фото.',
   },
   {
-    icon: Layers,
-    title: "Подберём материал",
-    text: "Уточним размеры и подберём полиуретан.",
+    title: 'Подберём материал',
+    text: 'Уточним размеры и подберём полиуретан.',
   },
   {
-    icon: Calculator,
-    title: "Цена по запросу",
-    text: "После уточнения деталей и объёма.",
+    title: 'Цена по запросу',
+    text: 'После уточнения деталей и объёма.',
   },
   {
-    icon: Building2,
-    title: "Для предприятий и частных лиц",
-    text: "Работаем с юрлицами и частными заказчиками.",
+    title: 'Для предприятий и частных лиц',
+    text: 'Работаем с юрлицами и частными заказчиками.',
   },
 ];
 
+function ProductLinks({ categories = [] }: { categories?: Category[] }) {
+  const categoryIds = new Map(
+    categories.map(({ id, title }) => [title.trim().toLowerCase(), id])
+  );
+
+  return (
+    <ul aria-label="Ассортимент" className="flex flex-wrap gap-2">
+      {products.map((product) => {
+        const id = categoryIds.get(product.toLowerCase());
+        const fallback =
+          product === 'Детали по чертежу' ? '#request' : '#catalog';
+
+        return (
+          <li key={product}>
+            <a
+              href={id === undefined ? fallback : `#category-${id}`}
+              className="rounded-chip border-ink hover:bg-ink hover:text-surface inline-flex min-h-8 items-center border px-2.5 py-1 text-sm font-medium"
+            >
+              {product}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+async function CatalogProductLinks() {
+  const categories = await getCategories().catch(() => []);
+  return <ProductLinks categories={categories} />;
+}
+
 export function Hero() {
   return (
-    <section className={`${wrap} scroll-mt-6 pt-[22px]`} aria-labelledby="hero-title">
-      <div className="grid grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] items-center gap-x-[clamp(32px,5vw,72px)] gap-y-10 pt-10 pb-10 max-[900px]:grid-cols-1 max-[900px]:gap-y-8 max-[700px]:pt-3 max-[700px]:pb-6">
-        <AnimatedCopy className="max-w-[620px]">
-          <h1
-            id="hero-title"
-            className="text-[length:calc(clamp(40px,4.5vw,68px)*var(--text-scale))] leading-[0.98] font-[600] tracking-[-0.045em] max-[700px]:text-[length:calc(clamp(36px,10vw,56px)*var(--text-scale))]"
-          >
-            Изделия из
-            <br />
-            <ColourfulText text="полиуретана" />
-          </h1>
-          <AnimatedDescription
-            effect="focus"
-            className="mt-6 max-w-[470px] text-[length:calc(17px*var(--text-scale))] leading-[1.6] text-zinc-600 max-[700px]:mt-4 max-[700px]:text-[length:calc(15px*var(--text-scale))]"
-          >
-            Производство в Санкт-Петербурге деталей на заказ{" "}
-            <AnimatedPhrase className={`${serifHighlight} italic`} effect="underline">
-              по чертежу, ТЗ или фотографии.
-            </AnimatedPhrase>{" "}
-          </AnimatedDescription>
-          <ul aria-label="Ассортимент" className="mt-6 flex flex-wrap gap-2 max-[700px]:mt-5">
-            {products.map((product) => (
-              <li
-                key={product}
-                className="rounded-full border border-zinc-200 bg-white/60 px-3.5 py-1.5 text-[length:calc(12px*var(--text-scale))] leading-none font-medium text-zinc-600"
-              >
-                {product}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 max-[700px]:mt-7">
-            <a
-              className={`${action} group/hero-action rounded-full motion-safe:transition-[translate,background-color,box-shadow] motion-safe:duration-400 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_16px_28px_rgb(39_39_42_/_30%)] motion-safe:focus-visible:-translate-y-1.5 motion-safe:focus-visible:shadow-[0_16px_28px_rgb(39_39_42_/_30%)] max-[700px]:w-full`}
-              href="#request"
+    <>
+      <section aria-labelledby="hero-title" className="py-section">
+        <div
+          className={`${wrap} landing:grid-cols-[1.25fr_1fr] landing:gap-12 grid items-center gap-8`}
+        >
+          <div className="min-w-0">
+            <p className="text-ink-muted mb-5 font-mono text-xs font-bold tracking-widest">
+              {'// ПРОИЗВОДСТВО · САНКТ-ПЕТЕРБУРГ'}
+            </p>
+            <h1
+              id="hero-title"
+              className="text-hero tracking-heading leading-none font-extrabold wrap-anywhere"
             >
-              Прислать чертёж или фото
-              <ArrowUpRight
-                size={18}
-                aria-hidden="true"
-                className="motion-safe:transition-[translate] motion-safe:duration-400 motion-safe:ease-out motion-safe:group-hover/hero-action:translate-x-1 motion-safe:group-hover/hero-action:-translate-y-1 motion-safe:group-focus-visible/hero-action:translate-x-1 motion-safe:group-focus-visible/hero-action:-translate-y-1"
-              />
-            </a>
-            <a className={`${textLink} group/catalog-link`} href="#catalog">
-              Смотреть продукцию
-              <ArrowDown
-                size={17}
-                aria-hidden="true"
-                className="motion-safe:transition-[translate] motion-safe:duration-300 motion-safe:ease-in-out motion-safe:group-hover/catalog-link:translate-y-1.5 motion-safe:group-focus-visible/catalog-link:translate-y-1.5"
-              />
-            </a>
+              Изделия из
+              <br />
+              <span className="hero-highlight">полиуретана</span>
+            </h1>
+            <p className="text-ink-muted mt-6 max-w-prose text-lg leading-relaxed">
+              Производство в Санкт-Петербурге деталей на заказ по чертежу, ТЗ
+              или фотографии.
+            </p>
+            <div className="mt-6">
+              <Suspense fallback={<ProductLinks />}>
+                <CatalogProductLinks />
+              </Suspense>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
+              <a className={action} href="#request">
+                Прислать чертёж или фото
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a className={textLink} href="#catalog">
+                Смотреть продукцию
+                <ArrowDown size={16} aria-hidden="true" />
+              </a>
+            </div>
           </div>
-          <ul className="mt-9 grid grid-cols-2 gap-x-5 gap-y-4 border-t border-zinc-200 pt-6 max-[900px]:grid-cols-1 max-[900px]:gap-y-3 max-[700px]:mt-7 max-[700px]:gap-y-4 max-[700px]:pt-5">
-            {facts.map((fact) => (
-              <li key={fact.title} className="flex gap-3">
-                <span
-                  aria-hidden="true"
-                  className="grid size-9 shrink-0 place-items-center rounded-full bg-zinc-200 text-zinc-700"
-                >
-                  <fact.icon size={17} />
-                </span>
-                <div>
-                  <p className="text-[length:calc(13px*var(--text-scale))] leading-[1.35] font-semibold text-zinc-900">
-                    {fact.title}
-                  </p>
-                  <p className="mt-1 text-[length:calc(12px*var(--text-scale))] leading-[1.45] text-zinc-600">
-                    {fact.text}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </AnimatedCopy>
-        <Image
-          src="/images/polyurethane-workshop.webp"
-          alt="Промышленный пресс с формой и полиуретановые заготовки в цехе"
-          width={1120}
-          height={1120}
-          preload
-          sizes="(max-width: 700px) min(100vw, 360px), (max-width: 900px) 480px, min(45vw, 560px)"
-          className="mx-auto h-auto w-full max-w-[560px] rounded-[28px] max-[900px]:max-w-[480px] max-[700px]:max-w-[360px]"
-        />
+          <Image
+            src="/images/polyurethane-workshop.webp"
+            alt="Промышленный пресс с формой и полиуретановые заготовки в цехе"
+            width={1120}
+            height={1120}
+            preload
+            sizes="(max-width: 1023px) min(100vw, 560px), min(44vw, 560px)"
+            className="rounded-panel border-line landing:mx-0 landing:justify-self-end mx-auto h-auto w-full max-w-xl border object-cover"
+          />
+        </div>
+      </section>
+      <div className="bg-ink text-surface">
+        <dl className={`${wrap} landing:grid-cols-4 grid grid-cols-2`}>
+          {facts.map(({ title, text }) => (
+            <div
+              key={title}
+              className="border-line-dark landing:px-5 landing:py-8 landing:not-first:border-l landing:nth-[3]:pl-5 landing:nth-[n+3]:border-t-0 min-w-0 px-3 py-6 first:pl-0 even:border-l nth-[3]:pl-0 nth-[n+3]:border-t"
+            >
+              <dt className="text-fact text-amber-accent font-mono leading-tight font-bold wrap-anywhere">
+                {title}
+              </dt>
+              <dd className="text-ink-on-dark-muted mt-2 text-sm leading-relaxed">
+                {text}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
-    </section>
+    </>
   );
 }

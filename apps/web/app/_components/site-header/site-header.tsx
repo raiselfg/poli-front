@@ -1,45 +1,55 @@
-import { ArrowUpRight } from "lucide-react";
-import { HeaderNav } from "./components/header-nav";
-import { MobileNav } from "./components/mobile-nav";
-import { StickyHeader } from "./components/sticky-header";
+import { Suspense } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { getContacts, getPhoneHref } from '../../_lib/contacts/contacts';
+import { accentAction, wrap } from '../landing-styles';
+import { HeaderNav } from './components/header-nav';
+import { MobileNav } from './components/mobile-nav';
+
+async function HeaderPhone() {
+  const contacts = await getContacts().catch(() => null);
+  const href = getPhoneHref(contacts?.phone ?? '');
+  if (contacts === null || href === undefined) return null;
+
+  return (
+    <a
+      href={href}
+      className="font-mono text-sm font-bold whitespace-nowrap hover:underline hover:underline-offset-4"
+    >
+      {contacts.phone}
+    </a>
+  );
+}
 
 export function SiteHeader() {
   return (
-    <StickyHeader className="pointer-events-auto mx-auto grid min-h-[78px] w-[min(100%-96px,1320px)] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 py-[18px] max-[900px]:w-[min(100%-48px,1320px)] max-[700px]:flex max-[700px]:min-h-[64px] max-[700px]:w-[calc(100%-36px)] max-[700px]:justify-between max-[700px]:gap-4 max-[700px]:py-2.5">
-      <a
-        href="#top"
-        aria-label="На главную"
-        className="pointer-events-auto flex items-center gap-2.5 justify-self-start text-[length:calc(17px*var(--text-scale))] leading-none font-semibold tracking-[-0.02em] text-zinc-900 focus-visible:text-zinc-950 max-[700px]:min-w-0 max-[700px]:text-[length:calc(16px*var(--text-scale))]"
+    <header className="border-line bg-bg sticky top-0 z-30 border-b">
+      <div
+        className={`${wrap} min-h-header landing:grid landing:grid-cols-[1fr_auto_1fr] flex items-center justify-between gap-4`}
       >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 32 32"
-          className="size-[28px] shrink-0 text-zinc-700"
-          fill="currentColor"
+        <a
+          href="#top"
+          className="tracking-heading flex items-center gap-2.5 justify-self-start font-extrabold"
         >
-          <path
-            fillRule="evenodd"
-            d="M16 2a14 14 0 1 1 0 28 14 14 0 0 1 0-28Zm0 8.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
+          <span
+            aria-hidden="true"
+            className="size-brand-mark bg-amber-accent shrink-0"
           />
-        </svg>
-        Название компании
-      </a>
-      <HeaderNav />
-      <a
-        href="#request"
-        aria-label="Прислать чертёж"
-        className="group/cta pointer-events-auto inline-flex shrink-0 items-center gap-2 justify-self-end rounded-full bg-zinc-700 px-4 py-2.5 text-[length:calc(13px*var(--text-scale))] font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-zinc-950 focus-visible:bg-zinc-950 max-[900px]:px-3.5 max-[700px]:hidden"
-      >
-        <span className="whitespace-nowrap">Прислать чертёж</span>
-        <ArrowUpRight
-          size={16}
-          aria-hidden="true"
-          className="shrink-0 transition-transform duration-300 ease-in-out group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 group-focus-visible/cta:translate-x-0.5 group-focus-visible/cta:-translate-y-0.5 motion-reduce:transition-none"
-        />
-      </a>
-      <div className="min-[700px]:hidden">
-        <MobileNav />
+          Название компании
+        </a>
+        <HeaderNav />
+        <div className="landing:flex hidden items-center justify-end gap-4">
+          <Suspense fallback={null}>
+            <HeaderPhone />
+          </Suspense>
+          <a href="#request" className={accentAction}>
+            Прислать чертёж
+            <ArrowUpRight aria-hidden="true" />
+          </a>
+        </div>
+        <div className="landing:hidden">
+          <MobileNav />
+        </div>
       </div>
-    </StickyHeader>
+    </header>
   );
 }
