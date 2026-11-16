@@ -89,7 +89,7 @@ export async function ContactDetails() {
               className={
                 href === phoneHref
                   ? `${accentAction} flex-1 px-2`
-                  : 'rounded-control border-ink bg-surface hover:bg-ink hover:text-surface inline-flex min-h-11 flex-1 items-center justify-center border px-2 text-sm font-bold'
+                  : 'landing-control rounded-control border-ink bg-surface hover:bg-ink hover:text-surface inline-flex min-h-11 flex-1 items-center justify-center border px-2 text-sm font-bold'
               }
             >
               {label}
@@ -123,7 +123,7 @@ function ContactRow({
             href={href}
             target={external ? '_blank' : undefined}
             rel={external ? 'noopener noreferrer' : undefined}
-            className="decoration-amber-accent flex w-full items-center justify-between gap-2 underline underline-offset-4 hover:decoration-current"
+            className="landing-link decoration-amber-accent flex w-full items-center justify-between gap-2 underline underline-offset-4 hover:decoration-current"
           >
             <span className="min-w-0">{value}</span>
             <ArrowUpRight size={14} className="shrink-0" aria-hidden="true" />

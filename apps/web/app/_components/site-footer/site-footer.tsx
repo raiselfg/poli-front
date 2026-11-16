@@ -24,7 +24,7 @@ export function SiteFooter() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="decoration-line hover:text-ink hover:decoration-ink underline underline-offset-4"
+                className="landing-link decoration-line hover:text-ink hover:decoration-ink underline underline-offset-4"
               >
                 {link.label}
               </Link>

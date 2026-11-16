@@ -13,7 +13,7 @@ async function HeaderPhone() {
   return (
     <a
       href={href}
-      className="font-mono text-sm font-bold whitespace-nowrap hover:underline hover:underline-offset-4"
+      className="landing-link font-mono text-sm font-bold whitespace-nowrap hover:underline hover:underline-offset-4"
     >
       {contacts.phone}
     </a>

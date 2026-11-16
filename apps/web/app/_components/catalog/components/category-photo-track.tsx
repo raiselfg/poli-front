@@ -57,8 +57,8 @@ export function CategoryPhotoTrack({
 
   function settle(direction: -1 | 0 | 1, width: number) {
     void animate(x, -direction * width, {
-      duration: reduceMotion === true ? 0 : 0.24,
-      ease: 'easeOut',
+      duration: reduceMotion === true ? 0 : direction === 0 ? 0.28 : 0.42,
+      ease: [0.22, 0.8, 0.35, 1],
       onComplete: () => {
         if (direction !== 0) onStep(direction);
       },

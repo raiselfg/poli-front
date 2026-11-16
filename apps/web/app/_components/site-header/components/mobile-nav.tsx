@@ -19,13 +19,13 @@ export function MobileNav() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         aria-label="Открыть меню"
-        className="rounded-control border-line bg-surface text-ink hover:bg-line grid size-11 shrink-0 place-items-center border"
+        className="landing-control rounded-control border-line bg-surface text-ink hover:bg-line grid size-11 shrink-0 place-items-center border"
       >
         <Menu size={20} aria-hidden="true" />
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="landing-dialog border-line bg-bg text-ink w-full overflow-y-auto shadow-none transition-[opacity,translate] motion-reduce:transition-none"
+        className="landing-dialog border-line bg-bg text-ink w-full overflow-y-auto shadow-none"
       >
         <SheetHeader className="px-6 pt-6 pb-2">
           <SheetTitle className="text-ink text-lg font-bold">Меню</SheetTitle>
@@ -41,7 +41,7 @@ export function MobileNav() {
               onClick={() => {
                 setOpen(false);
               }}
-              className="rounded-control text-ink-muted hover:bg-line hover:text-ink px-3 py-3.5 font-medium"
+              className="landing-link rounded-control text-ink-muted hover:bg-line hover:text-ink px-3 py-3.5 font-medium"
             >
               {link.label}
             </a>

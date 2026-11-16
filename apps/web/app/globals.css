@@ -197,6 +197,7 @@
   --landing-header-height: 4rem;
   --landing-hero-size: clamp(2rem, 9vw, 4.75rem);
   --landing-contact-bar-height: calc(4rem + env(safe-area-inset-bottom));
+  --landing-motion-ease: cubic-bezier(0.22, 0.8, 0.35, 1);
 }
 
 @media (width >= 64rem) {
@@ -267,7 +268,78 @@ body:has(.landing) [data-slot='sheet-overlay'] {
   backdrop-filter: none;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .landing-dialog {
+    transition:
+      opacity 360ms var(--landing-motion-ease),
+      translate 360ms var(--landing-motion-ease),
+      scale 360ms var(--landing-motion-ease);
+  }
+
+  .landing-dialog[data-side='right']:is(
+      [data-starting-style],
+      [data-ending-style]
+    ) {
+    translate: 5rem 0;
+  }
+
+  .landing-dialog[data-side='bottom']:is(
+      [data-starting-style],
+      [data-ending-style]
+    ) {
+    scale: 0.96;
+  }
+
+  body:has(.landing) [data-slot='sheet-overlay'] {
+    transition: opacity 360ms var(--landing-motion-ease);
+  }
+
+  .landing-control,
+  .landing-photo-expand {
+    transition: scale 220ms var(--landing-motion-ease);
+  }
+
+  .landing-link,
+  .request-file-control {
+    transition: opacity 220ms var(--landing-motion-ease);
+  }
+
+  .landing-control:not(:disabled):active {
+    scale: 0.97;
+  }
+
+  @media (hover: hover) {
+    .landing-control:not(:disabled, :active):hover {
+      scale: 1.04;
+    }
+
+    .landing-photo-trigger:hover .landing-photo-expand {
+      scale: 1.12;
+    }
+
+    .landing-link:hover,
+    .request-file:has(input:enabled:hover) .request-file-control {
+      opacity: 0.8;
+    }
+  }
+
+  .landing [data-slot='skeleton'] {
+    animation: landing-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes landing-pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .landing-control {
+    translate: none;
+  }
+
+  .landing-dialog,
   body:has(.landing) [data-slot='sheet-overlay'] {
     transition: none;
   }

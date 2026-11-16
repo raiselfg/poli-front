@@ -6,11 +6,11 @@ export const heading =
   'text-section-heading leading-none font-extrabold tracking-heading text-balance';
 export const action = cn(
   buttonVariants(),
-  'rounded-control bg-ink text-surface hover:bg-amber-accent hover:text-ink min-h-12 gap-3 px-4 font-bold transition-none'
+  'landing-control rounded-control bg-ink text-surface hover:bg-amber-accent hover:text-ink min-h-12 gap-3 px-4 font-bold transition-none'
 );
 export const accentAction = cn(
   buttonVariants(),
-  'rounded-control bg-amber-accent text-ink hover:bg-ink hover:text-surface min-h-11 gap-2 px-4 font-bold transition-none'
+  'landing-control rounded-control bg-amber-accent text-ink hover:bg-ink hover:text-surface min-h-11 gap-2 px-4 font-bold transition-none'
 );
 export const textLink =
-  'inline-flex min-h-11 items-center gap-2 font-bold underline decoration-amber-accent decoration-2 underline-offset-6 hover:decoration-current';
+  'landing-link inline-flex min-h-11 items-center gap-2 font-bold underline decoration-amber-accent decoration-2 underline-offset-6 hover:decoration-current';

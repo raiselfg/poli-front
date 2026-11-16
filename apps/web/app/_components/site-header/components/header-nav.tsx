@@ -10,7 +10,7 @@ export function HeaderNav() {
         <a
           key={link.href}
           href={link.href}
-          className="text-ink-muted hover:text-ink py-2 font-medium whitespace-nowrap underline-offset-4 hover:underline"
+          className="landing-link text-ink-muted hover:text-ink py-2 font-medium whitespace-nowrap underline-offset-4 hover:underline"
         >
           {link.label}
         </a>

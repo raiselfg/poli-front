@@ -74,7 +74,7 @@ export function RequestFileField({
             size="icon"
             aria-label="Убрать файл из заявки"
             disabled={isSubmitting}
-            className="rounded-control border-field-line text-ink-muted hover:bg-line size-12 border transition-none"
+            className="landing-control rounded-control border-field-line text-ink-muted hover:bg-line size-12 border transition-none"
             onClick={() => {
               resetField('file');
               setFocus('file');

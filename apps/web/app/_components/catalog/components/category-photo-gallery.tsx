@@ -55,7 +55,7 @@ export function CategoryPhotoGallery({
             render={
               <Button
                 variant="ghost"
-                className="h-gallery rounded-t-panel border-line bg-bg hover:bg-bg hover:text-ink relative w-full cursor-zoom-in overflow-hidden rounded-b-none border-0 border-b p-0 transition-none"
+                className="landing-photo-trigger h-gallery rounded-t-panel border-line bg-bg hover:bg-bg hover:text-ink relative w-full cursor-zoom-in overflow-hidden rounded-b-none border-0 border-b p-0 transition-none"
               />
             }
           >
@@ -69,7 +69,7 @@ export function CategoryPhotoGallery({
             />
             <span
               aria-hidden="true"
-              className="rounded-control border-line bg-surface text-ink absolute right-3 bottom-3 grid size-9 cursor-pointer place-items-center border"
+              className="landing-photo-expand rounded-control border-line bg-surface text-ink absolute right-3 bottom-3 grid size-9 cursor-pointer place-items-center border"
             >
               <Maximize2 />
             </span>
@@ -81,7 +81,7 @@ export function CategoryPhotoGallery({
                 variant="outline"
                 size="icon-lg"
                 aria-label="Предыдущее фото в карточке"
-                className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink absolute top-1/2 left-3 size-11 -translate-y-1/2 transition-none"
+                className="landing-control rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink absolute inset-y-0 left-3 z-10 my-auto size-11 transition-none"
                 onClick={() => {
                   cardTrack.current?.step(-1);
                 }}
@@ -93,7 +93,7 @@ export function CategoryPhotoGallery({
                 variant="outline"
                 size="icon-lg"
                 aria-label="Следующее фото в карточке"
-                className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink absolute top-1/2 right-3 size-11 -translate-y-1/2 transition-none"
+                className="landing-control rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink absolute inset-y-0 right-3 z-10 my-auto size-11 transition-none"
                 onClick={() => {
                   cardTrack.current?.step(1);
                 }}
@@ -113,7 +113,7 @@ export function CategoryPhotoGallery({
                   variant="outline"
                   aria-label={`Показать фото ${String(photoIndex + 1)}`}
                   aria-pressed={activeIndex === photoIndex}
-                  className="rounded-control border-line bg-bg aria-pressed:border-ink aria-pressed:ring-ink relative aspect-[4/3] h-auto w-20 overflow-hidden p-0 transition-none aria-pressed:ring-1"
+                  className="landing-control rounded-control border-line bg-bg aria-pressed:border-ink aria-pressed:ring-ink relative aspect-[4/3] h-auto w-20 overflow-hidden p-0 transition-none aria-pressed:ring-1"
                   onClick={() => {
                     setIndex(photoIndex);
                   }}
@@ -140,7 +140,7 @@ export function CategoryPhotoGallery({
       <SheetContent
         side="bottom"
         showCloseButton={false}
-        className="landing-dialog bg-ink text-surface top-0 grid grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] px-3 shadow-none transition-opacity data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 motion-reduce:transition-none sm:px-5"
+        className="landing-dialog bg-ink text-surface top-0 grid grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] px-3 shadow-none data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 sm:px-5"
         onKeyDown={handleArrowKeys}
         onClick={(event) => {
           if (event.target === event.currentTarget) setOpen(false);
@@ -156,7 +156,7 @@ export function CategoryPhotoGallery({
               <Button
                 variant="secondary"
                 size="icon-lg"
-                className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
+                className="landing-control rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
               />
             }
           >
@@ -177,7 +177,7 @@ export function CategoryPhotoGallery({
               variant="secondary"
               size="icon-lg"
               aria-label="Предыдущее фото"
-              className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
+              className="landing-control rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
               onClick={() => {
                 fullscreenTrack.current?.step(-1);
               }}
@@ -191,7 +191,7 @@ export function CategoryPhotoGallery({
               variant="secondary"
               size="icon-lg"
               aria-label="Следующее фото"
-              className="rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
+              className="landing-control rounded-control border-line bg-surface text-ink hover:bg-amber-accent hover:text-ink pointer-events-auto size-11 cursor-pointer transition-none"
               onClick={() => {
                 fullscreenTrack.current?.step(1);
               }}

@@ -8,7 +8,7 @@ const steps = [
         Оставьте заявку,{' '}
         <a
           href="#contacts"
-          className="decoration-amber-accent underline underline-offset-4 hover:decoration-current"
+          className="landing-link decoration-amber-accent underline underline-offset-4 hover:decoration-current"
         >
           напишите или позвоните
         </a>

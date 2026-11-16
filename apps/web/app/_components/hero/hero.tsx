@@ -48,7 +48,7 @@ function ProductLinks({ categories = [] }: { categories?: Category[] }) {
           <li key={product}>
             <a
               href={id === undefined ? fallback : `#category-${id}`}
-              className="rounded-chip border-ink hover:bg-ink hover:text-surface inline-flex min-h-8 items-center border px-2.5 py-1 text-sm font-medium"
+              className="landing-control rounded-chip border-ink hover:bg-ink hover:text-surface inline-flex min-h-8 items-center border px-2.5 py-1 text-sm font-medium"
             >
               {product}
             </a>
