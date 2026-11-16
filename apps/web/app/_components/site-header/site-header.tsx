@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { operator } from '@/lib/legal';
 import { getContacts, getPhoneHref } from '../../_lib/contacts/contacts';
 import { accentAction, wrap } from '../landing-styles';
 import { HeaderNav } from './components/header-nav';
@@ -34,7 +35,7 @@ export function SiteHeader() {
             aria-hidden="true"
             className="size-brand-mark bg-landing-accent shrink-0"
           />
-          Название компании
+          {operator.name}
         </a>
         <HeaderNav />
         <div className="landing:flex hidden items-center justify-end gap-4">

@@ -11,16 +11,14 @@ export function OperatorRequisites() {
   ].filter((row) => row.value !== '');
 
   return (
-    <dl className="border-t border-zinc-300">
+    <dl className="rounded-panel border-line divide-line bg-bg divide-y border px-4">
       {rows.map((row) => (
         <div
           key={row.label}
-          className="grid grid-cols-[200px_minmax(0,1fr)] gap-4 border-b border-zinc-300 py-2.5 max-[700px]:grid-cols-1 max-[700px]:gap-0.5"
+          className="grid gap-1 py-3 text-sm sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-4"
         >
-          <dt className="text-[length:calc(13px*var(--text-scale))] font-semibold text-zinc-900">
-            {row.label}
-          </dt>
-          <dd className="text-[length:calc(14px*var(--text-scale))]">
+          <dt className="text-ink font-bold">{row.label}</dt>
+          <dd className="min-w-0 wrap-anywhere">
             {row.isEmail === true ? (
               <a href={`mailto:${row.value}`}>{row.value}</a>
             ) : (

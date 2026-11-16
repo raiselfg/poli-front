@@ -1,8 +1,20 @@
 import type { ReactNode } from 'react';
+import { cn } from '@workspace/ui/lib/utils';
 import { legalUpdatedAt } from '@/lib/legal';
+import { wrap } from '../../_components/landing-styles';
 
-export const legalProseClassName =
-  'mt-12 space-y-10 text-[length:calc(15px*var(--text-scale))] leading-[1.7] text-zinc-600 max-[700px]:mt-9 max-[700px]:space-y-8 max-[700px]:text-[length:calc(14px*var(--text-scale))] [&_section]:space-y-4 [&_h2]:text-[length:calc(20px*var(--text-scale))] [&_h2]:font-semibold [&_h2]:tracking-[-0.01em] [&_h2]:text-zinc-900 max-[700px]:[&_h2]:text-[length:calc(18px*var(--text-scale))] [&_h3]:text-[length:calc(16px*var(--text-scale))] [&_h3]:font-semibold [&_h3]:text-zinc-900 [&_a]:font-medium [&_a]:text-zinc-800 [&_a]:underline [&_a]:decoration-zinc-400 [&_a]:underline-offset-4 [&_a:hover]:decoration-zinc-800 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_strong]:font-semibold [&_strong]:text-zinc-900 [&_table]:w-full [&_table]:border-collapse [&_table]:text-[length:calc(13px*var(--text-scale))] [&_table]:leading-[1.55] [&_th]:border [&_th]:border-zinc-300 [&_th]:bg-zinc-100 [&_th]:px-3 [&_th]:py-2.5 [&_th]:text-left [&_th]:font-semibold [&_th]:text-zinc-900 [&_td]:border [&_td]:border-zinc-300 [&_td]:px-3 [&_td]:py-2.5 [&_td]:align-top';
+const documentLinks =
+  '[&_a]:text-landing-accent [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-ink';
+
+const legalProse = cn(
+  'rounded-panel border-line bg-surface text-ink-muted mt-5 border px-5 py-6 leading-relaxed wrap-anywhere sm:mt-7 sm:px-9 sm:py-8',
+  '[&>section+section]:border-line [&>section]:space-y-4 [&>section+section]:mt-6 [&>section+section]:border-t [&>section+section]:pt-6',
+  '[&_h2]:text-ink [&_h2]:tracking-heading [&_h2]:text-xl [&_h2]:leading-snug [&_h2]:font-extrabold sm:[&_h2]:text-2xl',
+  '[&_h3]:text-ink [&_h3]:text-lg [&_h3]:leading-snug [&_h3]:font-bold',
+  '[&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5',
+  '[&_li::marker]:text-landing-accent [&_strong]:text-ink [&_strong]:font-bold',
+  documentLinks
+);
 
 export function LegalDocument({
   title,
@@ -14,17 +26,23 @@ export function LegalDocument({
   children: ReactNode;
 }) {
   return (
-    <article className="mx-auto w-[min(100%-96px,820px)] py-[64px] max-[900px]:w-[min(100%-48px,820px)] max-[700px]:w-[calc(100%-36px)] max-[700px]:py-[44px]">
-      <p className="text-[length:calc(13px*var(--text-scale))] text-zinc-600">
-        Редакция от {legalUpdatedAt}
-      </p>
-      <h1 className="mt-4 text-[length:calc(clamp(32px,4.6vw,52px)*var(--text-scale))] leading-[1.05] font-medium tracking-[-0.035em] wrap-anywhere hyphens-auto text-zinc-900">
-        {title}
-      </h1>
-      <div className="mt-6 text-[length:calc(16px*var(--text-scale))] leading-[1.65] text-zinc-600 max-[700px]:text-[length:calc(15px*var(--text-scale))]">
-        {lead}
+    <article className={`${wrap} py-section`}>
+      <div className="mx-auto max-w-[50rem]">
+        <header className="rounded-panel border-line border-t-landing-accent from-surface to-landing-accent/8 border border-t-4 bg-linear-to-br px-5 py-6 sm:px-9 sm:py-9">
+          <p className="text-landing-accent font-mono text-xs font-bold">
+            Редакция от {legalUpdatedAt}
+          </p>
+          <h1 className="tracking-heading mt-4 text-[clamp(1.625rem,4.5vw,3rem)] leading-[1.1] font-extrabold text-balance wrap-anywhere">
+            {title}
+          </h1>
+          <div
+            className={`text-ink-muted mt-5 max-w-prose leading-relaxed ${documentLinks}`}
+          >
+            {lead}
+          </div>
+        </header>
+        <div className={legalProse}>{children}</div>
       </div>
-      <div className={legalProseClassName}>{children}</div>
     </article>
   );
 }
