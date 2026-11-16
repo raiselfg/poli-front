@@ -81,7 +81,7 @@ export function CategoryPhotoGallery({
                 variant="outline"
                 size="icon-lg"
                 aria-label="Предыдущее фото в карточке"
-                className="absolute top-1/2 left-3 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,translate] duration-100 active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none"
+                className="absolute top-1/2 left-3 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,translate] duration-100 active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden"
                 onClick={() => {
                   cardTrack.current?.step(-1);
                 }}
@@ -93,7 +93,7 @@ export function CategoryPhotoGallery({
                 variant="outline"
                 size="icon-lg"
                 aria-label="Следующее фото в карточке"
-                className="absolute top-1/2 right-3 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,translate] duration-100 active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none"
+                className="absolute top-1/2 right-3 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,translate] duration-100 active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden"
                 onClick={() => {
                   cardTrack.current?.step(1);
                 }}
@@ -177,7 +177,7 @@ export function CategoryPhotoGallery({
               variant="secondary"
               size="icon-lg"
               aria-label="Предыдущее фото"
-              className="pointer-events-auto size-11 cursor-pointer rounded-full"
+              className="pointer-events-auto size-11 cursor-pointer rounded-full pointer-coarse:hidden"
               onClick={() => {
                 fullscreenTrack.current?.step(-1);
               }}
@@ -191,7 +191,7 @@ export function CategoryPhotoGallery({
               variant="secondary"
               size="icon-lg"
               aria-label="Следующее фото"
-              className="pointer-events-auto size-11 cursor-pointer rounded-full"
+              className="pointer-events-auto size-11 cursor-pointer rounded-full pointer-coarse:hidden"
               onClick={() => {
                 fullscreenTrack.current?.step(1);
               }}

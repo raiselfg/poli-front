@@ -32,7 +32,7 @@ export function Request() {
   return (
     <section
       id="request"
-      className={`${wrap} grid scroll-mt-6 grid-cols-[0.9fr_1.1fr] gap-[12%] py-[150px] max-[900px]:gap-[7%] max-[700px]:grid-cols-1 max-[700px]:gap-[50px] max-[700px]:py-[95px]`}
+      className={`${wrap} grid scroll-mt-6 grid-cols-[0.9fr_1.1fr] gap-[12%] py-[150px] max-[900px]:gap-[7%] max-[700px]:grid-cols-1 max-[700px]:gap-8 max-[700px]:py-8`}
     >
       <div>
         <AnimatedCopy>

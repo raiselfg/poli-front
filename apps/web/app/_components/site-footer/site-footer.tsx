@@ -9,10 +9,13 @@ import { ContactsSkeleton } from "./components/contacts-skeleton";
 
 export function SiteFooter() {
   return (
-    <footer id="contacts" className="scroll-mt-6 pt-[85px] pb-[25px]">
+    <footer
+      id="contacts"
+      className="scroll-mt-6 pt-[85px] pb-[25px] max-[700px]:pt-6"
+    >
       <div className={wrap}>
         <h2 className={heading}>Контакты</h2>
-        <div className="mt-12 flex flex-col gap-8 pb-[70px] min-[900px]:flex-row min-[900px]:justify-between min-[900px]:gap-[50px] min-[900px]:pb-[100px]">
+        <div className="mt-12 flex flex-col gap-8 pb-[70px] max-[700px]:mt-8 max-[700px]:pb-8 min-[900px]:flex-row min-[900px]:justify-between min-[900px]:gap-[50px] min-[900px]:pb-[100px]">
           <Suspense fallback={null}>
             <ContactMap />
           </Suspense>

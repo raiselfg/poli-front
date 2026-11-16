@@ -10,7 +10,7 @@ export function Catalog() {
     <section
       id="catalog"
       aria-labelledby="catalog-title"
-      className="scroll-mt-6 bg-[linear-gradient(180deg,transparent,#71717a36_100px,#71717a36_calc(100%_-_120px),transparent)] pt-16 pb-24 max-[700px]:pt-10 max-[700px]:pb-14"
+      className="scroll-mt-6 bg-[linear-gradient(180deg,transparent,#71717a36_100px,#71717a36_calc(100%_-_120px),transparent)] pt-16 pb-24 max-[700px]:py-6"
     >
       <div className={wrap}>
         <div className="mb-6 flex items-end justify-between gap-x-8 gap-y-2 max-[900px]:flex-col max-[900px]:items-start">

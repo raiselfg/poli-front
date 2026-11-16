@@ -32,7 +32,7 @@ const facts = [
 export function Hero() {
   return (
     <section className={`${wrap} scroll-mt-6 pt-[22px]`} aria-labelledby="hero-title">
-      <div className="grid grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] items-center gap-x-[clamp(32px,5vw,72px)] gap-y-10 pt-10 pb-10 max-[900px]:grid-cols-1 max-[900px]:gap-y-8 max-[700px]:pt-3 max-[700px]:pb-8">
+      <div className="grid grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] items-center gap-x-[clamp(32px,5vw,72px)] gap-y-10 pt-10 pb-10 max-[900px]:grid-cols-1 max-[900px]:gap-y-8 max-[700px]:pt-3 max-[700px]:pb-6">
         <AnimatedCopy className="max-w-[620px]">
           <h1
             id="hero-title"
