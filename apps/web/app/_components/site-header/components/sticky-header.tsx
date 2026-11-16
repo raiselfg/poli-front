@@ -11,21 +11,19 @@ export function StickyHeader({
   className: string;
 }) {
   const { scrollY } = useScroll();
-  const [compact, setCompact] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useMotionValueEvent(scrollY, 'change', (position) => {
-    if (!compact && position >= 24) setCompact(true);
-    if (compact && position <= 8) setCompact(false);
+    if (!scrolled && position >= 24) setScrolled(true);
+    if (scrolled && position <= 8) setScrolled(false);
   });
 
   return (
     <div
-      data-compact={compact || undefined}
-      className="pointer-events-none sticky top-0 z-30 border-b border-transparent bg-transparent [--header-duration:420ms] data-compact:border-zinc-300 data-compact:bg-zinc-200 data-compact:[--header-duration:300ms] motion-safe:transition-[background-color,border-color] motion-safe:duration-[var(--header-duration)] motion-safe:ease-in-out"
+      data-scrolled={scrolled || undefined}
+      className="pointer-events-none sticky top-0 z-30 border-b border-transparent bg-transparent [--header-duration:420ms] data-scrolled:border-zinc-300 data-scrolled:bg-zinc-200 data-scrolled:[--header-duration:300ms] motion-safe:transition-[background-color,border-bottom-color] motion-safe:duration-[var(--header-duration)] motion-safe:ease-in-out"
     >
-      <header data-compact={compact || undefined} className={className}>
-        {children}
-      </header>
+      <header className={className}>{children}</header>
     </div>
   );
 }

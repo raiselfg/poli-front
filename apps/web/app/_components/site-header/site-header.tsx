@@ -5,7 +5,7 @@ import { StickyHeader } from "./components/sticky-header";
 
 export function SiteHeader() {
   return (
-    <StickyHeader className="pointer-events-auto mx-auto grid min-h-[78px] w-[min(100%-96px,1320px)] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 py-[18px] data-compact:min-h-[62px] data-compact:py-[11px] motion-safe:transition-[min-height,padding] motion-safe:duration-[var(--header-duration)] motion-safe:ease-in-out max-[900px]:w-[min(100%-48px,1320px)] max-[700px]:flex max-[700px]:min-h-[64px] max-[700px]:w-[calc(100%-36px)] max-[700px]:justify-between max-[700px]:gap-4 max-[700px]:py-2.5 max-[700px]:data-compact:min-h-[56px] max-[700px]:data-compact:py-2">
+    <StickyHeader className="pointer-events-auto mx-auto grid min-h-[78px] w-[min(100%-96px,1320px)] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 py-[18px] max-[900px]:w-[min(100%-48px,1320px)] max-[700px]:flex max-[700px]:min-h-[64px] max-[700px]:w-[calc(100%-36px)] max-[700px]:justify-between max-[700px]:gap-4 max-[700px]:py-2.5">
       <a
         href="#top"
         aria-label="На главную"
