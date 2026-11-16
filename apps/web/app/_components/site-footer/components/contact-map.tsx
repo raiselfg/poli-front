@@ -20,7 +20,7 @@ export function ContactMap({
   });
 
   return (
-    <div className="min-h-map relative min-w-0">
+    <div className="min-h-map relative w-full min-w-0 max-w-[730px] min-[900px]:min-h-90 min-[900px]:flex-1">
       <iframe
         title="Расположение производства на Яндекс Картах"
         src={`https://yandex.ru/map-widget/v1/?${mapParams.toString()}`}

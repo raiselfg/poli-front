@@ -33,6 +33,8 @@ export async function ContactDetails() {
       value: email,
       href: email !== '' ? `mailto:${email}` : undefined,
     },
+    { label: 'Адрес', value: contacts.address },
+    { label: 'Часы работы', value: hours },
     {
       label: 'Мессенджер',
       value: telegram !== '' ? 'Telegram' : '',
@@ -52,45 +54,29 @@ export async function ContactDetails() {
 
   return (
     <>
-      <address className="landing:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.5fr)] grid gap-8 not-italic">
-        <div>
-          <p className="tracking-heading mb-4 text-xl font-extrabold">
-            Название компании
-          </p>
-          <dl className="grid gap-4">
-            {contacts.address !== '' ? (
-              <div>
-                <dt className="text-ink-muted text-sm">Адрес</dt>
-                <dd className="mt-1 wrap-anywhere">{contacts.address}</dd>
-              </div>
-            ) : null}
-            {hours !== '' ? (
-              <div>
-                <dt className="text-ink-muted text-sm">Часы работы</dt>
-                <dd className="mt-1 font-mono text-sm wrap-anywhere">
-                  {hours}
-                </dd>
-              </div>
-            ) : null}
-          </dl>
-        </div>
-        <dl>
-          {contactRows.map(({ label, value, href }) =>
-            value !== '' ? (
-              <ContactRow
-                key={`${label}:${value}`}
-                label={label}
-                value={value}
-                href={href}
-              />
-            ) : null
-          )}
-        </dl>
+      <div className="flex flex-col gap-8 min-[900px]:flex-row min-[900px]:justify-between min-[900px]:gap-[50px]">
         <ContactMap
           latitude={contacts.latitude}
           longitude={contacts.longitude}
         />
-      </address>
+        <address className="w-full min-w-0 not-italic min-[900px]:max-w-[min(40%,480px)]">
+          <p className="tracking-heading mb-4 text-xl font-extrabold">
+            Название компании
+          </p>
+          <dl>
+            {contactRows.map(({ label, value, href }) =>
+              value !== '' ? (
+                <ContactRow
+                  key={`${label}:${value}`}
+                  label={label}
+                  value={value}
+                  href={href}
+                />
+              ) : null
+            )}
+          </dl>
+        </address>
+      </div>
       {shortcuts.length > 0 ? (
         <nav
           aria-label="Быстрая связь"
