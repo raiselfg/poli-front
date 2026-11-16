@@ -123,7 +123,7 @@ function ContactRow({
             href={href}
             target={external ? '_blank' : undefined}
             rel={external ? 'noopener noreferrer' : undefined}
-            className="decoration-amber-accent inline-flex max-w-full items-center gap-2 underline underline-offset-4 hover:decoration-current"
+            className="decoration-amber-accent flex w-full items-center justify-between gap-2 underline underline-offset-4 hover:decoration-current"
           >
             <span className="min-w-0">{value}</span>
             <ArrowUpRight size={14} className="shrink-0" aria-hidden="true" />
