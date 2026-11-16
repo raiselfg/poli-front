@@ -24,7 +24,7 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[86%] max-w-[360px] overflow-y-auto rounded-l-[28px] border-zinc-200 bg-zinc-50 text-zinc-900"
+        className="w-[86%] max-w-[360px] overflow-y-auto rounded-l-[28px] border-zinc-300 bg-zinc-200 text-zinc-900"
       >
         <SheetHeader className="px-6 pt-6 pb-2">
           <SheetTitle className="text-[length:calc(18px*var(--text-scale))] font-semibold text-zinc-900">

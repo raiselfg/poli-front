@@ -73,7 +73,7 @@ export function ScrollBackground() {
   const firstOpacity = useTransform(
     progress,
     stops,
-    [0.42, 0.98, 0.32, 0.94, 0.34, 0.9]
+    [0.66, 0.98, 0.32, 0.94, 0.34, 0.9]
   );
   const secondOpacity = useTransform(
     progress,
@@ -87,11 +87,11 @@ export function ScrollBackground() {
       aria-hidden="true"
     >
       <motion.div
-        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_32%_34%,#b1b1b8_0%,#d4d4d8_21%,#ededf0_38%,transparent_60%)]"
+        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_48%_44%_at_41%_39%,#fcfcfc_0%,#f0f0f0_21%,#e0e0e0_44%,transparent_74%)]"
         style={{ x: firstX, y: firstY, opacity: firstOpacity }}
       />
       <motion.div
-        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_at_70%_68%,#c1c1c8_0%,#dedee2_22%,#f4f4f5_39%,transparent_60%)]"
+        className="absolute -inset-[35%] bg-[radial-gradient(ellipse_48%_46%_at_59%_62%,#f8f8f8_0%,#ededed_22%,#dbdbdb_44%,transparent_74%)]"
         style={{ x: secondX, y: secondY, opacity: secondOpacity }}
       />
     </div>

@@ -4,7 +4,7 @@ import { wrap } from './_components/landing-styles';
 
 export default function Loading() {
   return (
-    <main className="overflow-hidden bg-[linear-gradient(160deg,#fff_0%,#fafafa_38%,#fff_68%,#f4f4f5_100%)] font-sans text-zinc-900">
+    <main className="overflow-hidden bg-[image:var(--page-background)] font-sans text-zinc-900">
       <div role="status" aria-label="Загружаем страницу">
         <span className="sr-only">Загружаем страницу…</span>
         <div aria-hidden="true">

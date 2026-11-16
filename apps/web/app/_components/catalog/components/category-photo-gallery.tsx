@@ -130,7 +130,7 @@ export function CategoryPhotoGallery({
             </div>
             <span
               role="status"
-              className="shrink-0 pr-1 text-xs text-zinc-600 tabular-nums"
+              className="shrink-0 pr-1 text-xs text-zinc-700 tabular-nums"
             >
               {position}
             </span>
