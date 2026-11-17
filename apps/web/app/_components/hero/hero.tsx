@@ -56,9 +56,6 @@ export function Hero() {
         className={`${wrap} landing:grid-cols-[1.25fr_1fr] landing:gap-12 grid items-center gap-8`}
       >
         <div className="min-w-0">
-          <p className="text-ink-muted mb-5 font-mono text-xs font-bold tracking-widest">
-            {'// ПРОИЗВОДСТВО · САНКТ-ПЕТЕРБУРГ'}
-          </p>
           <h1
             id="hero-title"
             className="text-hero tracking-heading leading-none font-extrabold wrap-anywhere"
