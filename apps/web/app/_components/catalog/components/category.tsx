@@ -49,11 +49,13 @@ export function Category({ category, index }: CategoryProps) {
           <p className="my-5 max-w-[310px] text-[length:calc(15px*var(--text-scale))] leading-[1.7] wrap-anywhere text-zinc-700 max-[700px]:my-[15px]">
             {category.description}
           </p>
-          <a
-            href="#request"
-            className={`${textLink} motion-safe:transition-[color,translate] motion-safe:ease-in-out motion-safe:hover:translate-x-2 motion-safe:focus-visible:translate-x-2`}
-          >
-            Рассчитать <ArrowUpRight size={18} />
+          <a href="#request" className={`${textLink} group/calculate`}>
+            Рассчитать
+            <ArrowUpRight
+              size={18}
+              aria-hidden="true"
+              className="motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-in-out motion-safe:group-hover/calculate:translate-x-0.75 motion-safe:group-focus-visible/calculate:translate-x-0.75"
+            />
           </a>
         </div>
       </div>

@@ -285,12 +285,16 @@ body:has(.landing) [data-slot='sheet-overlay'] {
   }
 
   .landing-control,
-  .landing-photo-expand {
-    transition: scale 220ms var(--landing-motion-ease);
-  }
-
-  .landing-link {
-    transition: opacity 220ms var(--landing-motion-ease);
+  .landing-link,
+  .landing-photo-trigger,
+  .landing-photo-expand,
+  .request-file-control,
+  .landing-dialog [data-slot='sheet-close'] {
+    transition-property:
+      background-color, border-color, color, opacity, scale,
+      text-decoration-color, translate;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
   }
 
   .landing-control:not(:disabled):active {
@@ -299,15 +303,15 @@ body:has(.landing) [data-slot='sheet-overlay'] {
 
   @media (hover: hover) {
     .landing-control:not(:disabled, :active):hover {
-      scale: 1.04;
+      scale: 1.015;
     }
 
     .landing-photo-trigger:hover .landing-photo-expand {
-      scale: 1.12;
+      scale: 1.06;
     }
 
     .landing-link:hover {
-      opacity: 0.8;
+      opacity: 0.9;
     }
   }
 
@@ -327,7 +331,10 @@ body:has(.landing) [data-slot='sheet-overlay'] {
     translate: none;
   }
 
+  .landing-control,
+  .landing-photo-trigger,
   .landing-dialog,
+  .landing-dialog [data-slot='sheet-close'],
   body:has(.landing) [data-slot='sheet-overlay'] {
     transition: none;
   }

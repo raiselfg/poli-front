@@ -15,7 +15,7 @@ import {
 } from './photo-navigation';
 
 const previewButtonClassName =
-  'absolute top-1/2 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,translate] duration-100 active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden';
+  'absolute top-1/2 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,border-color,color,translate] duration-300 ease-in-out active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden';
 
 export function CategoryPhotoGallery({
   images,
@@ -107,7 +107,7 @@ export function CategoryPhotoGallery({
                   variant="outline"
                   aria-label={`Показать фото ${String(photoIndex + 1)}`}
                   aria-pressed={activeIndex === photoIndex}
-                  className="aria-pressed:border-landing-accent aria-pressed:ring-landing-accent relative aspect-[4/3] h-auto w-20 overflow-hidden rounded-lg border-zinc-200 bg-zinc-100 p-0 aria-pressed:ring-1"
+                  className="aria-pressed:border-landing-accent aria-pressed:ring-landing-accent relative aspect-[4/3] h-auto w-20 overflow-hidden rounded-lg border-zinc-200 bg-zinc-100 p-0 transition-colors duration-300 ease-in-out aria-pressed:ring-1 motion-reduce:transition-none"
                   onClick={() => {
                     setIndex(photoIndex);
                   }}

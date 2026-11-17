@@ -25,12 +25,12 @@ export function Catalog() {
             href="#request"
             className={cn(
               buttonVariants(),
-              'group/custom-link bg-landing-accent text-surface relative isolate h-auto min-h-13 justify-between gap-4 overflow-hidden rounded-full py-1.5 pr-1.5 pl-4 text-sm font-semibold shadow-md shadow-zinc-900/20 transition-none hover:bg-zinc-950 hover:shadow-lg hover:shadow-zinc-900/25 focus-visible:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-700 focus-visible:outline-solid motion-safe:transition-[background-color,box-shadow]'
+              'group/custom-link bg-landing-accent text-surface relative isolate h-auto min-h-13 justify-between gap-4 overflow-hidden rounded-full py-1.5 pr-1.5 pl-4 text-sm font-semibold shadow-md shadow-zinc-900/20 transition-none hover:bg-zinc-950 hover:shadow-lg hover:shadow-zinc-900/25 focus-visible:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-700 focus-visible:outline-solid motion-safe:transition-[background-color,box-shadow] motion-safe:duration-300 motion-safe:ease-in-out'
             )}
           >
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-0 -z-10 w-1/2 -translate-x-[130%] -skew-x-12 bg-linear-to-r from-transparent via-white/20 to-transparent duration-500 ease-out group-hover/custom-link:translate-x-[230%] group-focus-visible/custom-link:translate-x-[230%] motion-safe:group-hover/custom-link:transition-transform motion-safe:group-focus-visible/custom-link:transition-transform motion-reduce:hidden"
+              className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-br from-white/12 to-transparent opacity-0 group-hover/custom-link:opacity-100 group-focus-visible/custom-link:opacity-100 motion-safe:transition-opacity motion-safe:duration-300 motion-safe:ease-in-out motion-reduce:hidden"
             />
             Изготовление на заказ
             <span

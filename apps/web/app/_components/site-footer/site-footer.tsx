@@ -27,7 +27,7 @@ export function SiteFooter() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-landing-accent focus-visible:text-landing-accent transition-colors"
+                className="hover:text-landing-accent focus-visible:text-landing-accent motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-in-out"
               >
                 {link.label}
               </Link>

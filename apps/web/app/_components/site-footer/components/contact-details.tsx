@@ -114,14 +114,14 @@ function ContactRow({
 }) {
   const row = (
     <>
-      <span className="text-landing-accent grid size-10 shrink-0 place-items-center rounded-full bg-white/50 transition-colors duration-300 group-hover:bg-white/80 group-focus-visible:bg-white/80">
+      <span className="text-landing-accent grid size-10 shrink-0 place-items-center rounded-full bg-white/50 group-hover:bg-white/80 group-focus-visible:bg-white/80 motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-in-out">
         <Icon size={18} aria-hidden="true" />
       </span>
       <span className="min-w-0">
         <span className="block text-xs font-semibold text-zinc-600">
           {label}
         </span>
-        <span className="decoration-landing-accent block text-base leading-snug font-bold wrap-anywhere underline-offset-4 group-hover:underline group-focus-visible:underline">
+        <span className="group-hover:decoration-landing-accent group-focus-visible:decoration-landing-accent block text-base leading-snug font-bold wrap-anywhere underline decoration-transparent underline-offset-4 motion-safe:transition-[text-decoration-color] motion-safe:duration-300 motion-safe:ease-in-out">
           {value}
         </span>
       </span>
