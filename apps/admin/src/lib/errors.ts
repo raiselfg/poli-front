@@ -1,4 +1,5 @@
 import { FetchError } from 'ofetch';
+import type { CSSProperties } from 'react';
 import { toast } from 'sonner';
 
 export function errorMessage(error: unknown) {
@@ -16,14 +17,18 @@ export function errorMessage(error: unknown) {
   return 'Не удалось выполнить запрос. Попробуйте ещё раз.';
 }
 
-export function notifyLoadError(error: unknown) {
-  const description = errorMessage(error);
-  toast.error('Не удалось загрузить данные', {
+export function notifyError(title: string, description?: string) {
+  toast.error(title, {
     description,
-    id: `load-error:${description}`,
+    id: `error:${title}:${description ?? ''}`,
+    richColors: true,
+    style: {
+      '--error-text':
+        'color-mix(in srgb, var(--destructive) 85%, var(--foreground))',
+    } as CSSProperties,
   });
 }
 
-export function notifyInvalidForm() {
-  toast.error('Исправьте ошибки в форме', { id: 'invalid-form' });
+export function notifyInvalidForm(title: string) {
+  notifyError(title, 'Исправьте ошибки в форме.');
 }

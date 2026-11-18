@@ -7,6 +7,7 @@ const requestListSchema = z.array(requestSchema);
 
 export const requestsQuery = queryOptions({
   queryKey: ['requests'],
+  meta: { errorTitle: 'Не удалось загрузить заявки' },
   queryFn: async ({ signal }) =>
     requestListSchema.parse(await api('/admin/requests', { signal })),
 });
@@ -14,6 +15,7 @@ export const requestsQuery = queryOptions({
 export function requestQuery(id: string) {
   return queryOptions({
     queryKey: [...requestsQuery.queryKey, id],
+    meta: { errorTitle: 'Не удалось загрузить заявку' },
     queryFn: async ({ signal }) =>
       requestDetailSchema.parse(await api(`/admin/requests/${id}`, { signal })),
   });
@@ -34,6 +36,7 @@ export function fetchRequestFile(
 export function requestFileQuery(requestId: string, fileId: string) {
   return queryOptions({
     queryKey: ['request-file', requestId, fileId],
+    meta: { errorTitle: 'Не удалось загрузить предпросмотр вложения' },
     queryFn: ({ signal }) => fetchRequestFile(requestId, fileId, signal),
   });
 }

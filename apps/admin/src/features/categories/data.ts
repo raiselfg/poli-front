@@ -22,6 +22,7 @@ export type CategoryImageDraft = {
 
 export const categoriesQuery = queryOptions({
   queryKey: ['categories'],
+  meta: { errorTitle: 'Не удалось загрузить категории' },
   queryFn: async ({ signal }) =>
     categoryListSchema.parse(await api('/admin/categories', { signal })),
 });
@@ -29,6 +30,7 @@ export const categoriesQuery = queryOptions({
 export function categoryQuery(id: string) {
   return queryOptions({
     queryKey: [...categoriesQuery.queryKey, id],
+    meta: { errorTitle: 'Не удалось загрузить категорию' },
     queryFn: async ({ signal }) =>
       categorySchema.parse(await api(`/admin/categories/${id}`, { signal })),
   });

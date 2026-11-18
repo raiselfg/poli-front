@@ -3,7 +3,7 @@ import { FetchError } from 'ofetch';
 import { QueryState } from '@/components/query-state';
 import { AdminLayout } from '@/components/admin-layout';
 import { api, userSchema } from '@/lib/api';
-import { notifyLoadError } from '@/lib/errors';
+import { errorMessage, notifyError } from '@/lib/errors';
 export const Route = createFileRoute('/_admin')({
   beforeLoad: async () => {
     try {
@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_admin')({
     } catch (error) {
       if (error instanceof FetchError && error.statusCode === 401)
         throw redirect({ to: '/auth/login' });
-      notifyLoadError(error);
+      notifyError('Не удалось проверить сессию', errorMessage(error));
       throw error;
     }
   },

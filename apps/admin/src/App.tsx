@@ -7,7 +7,7 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { useTheme } from '@/components/theme-provider';
-import { notifyLoadError } from '@/lib/errors';
+import { errorMessage, notifyError } from '@/lib/errors';
 import { categoriesQuery } from './features/categories/data';
 import { contactsQuery } from './features/contacts/data';
 import { requestsQuery } from './features/requests/data';
@@ -15,7 +15,15 @@ import { routeTree } from './routeTree.gen';
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient({
-  queryCache: new QueryCache({ onError: notifyLoadError }),
+  queryCache: new QueryCache({
+    onError: (error, query) => {
+      const title = query.meta?.errorTitle;
+      notifyError(
+        typeof title === 'string' ? title : 'Не удалось загрузить данные',
+        errorMessage(error)
+      );
+    },
+  }),
   defaultOptions: { queries: { retry: false } },
 });
 

@@ -11,6 +11,7 @@ import {
 import { toast } from 'sonner';
 import { LoginForm } from './login-form';
 import { api, userSchema } from '@/lib/api';
+import { notifyError } from '@/lib/errors';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -25,7 +26,8 @@ export function LoginPage() {
       toast.success('Вход выполнен');
       await navigate({ to: '/' });
     } catch (error) {
-      toast.error(
+      notifyError(
+        'Не удалось войти',
         error instanceof FetchError && error.statusCode === 401
           ? 'Неверный логин или пароль.'
           : 'Не удалось связаться с сервером. Попробуйте ещё раз.'

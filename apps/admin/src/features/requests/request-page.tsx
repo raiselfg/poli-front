@@ -20,7 +20,7 @@ import { toast } from 'sonner';
 import { QueryState } from '@/components/query-state';
 import { categoriesQuery } from '@/features/categories/data';
 import { date } from '@/lib/date';
-import { errorMessage } from '@/lib/errors';
+import { errorMessage, notifyError } from '@/lib/errors';
 import { requestQuery, requestsQuery, updateRequestStatus } from './data';
 import { RequestAttachment } from './request-attachment';
 import { statusLabels } from './request-constants';
@@ -70,7 +70,7 @@ export function RequestPage({ requestId }: { requestId: string }) {
     onError: (error, _, snapshot) => {
       client.setQueryData(detail.queryKey, snapshot?.previous);
       if (snapshot?.previousStatus) updateList(snapshot.previousStatus);
-      toast.error(errorMessage(error));
+      notifyError('Не удалось обновить статус заявки', errorMessage(error));
     },
     onSettled: () => client.invalidateQueries({ queryKey }),
   });

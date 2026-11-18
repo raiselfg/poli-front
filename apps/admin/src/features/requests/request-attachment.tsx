@@ -1,9 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Paperclip } from 'lucide-react';
-import { toast } from 'sonner';
 import { Button } from '@workspace/ui/components/button';
 import { QueryState } from '@/components/query-state';
-import { errorMessage } from '@/lib/errors';
+import { errorMessage, notifyError } from '@/lib/errors';
 import { fetchRequestFile, requestFileQuery } from './data';
 import { RequestImagePreview } from './request-image-preview';
 import type { RequestFile } from './schemas';
@@ -37,7 +36,7 @@ export function RequestAttachment({
       link.click();
       URL.revokeObjectURL(url);
     } catch (error) {
-      toast.error(errorMessage(error));
+      notifyError('Не удалось скачать вложение', errorMessage(error));
     }
   }
 

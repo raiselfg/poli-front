@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Maximize2, X } from 'lucide-react';
-import { toast } from 'sonner';
 import { Button } from '@workspace/ui/components/button';
 import {
   Sheet,
@@ -9,6 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@workspace/ui/components/sheet';
+import { notifyError } from '@/lib/errors';
 
 const previewError = 'Не удалось показать изображение.';
 
@@ -44,7 +44,7 @@ export function RequestImagePreview({ file }: { file: Blob }) {
           className="max-h-112 max-w-full rounded-md object-contain"
           onError={() => {
             setFailedFile(file);
-            toast.error(previewError, { id: 'request-image-preview-error' });
+            notifyError(previewError);
           }}
         />
         <span

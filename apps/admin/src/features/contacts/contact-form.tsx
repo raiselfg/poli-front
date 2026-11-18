@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { api } from '@/lib/api';
-import { errorMessage, notifyInvalidForm } from '@/lib/errors';
+import { errorMessage, notifyError, notifyInvalidForm } from '@/lib/errors';
 import { contactsQuery } from './data';
 import { contactsSchema } from './schemas';
 import {
@@ -19,6 +19,8 @@ import {
   type ContactFormValues,
 } from './contacts-form-schema';
 import { contactFieldLabels } from './contacts-constants';
+
+const saveErrorTitle = 'Не удалось сохранить контакты';
 
 function contactBody(values: ContactFormValues) {
   return {
@@ -74,18 +76,21 @@ export function ContactForm({
     },
     onError: (error, _, previous) => {
       client.setQueryData(queryKey, previous);
-      toast.error(errorMessage(error));
+      notifyError(saveErrorTitle, errorMessage(error));
     },
     onSettled: () => client.invalidateQueries({ queryKey }),
   });
   return (
     <form
       className="grid grid-cols-1 gap-5 sm:grid-cols-2"
-      onSubmit={form.handleSubmit((values) => {
-        if (!client.isMutating({ mutationKey: queryKey })) {
-          mutation.mutate(contactBody(values));
-        }
-      }, notifyInvalidForm)}
+      onSubmit={form.handleSubmit(
+        (values) => {
+          if (!client.isMutating({ mutationKey: queryKey })) {
+            mutation.mutate(contactBody(values));
+          }
+        },
+        () => notifyInvalidForm(saveErrorTitle)
+      )}
       noValidate
     >
       {(Object.keys(contactFieldLabels) as (keyof ContactFormValues)[]).map(

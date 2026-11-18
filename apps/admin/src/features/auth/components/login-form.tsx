@@ -26,7 +26,12 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSuccess, notifyInvalidForm)} noValidate>
+    <form
+      onSubmit={handleSubmit(onSuccess, () =>
+        notifyInvalidForm('Не удалось войти')
+      )}
+      noValidate
+    >
       <FieldGroup>
         <Field data-invalid={!!errors.login} className="gap-2">
           <FieldLabel htmlFor="login">

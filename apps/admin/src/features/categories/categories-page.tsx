@@ -20,7 +20,7 @@ import {
 import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { api } from '@/lib/api';
-import { errorMessage } from '@/lib/errors';
+import { errorMessage, notifyError } from '@/lib/errors';
 import { QueryState } from '@/components/query-state';
 import { requestsQuery } from '@/features/requests/data';
 import { categoriesQuery, categoryQuery, pendingCategoryId } from './data';
@@ -44,13 +44,8 @@ export function Categories() {
     return { previous };
   }
 
-  function rollback(
-    error: Error,
-    _: unknown,
-    snapshot?: { previous: Category[] | undefined }
-  ) {
+  function rollback(snapshot?: { previous: Category[] | undefined }) {
     client.setQueryData(queryKey, snapshot?.previous);
-    toast.error(errorMessage(error));
   }
 
   const order = useMutation({
@@ -61,7 +56,10 @@ export function Categories() {
         body: { ids: items.map((item) => item.id) },
       }),
     onMutate: (items) => optimisticList(() => items),
-    onError: rollback,
+    onError: (error, _, snapshot) => {
+      rollback(snapshot);
+      notifyError('Не удалось изменить порядок категорий', errorMessage(error));
+    },
     onSettled: refresh,
   });
   const remove = useMutation({
@@ -77,7 +75,10 @@ export function Categories() {
         exact: true,
       });
     },
-    onError: rollback,
+    onError: (error, _, snapshot) => {
+      rollback(snapshot);
+      notifyError('Не удалось удалить категорию', errorMessage(error));
+    },
     onSettled: () => {
       const requestKey = requestsQuery.queryKey;
       return Promise.all([

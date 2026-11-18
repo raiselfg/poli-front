@@ -15,7 +15,7 @@ import { FetchError } from 'ofetch';
 import { useEffect, useRef } from 'react';
 import { Controller, useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
-import { errorMessage, notifyInvalidForm } from '@/lib/errors';
+import { errorMessage, notifyError, notifyInvalidForm } from '@/lib/errors';
 import { CategoryHelp } from './category-help';
 import { CategoryImages } from './category-images';
 import {
@@ -54,6 +54,9 @@ export function CategoryForm({ category }: { category?: Category }) {
   const client = useQueryClient();
   const { queryKey } = categoriesQuery;
   const categoryId = category?.id;
+  const saveErrorTitle = categoryId
+    ? 'Не удалось сохранить категорию'
+    : 'Не удалось создать категорию';
   const detailKey = categoryQuery(categoryId ?? pendingCategoryId).queryKey;
   const busy = useIsMutating({ mutationKey: queryKey }) > 0;
   const refresh = () => client.invalidateQueries({ queryKey });
@@ -113,7 +116,8 @@ export function CategoryForm({ category }: { category?: Category }) {
       toast.success('Изображение добавлено');
     },
     onError: (error) =>
-      toast.error(
+      notifyError(
+        'Не удалось загрузить изображение',
         error instanceof Error && !(error.name === 'FetchError')
           ? error.message
           : errorMessage(error)
@@ -157,7 +161,8 @@ export function CategoryForm({ category }: { category?: Category }) {
           shouldValidate: true,
         });
       }
-      toast.error(
+      notifyError(
+        'Не удалось удалить фото',
         error instanceof FetchError && error.statusCode === 409
           ? 'Фото используется в другом месте. Сначала уберите его оттуда.'
           : errorMessage(error)
@@ -220,7 +225,7 @@ export function CategoryForm({ category }: { category?: Category }) {
     },
     onError: (error, _, snapshot) => {
       restoreCategories(snapshot);
-      toast.error(errorMessage(error));
+      notifyError(saveErrorTitle, errorMessage(error));
     },
     onSettled: refresh,
   });
@@ -250,10 +255,13 @@ export function CategoryForm({ category }: { category?: Category }) {
       </div>
       <form
         className="space-y-6"
-        onSubmit={form.handleSubmit((values) => {
-          if (!client.isMutating({ mutationKey: queryKey }))
-            save.mutate(values);
-        }, notifyInvalidForm)}
+        onSubmit={form.handleSubmit(
+          (values) => {
+            if (!client.isMutating({ mutationKey: queryKey }))
+              save.mutate(values);
+          },
+          () => notifyInvalidForm(saveErrorTitle)
+        )}
         noValidate
       >
         <Field data-invalid={!!errors.title}>

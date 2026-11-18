@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { UploadCloud } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
-import { toast } from 'sonner';
 import { Button } from '@workspace/ui/components/button';
 import { Field, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
+import { notifyError } from '@/lib/errors';
 import { imageSizeError, maxImageSize, type CategoryImageDraft } from './data';
 
 export type CategoryImageUploadProps = {
@@ -43,7 +43,8 @@ export function CategoryImageUpload({
     onDrop: (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles.length) {
         const code = rejectedFiles[0]?.errors[0]?.code;
-        toast.error(
+        notifyError(
+          'Не удалось добавить изображение',
           code === 'file-too-large'
             ? imageSizeError
             : code === 'too-many-files'
