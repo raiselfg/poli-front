@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { unstable_rethrow } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
-import { operator } from '@/lib/legal';
+import { BrandLogo } from '@/components/brand-logo';
 import { getContacts, getPhoneHref } from '../../_lib/contacts/contacts';
 import { accentAction, wrap } from '../landing-styles';
 import { HeaderNav } from './components/header-nav';
@@ -31,15 +31,8 @@ export function SiteHeader() {
       <div
         className={`${wrap} min-h-header landing:grid landing:grid-cols-[1fr_auto_1fr] flex items-center justify-between gap-4`}
       >
-        <a
-          href="#top"
-          className="tracking-heading flex items-center gap-2.5 justify-self-start font-extrabold"
-        >
-          <span
-            aria-hidden="true"
-            className="size-brand-mark bg-landing-accent shrink-0"
-          />
-          {operator.name}
+        <a href="#top" className="justify-self-start">
+          <BrandLogo />
         </a>
         <HeaderNav />
         <div className="landing:flex hidden items-center justify-end gap-4">

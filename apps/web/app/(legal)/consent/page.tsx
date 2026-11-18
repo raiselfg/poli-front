@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { brandName } from '@/lib/brand';
 import { operator } from '@/lib/legal';
 import { LegalDocument } from '../_components/legal-document';
 import { OperatorRequisites } from '../_components/operator-requisites';
@@ -17,7 +18,7 @@ export default function ConsentPage() {
       lead={
         <p>
           Этот текст — согласие, которое вы даёте, отмечая соответствующий пункт
-          в форме заявки на сайте {operator.name} (далее — Сайт). Согласие
+          в форме заявки на сайте «{brandName}» (далее — Сайт). Согласие
           является конкретным, предметным, информированным, сознательным и
           однозначным (ч. 1 ст. 9 Федерального закона от 27.07.2006 № 152-ФЗ «О
           персональных данных»).

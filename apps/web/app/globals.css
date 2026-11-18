@@ -29,7 +29,6 @@
   --spacing-section: var(--landing-section-space);
   --spacing-header: var(--landing-header-height);
   --spacing-submit: 3.375rem;
-  --spacing-brand-mark: 0.875rem;
   --spacing-order-form: 32.5rem;
   --spacing-map: 18.75rem;
   --container-landing: 82.5rem;
@@ -168,6 +167,84 @@
 
 .toaster [data-sonner-toast][data-styled='true'] {
   font-size: calc(13px * var(--text-scale));
+}
+
+.toaster [data-sonner-toast].request-success-toast {
+  min-height: 70px;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #28726d;
+  border-radius: var(--landing-panel-radius);
+  background: var(--landing-accent);
+  box-shadow: 0 5px 18px rgb(22 45 41 / 22%);
+  font-family: var(--font-inter), sans-serif;
+}
+
+.toaster [data-sonner-toast].request-success-toast [data-icon] {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  justify-content: center;
+  border-radius: var(--landing-control-radius);
+  background: #e8f5f2;
+  color: #206762;
+}
+
+.toaster [data-sonner-toast].request-success-toast [data-icon] svg {
+  margin: 0;
+}
+
+.toaster [data-sonner-toast].request-success-toast [data-title] {
+  color: var(--landing-surface);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+}
+
+.toaster [data-sonner-toast].request-success-toast [data-description] {
+  color: var(--landing-surface);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.toaster [data-sonner-toast].request-success-toast [data-content] {
+  gap: 4px;
+}
+
+.toaster
+  [data-sonner-toast][data-styled='true'].request-success-toast
+  [data-close-button] {
+  position: static;
+  order: 1;
+  align-self: flex-start;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--landing-surface);
+  transform: none;
+}
+
+.toaster
+  [data-sonner-toast][data-styled='true'].request-success-toast
+  [data-close-button]:hover {
+  background: rgb(255 255 255 / 14%);
+}
+
+.toaster
+  [data-sonner-toast][data-styled='true'].request-success-toast
+  [data-close-button]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.toaster [data-sonner-toast].request-success-toast [data-close-button] svg {
+  width: 15px;
+  height: 15px;
 }
 
 :root {

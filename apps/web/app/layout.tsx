@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Nunito_Sans } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@workspace/ui/components/sonner';
+import { brandName } from '@/lib/brand';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin', 'cyrillic'],
@@ -21,7 +22,10 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Полиуретановые изделия на заказ в Санкт-Петербурге',
+  title: {
+    default: `Полиуретановые изделия на заказ в Санкт-Петербурге | ${brandName}`,
+    template: `%s | ${brandName}`,
+  },
   description:
     'Втулки, отбойники, демпферы, манжеты и детали по чертежам. Производство изделий из полиуретана в Санкт-Петербурге по чертежу, ТЗ или фото.',
 };
@@ -34,7 +38,13 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body className="flex min-h-full flex-col">
         {children}
-        <Toaster duration={5000} />
+        <Toaster
+          duration={5000}
+          toastOptions={{
+            classNames: { toast: 'cn-toast' },
+            closeButtonAriaLabel: 'Закрыть уведомление',
+          }}
+        />
       </body>
     </html>
   );

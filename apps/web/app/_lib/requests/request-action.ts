@@ -21,7 +21,11 @@ export async function submitRequest(formData: FormData) {
 
   try {
     await createRequest(parsed.data);
-    return { ok: true, message: 'Заявка отправлена. Мы свяжемся с вами.' };
+    return {
+      ok: true,
+      message: 'Заявка отправлена',
+      description: 'Мы свяжемся с вами.',
+    };
   } catch (error) {
     if (error instanceof FetchError && error.statusCode === 413)
       return {

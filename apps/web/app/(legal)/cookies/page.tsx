@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { operator } from '@/lib/legal';
+import { brandName } from '@/lib/brand';
 import { LegalDocument } from '../_components/legal-document';
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function CookiesPage() {
       title="Политика использования cookie"
       lead={
         <p>
-          Эта политика описывает, как сайт {operator.name} (далее — Сайт)
+          Эта политика описывает, как сайт «{brandName}» (далее — Сайт)
           относится к файлам cookie и схожим технологиям. Политика является
           частью{' '}
           <Link href="/privacy">политики обработки персональных данных</Link>.

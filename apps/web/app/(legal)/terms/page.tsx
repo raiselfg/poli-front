@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { operator } from '@/lib/legal';
+import { brandName } from '@/lib/brand';
 import { LegalDocument } from '../_components/legal-document';
 import { OperatorRequisites } from '../_components/operator-requisites';
 
@@ -16,7 +16,7 @@ export default function TermsPage() {
       title="Пользовательское соглашение"
       lead={
         <p>
-          Настоящее соглашение регулирует использование сайта {operator.name}{' '}
+          Настоящее соглашение регулирует использование сайта «{brandName}»
           (далее — Сайт). Начиная работу с Сайтом — просматривая страницы,
           отправляя заявку или скачивая материалы, — вы принимаете условия
           соглашения. Если вы не согласны с ними, пожалуйста, не используйте

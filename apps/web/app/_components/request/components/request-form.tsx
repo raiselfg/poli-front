@@ -12,6 +12,7 @@ import {
   FieldLegend,
   FieldSet,
 } from '@workspace/ui/components/field';
+import { toast } from '@workspace/ui/components/sonner';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { submitRequest } from '../../../_lib/requests/request-action';
 import type { RequestInput } from '../../../_lib/requests/request-schema';
@@ -44,10 +45,7 @@ export function RequestForm() {
     reValidateMode: 'onChange',
     defaultValues: { name: '', phone: '+7', comment: '', consent: false },
   });
-  const [submission, setSubmission] = useState<{
-    ok: boolean;
-    message: string;
-  } | null>(null);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   async function onSubmit(values: RequestInput) {
     const body = new FormData();
@@ -58,14 +56,23 @@ export function RequestForm() {
     if (values.file !== undefined) body.set('file', values.file);
     try {
       const response = await submitRequest(body);
-      if (response.ok) reset();
-      setSubmission(response);
-    } catch {
-      setSubmission({
-        ok: false,
-        message:
-          'Не удалось отправить заявку. Попробуйте ещё раз или позвоните по номеру из раздела «Контакты».',
+      if (!response.ok) {
+        setSubmissionError(response.message);
+        return;
+      }
+
+      reset();
+      toast.success(response.message, {
+        description: response.description,
+        position: 'top-center',
+        className: 'request-success-toast',
+        icon: <Check size={22} aria-hidden="true" />,
+        closeButton: true,
       });
+    } catch {
+      setSubmissionError(
+        'Не удалось отправить заявку. Попробуйте ещё раз или позвоните по номеру из раздела «Контакты».'
+      );
     }
   }
 
@@ -73,7 +80,7 @@ export function RequestForm() {
     <form
       noValidate
       onSubmit={(event) => {
-        setSubmission(null);
+        setSubmissionError(null);
         void handleSubmit(onSubmit)(event);
       }}
       className="rounded-panel border-line bg-surface text-ink min-w-0 border p-5 sm:p-8"
@@ -118,22 +125,14 @@ export function RequestForm() {
           {isSubmitting ? 'Отправляем…' : 'Отправить заявку'}
           <ArrowUpRight aria-hidden="true" />
         </Button>
-        {submission?.ok === false && (
+        {submissionError !== null && (
           <FieldError
             role="alert"
             className="text-field-error mt-4 text-sm leading-relaxed"
           >
-            {submission.message}
+            {submissionError}
           </FieldError>
         )}
-        <div role="status">
-          {submission?.ok === true && (
-            <p className="rounded-control border-line bg-bg mt-4 flex items-start gap-3 border p-4 font-medium">
-              <Check className="size-5 shrink-0" aria-hidden="true" />
-              {submission.message}
-            </p>
-          )}
-        </div>
       </div>
     </form>
   );

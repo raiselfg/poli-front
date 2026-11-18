@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { operator } from '@/lib/legal';
+import { BrandLogo } from '@/components/brand-logo';
+import { brandName } from '@/lib/brand';
 import { accentAction, wrap } from '../../_components/landing-styles';
 
 export function LegalHeader() {
@@ -11,14 +12,10 @@ export function LegalHeader() {
       >
         <Link
           href="/"
-          aria-label={`${operator.name} — на главную`}
-          className="landing-link tracking-heading flex min-w-0 items-center gap-2.5 font-extrabold wrap-anywhere"
+          aria-label={`${brandName} — на главную`}
+          className="landing-link"
         >
-          <span
-            aria-hidden="true"
-            className="size-brand-mark bg-landing-accent shrink-0"
-          />
-          {operator.name}
+          <BrandLogo />
         </Link>
         <Link
           href="/"

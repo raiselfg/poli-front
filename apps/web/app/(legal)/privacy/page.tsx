@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { brandName } from '@/lib/brand';
 import { operator } from '@/lib/legal';
 import { LegalDocument } from '../_components/legal-document';
 import { OperatorRequisites } from '../_components/operator-requisites';
@@ -16,9 +17,9 @@ export default function PrivacyPage() {
       title="Политика обработки персональных данных"
       lead={
         <p>
-          Настоящая политика описывает, какие персональные данные собирает сайт{' '}
-          {operator.name} (далее — Сайт), зачем мы их обрабатываем, как защищаем
-          и какие права есть у вас. Политика подготовлена в соответствии с
+          Настоящая политика описывает, какие персональные данные собирает сайт
+          «{brandName}» (далее — Сайт), зачем мы их обрабатываем, как защищаем и
+          какие права есть у вас. Политика подготовлена в соответствии с
           Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных» и
           применяется ко всем данным, которые Оператор получает через Сайт.
         </p>

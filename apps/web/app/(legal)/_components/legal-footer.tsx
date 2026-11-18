@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { brandName } from '@/lib/brand';
 import { copyrightYear, legalLinks, operator } from '@/lib/legal';
 import { wrap } from '../../_components/landing-styles';
 
@@ -21,9 +22,9 @@ export function LegalFooter() {
           ))}
         </nav>
         <p className="text-ink-muted mt-4 max-w-prose text-sm leading-relaxed">
-          © {copyrightYear} {operator.name} · {operator.city}. Информация на
-          сайте носит справочный характер и не является публичной офертой (ст.
-          437 ГК РФ).
+          © {copyrightYear} {brandName} · {operator.city}. Информация на сайте
+          носит справочный характер и не является публичной офертой (ст. 437 ГК
+          РФ).
         </p>
       </div>
     </footer>

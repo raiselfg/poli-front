@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { brandName } from '@/lib/brand';
 import { copyrightYear, legalLinks, operator } from '@/lib/legal';
 import { catalogFooterWrap } from '../landing-styles';
 import { ContactDetails } from './components/contact-details';
@@ -19,6 +20,12 @@ export function SiteFooter() {
           <ContactDetails />
         </Suspense>
         <div className="border-t border-zinc-300 pt-[22px]">
+          <dl className="mb-5 text-sm text-zinc-700">
+            <dt className="text-xs font-semibold">Юридическое наименование</dt>
+            <dd className="text-ink font-bold wrap-anywhere">
+              {operator.name}
+            </dd>
+          </dl>
           <nav
             aria-label="Юридическая информация"
             className="flex flex-wrap gap-x-6 gap-y-2 text-[length:calc(12px*var(--text-scale))] font-medium text-zinc-700 max-[700px]:text-[length:calc(11px*var(--text-scale))]"
@@ -43,7 +50,7 @@ export function SiteFooter() {
               ПРОИЗВОДСТВО ПОЛИУРЕТАНОВЫХ ИЗДЕЛИЙ · САНКТ-ПЕТЕРБУРГ
             </span>
             <span>
-              © {copyrightYear} {operator.name}
+              © {copyrightYear} {brandName}
             </span>
           </div>
         </div>
