@@ -7,14 +7,15 @@ const requestListSchema = z.array(requestSchema);
 
 export const requestsQuery = queryOptions({
   queryKey: ['requests'],
-  queryFn: async () => requestListSchema.parse(await api('/admin/requests')),
+  queryFn: async ({ signal }) =>
+    requestListSchema.parse(await api('/admin/requests', { signal })),
 });
 
 export function requestQuery(id: string) {
   return queryOptions({
-    queryKey: ['requests', id],
-    queryFn: async () =>
-      requestDetailSchema.parse(await api(`/admin/requests/${id}`)),
+    queryKey: [...requestsQuery.queryKey, id],
+    queryFn: async ({ signal }) =>
+      requestDetailSchema.parse(await api(`/admin/requests/${id}`, { signal })),
   });
 }
 
@@ -30,10 +31,7 @@ export function fetchRequestFile(
   });
 }
 
-export function requestFileQuery(
-  requestId: string,
-  fileId: string
-) {
+export function requestFileQuery(requestId: string, fileId: string) {
   return queryOptions({
     queryKey: ['request-file', requestId, fileId],
     queryFn: ({ signal }) => fetchRequestFile(requestId, fileId, signal),

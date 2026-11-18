@@ -9,6 +9,8 @@ const uploadedImageSchema = imageSchema.extend({
   alt: z.string().trim().min(1),
 });
 
+export const pendingCategoryId = 'pending-category';
+
 export const maxImageSize = 10 * 1024 * 1024;
 export const imageSizeError =
   'Файл слишком большой. Максимальный размер — 10 Мб.';
@@ -20,14 +22,15 @@ export type CategoryImageDraft = {
 
 export const categoriesQuery = queryOptions({
   queryKey: ['categories'],
-  queryFn: async () => categoryListSchema.parse(await api('/admin/categories')),
+  queryFn: async ({ signal }) =>
+    categoryListSchema.parse(await api('/admin/categories', { signal })),
 });
 
 export function categoryQuery(id: string) {
   return queryOptions({
-    queryKey: ['category', id],
-    queryFn: async () =>
-      categorySchema.parse(await api(`/admin/categories/${id}`)),
+    queryKey: [...categoriesQuery.queryKey, id],
+    queryFn: async ({ signal }) =>
+      categorySchema.parse(await api(`/admin/categories/${id}`, { signal })),
   });
 }
 

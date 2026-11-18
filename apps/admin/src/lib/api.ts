@@ -8,6 +8,7 @@ export const apiBase = z
 export const api = ofetch.create({
   baseURL: apiBase,
   credentials: 'include',
+  cache: 'no-store',
   retry: 0,
   onResponseError({ response, request }) {
     if (

@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useIsMutating,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardHeader } from '@workspace/ui/components/card';
@@ -16,26 +21,58 @@ import { QueryState } from '@/components/query-state';
 import { categoriesQuery } from '@/features/categories/data';
 import { date } from '@/lib/date';
 import { errorMessage } from '@/lib/errors';
-import {
-  requestQuery,
-  requestsQuery,
-  updateRequestStatus,
-} from './data';
+import { requestQuery, requestsQuery, updateRequestStatus } from './data';
 import { RequestAttachment } from './request-attachment';
 import { statusLabels } from './request-constants';
-import { statusSchema } from './schemas';
+import { statusSchema, type RequestStatus } from './schemas';
 
 export function RequestPage({ requestId }: { requestId: string }) {
-  const query = useQuery(requestQuery(requestId));
+  const detail = requestQuery(requestId);
+  const query = useQuery(detail);
   const categories = useQuery(categoriesQuery);
   const client = useQueryClient();
+  const { queryKey } = requestsQuery;
+  const updating = useIsMutating({ mutationKey: queryKey }) > 0;
+
+  function updateList(status: RequestStatus, updatedAt?: string) {
+    client.setQueryData(queryKey, (items) =>
+      items?.map((item) =>
+        item.id === requestId
+          ? { ...item, status, updatedAt: updatedAt ?? item.updatedAt }
+          : item
+      )
+    );
+  }
+
   const update = useMutation({
-    mutationFn: (status: string) => updateRequestStatus(requestId, status),
-    onSuccess: async () => {
-      await client.invalidateQueries({ queryKey: requestsQuery.queryKey });
+    mutationKey: [...queryKey, requestId],
+    mutationFn: (status: RequestStatus) =>
+      updateRequestStatus(requestId, status),
+    onMutate: async (status) => {
+      await client.cancelQueries({ queryKey });
+      const previous = client.getQueryData(detail.queryKey);
+      const previousStatus = client
+        .getQueryData(queryKey)
+        ?.find((item) => item.id === requestId)?.status;
+      client.setQueryData(
+        detail.queryKey,
+        (item) => item && { ...item, status }
+      );
+      updateList(status);
+      return { previous, previousStatus };
+    },
+    onSuccess: async (saved) => {
+      await client.cancelQueries({ queryKey });
+      client.setQueryData(detail.queryKey, saved);
+      updateList(saved.status, saved.updatedAt);
       toast.success('Статус обновлён');
     },
-    onError: (error) => toast.error(errorMessage(error)),
+    onError: (error, _, snapshot) => {
+      client.setQueryData(detail.queryKey, snapshot?.previous);
+      if (snapshot?.previousStatus) updateList(snapshot.previousStatus);
+      toast.error(errorMessage(error));
+    },
+    onSettled: () => client.invalidateQueries({ queryKey }),
   });
   const item = query.data;
   return (
@@ -73,9 +110,15 @@ export function RequestPage({ requestId }: { requestId: string }) {
               <Select
                 value={item.status}
                 onValueChange={(value) => {
-                  if (value && value !== item.status) update.mutate(value);
+                  if (
+                    value &&
+                    value !== item.status &&
+                    !client.isMutating({ mutationKey: queryKey })
+                  ) {
+                    update.mutate(value);
+                  }
                 }}
-                disabled={update.isPending}
+                disabled={updating}
               >
                 <SelectTrigger
                   id="request-status"

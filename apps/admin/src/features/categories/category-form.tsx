@@ -1,6 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Link, useNavigate } from '@tanstack/react-router';
+import {
+  useIsMutating,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { Link, useNavigate, useRouter } from '@tanstack/react-router';
 import { Button } from '@workspace/ui/components/button';
 import { Checkbox } from '@workspace/ui/components/checkbox';
 import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
@@ -8,10 +12,10 @@ import { Input } from '@workspace/ui/components/input';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { ArrowLeft } from 'lucide-react';
 import { FetchError } from 'ofetch';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Controller, useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
-import { errorMessage } from '@/lib/errors';
+import { errorMessage, notifyInvalidForm } from '@/lib/errors';
 import { CategoryHelp } from './category-help';
 import { CategoryImages } from './category-images';
 import {
@@ -22,6 +26,7 @@ import {
   categoriesQuery,
   categoryQuery,
   deleteCategoryImage,
+  pendingCategoryId,
   saveCategory,
   updateCategoryImageAlt,
   uploadCategoryImage,
@@ -31,9 +36,42 @@ import type { Category } from './schemas';
 const slugHelp =
   'Slug — часть адреса категории. Используйте строчные латинские буквы, цифры и дефисы, например: polyurethane-products. Пробелы и другие символы недопустимы.';
 
+function categoryValues(category?: Category): CategoryFormValues {
+  return {
+    title: category?.title ?? '',
+    slug: category?.slug ?? '',
+    description: category?.description ?? '',
+    is_published: category?.is_published ?? true,
+    images:
+      category?.images.map((image) => ({ ...image, alt: image.alt ?? '' })) ??
+      [],
+  };
+}
+
 export function CategoryForm({ category }: { category?: Category }) {
   const navigate = useNavigate();
+  const router = useRouter();
   const client = useQueryClient();
+  const { queryKey } = categoriesQuery;
+  const categoryId = category?.id;
+  const detailKey = categoryQuery(categoryId ?? pendingCategoryId).queryKey;
+  const busy = useIsMutating({ mutationKey: queryKey }) > 0;
+  const refresh = () => client.invalidateQueries({ queryKey });
+
+  async function snapshotCategories() {
+    await client.cancelQueries({ queryKey });
+    return {
+      list: client.getQueryData(queryKey),
+      detail: client.getQueryData(detailKey),
+    };
+  }
+
+  function restoreCategories(
+    snapshot?: Awaited<ReturnType<typeof snapshotCategories>>
+  ) {
+    client.setQueryData(queryKey, snapshot?.list);
+    client.setQueryData(detailKey, snapshot?.detail);
+  }
   // Сохранённые подписи учитываются при повторной попытке сохранить категорию.
   const savedAlts = useRef<Map<string, string | null> | null>(null);
   if (savedAlts.current === null) {
@@ -43,22 +81,29 @@ export function CategoryForm({ category }: { category?: Category }) {
   }
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
-    defaultValues: {
-      title: category?.title ?? '',
-      slug: category?.slug ?? '',
-      description: category?.description ?? '',
-      is_published: category?.is_published ?? true,
-      images:
-        category?.images.map((image) => ({ ...image, alt: image.alt ?? '' })) ??
-        [],
-    },
+    defaultValues: categoryValues(category),
   });
+  const {
+    reset,
+    formState: { isDirty },
+  } = form;
+
+  useEffect(() => {
+    if (category && !busy && !isDirty) {
+      reset(categoryValues(category));
+      savedAlts.current = new Map(
+        category.images.map(({ id, alt }) => [id, alt])
+      );
+    }
+  }, [busy, category, isDirty, reset]);
+
   const { errors } = useFormState({
     control: form.control,
     name: ['title', 'slug'],
     exact: true,
   });
   const upload = useMutation({
+    mutationKey: queryKey,
     mutationFn: uploadCategoryImage,
     onSuccess: (image) => {
       savedAlts.current?.set(image.id, image.alt);
@@ -75,29 +120,53 @@ export function CategoryForm({ category }: { category?: Category }) {
       ),
   });
   const remove = useMutation({
-    mutationFn: (id: string) => deleteCategoryImage(id, category?.id),
-    onSuccess: async (_, id) => {
+    mutationKey: queryKey,
+    mutationFn: (id: string) => deleteCategoryImage(id, categoryId),
+    onMutate: async (id) => {
+      const snapshot = await snapshotCategories();
+      const images = form.getValues('images');
+      const withoutImage = (item: Category) => ({
+        ...item,
+        images: item.images.filter((image) => image.id !== id),
+      });
       form.setValue(
         'images',
-        form.getValues('images').filter((image) => image.id !== id),
-        { shouldDirty: true, shouldValidate: true }
+        images.filter((image) => image.id !== id),
+        {
+          shouldDirty: true,
+          shouldValidate: true,
+        }
       );
+      client.setQueryData(queryKey, (items) =>
+        items?.map((item) =>
+          item.id === categoryId ? withoutImage(item) : item
+        )
+      );
+      client.setQueryData(detailKey, (item) => item && withoutImage(item));
+      return { ...snapshot, images };
+    },
+    onSuccess: (_, id) => {
       savedAlts.current?.delete(id);
       toast.success('Фото удалено');
-      await Promise.all([
-        client.invalidateQueries({ queryKey: categoriesQuery.queryKey }),
-        category &&
-          client.invalidateQueries({ queryKey: categoryQuery(category.id).queryKey }),
-      ]);
     },
-    onError: (error) =>
+    onError: (error, _, snapshot) => {
+      restoreCategories(snapshot);
+      if (snapshot) {
+        form.setValue('images', snapshot.images, {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+      }
       toast.error(
         error instanceof FetchError && error.statusCode === 409
           ? 'Фото используется в другом месте. Сначала уберите его оттуда.'
           : errorMessage(error)
-      ),
+      );
+    },
+    onSettled: refresh,
   });
   const save = useMutation({
+    mutationKey: queryKey,
     mutationFn: async (values: CategoryFormValues) => {
       for (const { id, alt } of values.images) {
         if (savedAlts.current?.get(id) !== alt) {
@@ -105,14 +174,55 @@ export function CategoryForm({ category }: { category?: Category }) {
           savedAlts.current?.set(id, alt);
         }
       }
-      return saveCategory(category?.id, values);
+      return saveCategory(categoryId, values);
     },
-    onSuccess: async () => {
-      await client.invalidateQueries({ queryKey: categoriesQuery.queryKey });
+    onMutate: async (values) => {
+      const pathname = router.state.location.pathname;
+      const snapshot = await snapshotCategories();
+      const optimistic: Category = {
+        ...(snapshot.detail ??
+          category ?? {
+            id: pendingCategoryId,
+            sort_order: 0,
+            created_at: '',
+            updated_at: '',
+          }),
+        ...values,
+      };
+      client.setQueryData(queryKey, (items) =>
+        categoryId
+          ? items?.map((item) => (item.id === categoryId ? optimistic : item))
+          : items && [...items, optimistic]
+      );
+      if (categoryId) client.setQueryData(detailKey, optimistic);
+      return { ...snapshot, pathname };
+    },
+    onSuccess: async (saved, _, snapshot) => {
+      await client.cancelQueries({ queryKey });
+      client.setQueryData(categoryQuery(saved.id).queryKey, saved);
+      client.setQueryData(
+        queryKey,
+        (items) =>
+          items &&
+          [
+            ...items.filter(
+              (item) => item.id !== saved.id && item.id !== pendingCategoryId
+            ),
+            saved,
+          ].sort(
+            (a, b) => a.sort_order - b.sort_order || a.id.localeCompare(b.id)
+          )
+      );
       toast.success('Категория сохранена');
-      await navigate({ to: '/categories' });
+      if (router.state.location.pathname === snapshot?.pathname) {
+        await navigate({ to: '/categories' });
+      }
     },
-    onError: (error) => toast.error(errorMessage(error)),
+    onError: (error, _, snapshot) => {
+      restoreCategories(snapshot);
+      toast.error(errorMessage(error));
+    },
+    onSettled: refresh,
   });
 
   return (
@@ -140,7 +250,10 @@ export function CategoryForm({ category }: { category?: Category }) {
       </div>
       <form
         className="space-y-6"
-        onSubmit={form.handleSubmit((values) => save.mutate(values))}
+        onSubmit={form.handleSubmit((values) => {
+          if (!client.isMutating({ mutationKey: queryKey }))
+            save.mutate(values);
+        }, notifyInvalidForm)}
         noValidate
       >
         <Field data-invalid={!!errors.title}>
@@ -149,6 +262,7 @@ export function CategoryForm({ category }: { category?: Category }) {
           </FieldLabel>
           <Input
             id="title"
+            readOnly={busy}
             className="h-11"
             aria-required="true"
             aria-invalid={!!errors.title}
@@ -166,6 +280,7 @@ export function CategoryForm({ category }: { category?: Category }) {
           </div>
           <Input
             id="slug"
+            readOnly={busy}
             className="h-11"
             aria-required="true"
             aria-invalid={!!errors.slug}
@@ -178,6 +293,7 @@ export function CategoryForm({ category }: { category?: Category }) {
           <FieldLabel htmlFor="description">Описание</FieldLabel>
           <Textarea
             id="description"
+            readOnly={busy}
             rows={5}
             {...form.register('description')}
           />
@@ -188,6 +304,7 @@ export function CategoryForm({ category }: { category?: Category }) {
           render={({ field }) => (
             <label className="flex items-center gap-3 text-sm font-medium">
               <Checkbox
+                disabled={busy}
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
@@ -197,18 +314,19 @@ export function CategoryForm({ category }: { category?: Category }) {
         />
         <CategoryImages
           form={form}
-          disabled={save.isPending || upload.isPending || remove.isPending}
-          onRemove={remove.mutate}
-          removingId={remove.isPending ? remove.variables : undefined}
+          disabled={busy}
+          onRemove={(id) => {
+            if (!client.isMutating({ mutationKey: queryKey }))
+              remove.mutate(id);
+          }}
           uploadPending={upload.isPending}
           onUpload={(draft, onSuccess) => {
-            upload.mutate(draft, { onSuccess });
+            if (!client.isMutating({ mutationKey: queryKey })) {
+              upload.mutate(draft, { onSuccess });
+            }
           }}
         />
-        <Button
-          type="submit"
-          disabled={save.isPending || upload.isPending || remove.isPending}
-        >
+        <Button type="submit" disabled={busy}>
           {save.isPending ? 'Сохранение…' : 'Сохранить'}
         </Button>
       </form>

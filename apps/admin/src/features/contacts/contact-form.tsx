@@ -1,5 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useIsMutating,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { Button } from '@workspace/ui/components/button';
 import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
@@ -7,7 +11,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { api } from '@/lib/api';
-import { errorMessage } from '@/lib/errors';
+import { errorMessage, notifyInvalidForm } from '@/lib/errors';
+import { contactsQuery } from './data';
 import { contactsSchema } from './schemas';
 import {
   contactFormSchema,
@@ -15,12 +20,26 @@ import {
 } from './contacts-form-schema';
 import { contactFieldLabels } from './contacts-constants';
 
+function contactBody(values: ContactFormValues) {
+  return {
+    ...values,
+    email: values.email || null,
+    latitude: values.latitude.trim() || null,
+    longitude: values.longitude.trim() || null,
+    working_hours: values.working_hours || null,
+    telegram_url: values.telegram_url || null,
+    whatsapp_url: values.whatsapp_url || null,
+  };
+}
+
 export function ContactForm({
   data,
 }: {
   data: z.infer<typeof contactsSchema>;
 }) {
   const client = useQueryClient();
+  const { queryKey } = contactsQuery;
+  const saving = useIsMutating({ mutationKey: queryKey }) > 0;
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -35,31 +54,38 @@ export function ContactForm({
     },
   });
   const mutation = useMutation({
-    mutationFn: async (values: ContactFormValues) =>
+    mutationKey: queryKey,
+    mutationFn: async (body: ReturnType<typeof contactBody>) =>
       contactsSchema.parse(
-        await api('/admin/contacts', {
-          method: 'PATCH',
-          body: {
-            ...values,
-            email: values.email || null,
-            latitude: values.latitude.trim() || null,
-            longitude: values.longitude.trim() || null,
-            working_hours: values.working_hours || null,
-            telegram_url: values.telegram_url || null,
-            whatsapp_url: values.whatsapp_url || null,
-          },
-        })
+        await api('/admin/contacts', { method: 'PATCH', body })
       ),
-    onSuccess: async () => {
-      await client.invalidateQueries({ queryKey: ['contacts'] });
+    onMutate: async (body) => {
+      await client.cancelQueries({ queryKey });
+      const previous = client.getQueryData(queryKey);
+      client.setQueryData(
+        queryKey,
+        (current) => current && { ...current, ...body }
+      );
+      return previous;
+    },
+    onSuccess: (saved) => {
+      client.setQueryData(queryKey, saved);
       toast.success('Контакты сохранены');
     },
-    onError: (error) => toast.error(errorMessage(error)),
+    onError: (error, _, previous) => {
+      client.setQueryData(queryKey, previous);
+      toast.error(errorMessage(error));
+    },
+    onSettled: () => client.invalidateQueries({ queryKey }),
   });
   return (
     <form
       className="grid grid-cols-1 gap-5 sm:grid-cols-2"
-      onSubmit={form.handleSubmit((values) => mutation.mutate(values))}
+      onSubmit={form.handleSubmit((values) => {
+        if (!client.isMutating({ mutationKey: queryKey })) {
+          mutation.mutate(contactBody(values));
+        }
+      }, notifyInvalidForm)}
       noValidate
     >
       {(Object.keys(contactFieldLabels) as (keyof ContactFormValues)[]).map(
@@ -74,6 +100,7 @@ export function ContactForm({
             <Input
               id={name}
               className="h-11"
+              readOnly={saving}
               aria-required={name === 'phone' || name === 'address'}
               aria-invalid={!!form.formState.errors[name]}
               aria-describedby={
@@ -91,9 +118,9 @@ export function ContactForm({
       <Button
         type="submit"
         className="sm:col-span-2 sm:justify-self-start"
-        disabled={mutation.isPending}
+        disabled={saving}
       >
-        Сохранить
+        {saving ? 'Сохранение…' : 'Сохранить'}
       </Button>
     </form>
   );

@@ -8,6 +8,7 @@ import {
 } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
 import { useForm } from 'react-hook-form';
+import { notifyInvalidForm } from '@/lib/errors';
 import { loginSchema, type LoginValues } from '../login-schema';
 
 type LoginFormProps = {
@@ -25,7 +26,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSuccess)} noValidate>
+    <form onSubmit={handleSubmit(onSuccess, notifyInvalidForm)} noValidate>
       <FieldGroup>
         <Field data-invalid={!!errors.login} className="gap-2">
           <FieldLabel htmlFor="login">

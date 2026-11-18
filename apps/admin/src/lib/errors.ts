@@ -1,4 +1,5 @@
 import { FetchError } from 'ofetch';
+import { toast } from 'sonner';
 
 export function errorMessage(error: unknown) {
   if (error instanceof FetchError) {
@@ -13,4 +14,16 @@ export function errorMessage(error: unknown) {
       return 'Проверьте правильность введённых данных.';
   }
   return 'Не удалось выполнить запрос. Попробуйте ещё раз.';
+}
+
+export function notifyLoadError(error: unknown) {
+  const description = errorMessage(error);
+  toast.error('Не удалось загрузить данные', {
+    description,
+    id: `load-error:${description}`,
+  });
+}
+
+export function notifyInvalidForm() {
+  toast.error('Исправьте ошибки в форме', { id: 'invalid-form' });
 }

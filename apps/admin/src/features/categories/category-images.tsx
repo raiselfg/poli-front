@@ -26,7 +26,6 @@ const imagesHelp =
 
 type CategoryImagesProps = CategoryImageUploadProps & {
   onRemove: (id: string) => void;
-  removingId: string | undefined;
   form: Pick<
     UseFormReturn<CategoryFormValues>,
     'control' | 'getValues' | 'register' | 'setValue'
@@ -36,7 +35,6 @@ type CategoryImagesProps = CategoryImageUploadProps & {
 export function CategoryImages({
   form: { control, getValues, register, setValue },
   onRemove,
-  removingId,
   ...uploadProps
 }: CategoryImagesProps) {
   const images = useWatch({ control, name: 'images' });
@@ -78,6 +76,7 @@ export function CategoryImages({
               <Input
                 id={`image-alt-${index}`}
                 maxLength={200}
+                readOnly={uploadProps.disabled}
                 aria-required="true"
                 aria-invalid={!!errors.images?.[index]?.alt}
                 aria-describedby={
@@ -99,7 +98,7 @@ export function CategoryImages({
               variant="ghost"
               size="icon"
               aria-label="Переместить изображение вверх"
-              disabled={index === 0}
+              disabled={index === 0 || uploadProps.disabled}
               onClick={() => move(index, -1)}
             >
               <ArrowUp />
@@ -109,7 +108,7 @@ export function CategoryImages({
               variant="ghost"
               size="icon"
               aria-label="Переместить изображение вниз"
-              disabled={index === images.length - 1}
+              disabled={index === images.length - 1 || uploadProps.disabled}
               onClick={() => move(index, 1)}
             >
               <ArrowDown />
@@ -137,16 +136,14 @@ export function CategoryImages({
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel disabled={removingId === image.id}>
-                    Отмена
-                  </AlertDialogCancel>
+                  <AlertDialogCancel>Отмена</AlertDialogCancel>
                   <AlertDialogAction
                     type="button"
                     variant="destructive"
                     disabled={uploadProps.disabled}
                     onClick={() => onRemove(image.id)}
                   >
-                    {removingId === image.id ? 'Удаление…' : 'Удалить'}
+                    Удалить
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

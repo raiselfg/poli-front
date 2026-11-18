@@ -1,5 +1,10 @@
 import { Link } from '@tanstack/react-router';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useIsMutating,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { Button } from '@workspace/ui/components/button';
 import {
   AlertDialog,
@@ -17,38 +22,89 @@ import { toast } from 'sonner';
 import { api } from '@/lib/api';
 import { errorMessage } from '@/lib/errors';
 import { QueryState } from '@/components/query-state';
-import { categoriesQuery } from './data';
+import { requestsQuery } from '@/features/requests/data';
+import { categoriesQuery, categoryQuery, pendingCategoryId } from './data';
+import type { Category } from './schemas';
 
 export function Categories() {
   const query = useQuery(categoriesQuery);
   const client = useQueryClient();
-  const refresh = () =>
-    client.invalidateQueries({ queryKey: categoriesQuery.queryKey });
+  const { queryKey } = categoriesQuery;
+  const busy = useIsMutating({ mutationKey: queryKey }) > 0;
+  const items = query.data?.filter((item) => item.id !== pendingCategoryId);
+  const pendingCategory = query.data?.find(
+    (item) => item.id === pendingCategoryId
+  );
+  const refresh = () => client.invalidateQueries({ queryKey });
+
+  async function optimisticList(update: (items: Category[]) => Category[]) {
+    await client.cancelQueries({ queryKey });
+    const previous = client.getQueryData(queryKey);
+    client.setQueryData(queryKey, (items) => items && update(items));
+    return { previous };
+  }
+
+  function rollback(
+    error: Error,
+    _: unknown,
+    snapshot?: { previous: Category[] | undefined }
+  ) {
+    client.setQueryData(queryKey, snapshot?.previous);
+    toast.error(errorMessage(error));
+  }
+
   const order = useMutation({
-    mutationFn: (ids: string[]) =>
-      api('/admin/categories/order', { method: 'PUT', body: { ids } }),
-    onSuccess: refresh,
-    onError: (error) => toast.error(errorMessage(error)),
+    mutationKey: queryKey,
+    mutationFn: (items: Category[]) =>
+      api('/admin/categories/order', {
+        method: 'PUT',
+        body: { ids: items.map((item) => item.id) },
+      }),
+    onMutate: (items) => optimisticList(() => items),
+    onError: rollback,
+    onSettled: refresh,
   });
   const remove = useMutation({
+    mutationKey: queryKey,
     mutationFn: (id: string) =>
       api(`/admin/categories/${id}`, { method: 'DELETE' }),
-    onSuccess: async () => {
-      await refresh();
+    onMutate: (id) =>
+      optimisticList((items) => items.filter((item) => item.id !== id)),
+    onSuccess: (_, id) => {
       toast.success('Категория удалена');
+      return client.resetQueries({
+        queryKey: categoryQuery(id).queryKey,
+        exact: true,
+      });
     },
-    onError: (error) => toast.error(errorMessage(error)),
+    onError: rollback,
+    onSettled: () => {
+      const requestKey = requestsQuery.queryKey;
+      return Promise.all([
+        refresh(),
+        client.invalidateQueries({
+          queryKey: requestKey,
+          refetchType: client.isMutating({ mutationKey: requestKey })
+            ? 'none'
+            : 'active',
+        }),
+      ]);
+    },
   });
   function move(index: number, direction: number) {
-    const ids = query.data?.map((item) => item.id) ?? [];
-    const target = index + direction;
-    const currentId = ids[index];
-    const targetId = ids[target];
-    if (currentId === undefined || targetId === undefined) return;
+    if (client.isMutating({ mutationKey: queryKey })) return;
 
-    ids[index] = targetId;
-    ids[target] = currentId;
-    order.mutate(ids);
+    const reordered = [...(items ?? [])];
+    const target = index + direction;
+    const current = reordered[index];
+    const next = reordered[target];
+    if (!current || !next) return;
+
+    reordered[index] = next;
+    reordered[target] = current;
+    order.mutate(
+      reordered.map((item, sort_order) => ({ ...item, sort_order }))
+    );
   }
   return (
     <div className="space-y-6">
@@ -68,10 +124,10 @@ export function Categories() {
         error={query.error}
         retry={() => void query.refetch()}
       />
-      {query.data &&
-        (query.data.length ? (
+      {items &&
+        (items.length || pendingCategory ? (
           <ul className="divide-y border-y">
-            {query.data.map((item, index) => (
+            {items.map((item, index) => (
               <li
                 key={item.id}
                 className="flex flex-wrap items-center justify-between gap-3 py-4"
@@ -92,7 +148,7 @@ export function Categories() {
                     variant="ghost"
                     size="icon"
                     aria-label={`Поднять ${item.title}`}
-                    disabled={index === 0 || order.isPending}
+                    disabled={index === 0 || busy}
                     onClick={() => move(index, -1)}
                   >
                     <ArrowUp />
@@ -101,9 +157,7 @@ export function Categories() {
                     variant="ghost"
                     size="icon"
                     aria-label={`Опустить ${item.title}`}
-                    disabled={
-                      index === query.data.length - 1 || order.isPending
-                    }
+                    disabled={index === items.length - 1 || busy}
                     onClick={() => move(index, 1)}
                   >
                     <ArrowDown />
@@ -115,6 +169,7 @@ export function Categories() {
                           variant="ghost"
                           size="icon"
                           aria-label={`Удалить ${item.title}`}
+                          disabled={busy}
                         />
                       }
                     >
@@ -131,8 +186,12 @@ export function Categories() {
                       <AlertDialogFooter>
                         <AlertDialogCancel>Отмена</AlertDialogCancel>
                         <AlertDialogAction
-                          disabled={remove.isPending}
-                          onClick={() => remove.mutate(item.id)}
+                          disabled={busy}
+                          onClick={() => {
+                            if (!client.isMutating({ mutationKey: queryKey })) {
+                              remove.mutate(item.id);
+                            }
+                          }}
                         >
                           Удалить
                         </AlertDialogAction>
@@ -142,6 +201,14 @@ export function Categories() {
                 </div>
               </li>
             ))}
+            {pendingCategory && (
+              <li className="py-4" role="status">
+                <p className="font-medium break-words">
+                  {pendingCategory.title}
+                </p>
+                <p className="text-sm text-muted-foreground">Сохранение…</p>
+              </li>
+            )}
           </ul>
         ) : (
           <p className="text-muted-foreground">Категорий пока нет.</p>
