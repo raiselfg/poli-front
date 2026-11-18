@@ -1,25 +1,26 @@
 import Link from 'next/link';
 import { copyrightYear, legalLinks, operator } from '@/lib/legal';
+import { wrap } from '../../_components/landing-styles';
 
 export function LegalFooter() {
   return (
-    <footer className="border-t border-zinc-300 py-8">
-      <div className="mx-auto w-[min(100%-96px,1320px)] max-[900px]:w-[min(100%-48px,1320px)] max-[700px]:w-[calc(100%-36px)]">
+    <footer className="border-line bg-surface border-t py-7 sm:py-8">
+      <div className={wrap}>
         <nav
           aria-label="Юридическая информация"
-          className="flex flex-wrap gap-x-6 gap-y-2 text-[length:calc(12px*var(--text-scale))] font-medium text-zinc-700 max-[700px]:text-[length:calc(11px*var(--text-scale))]"
+          className="text-ink flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold"
         >
           {legalLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="transition-colors hover:text-zinc-950 focus-visible:text-zinc-950"
+              className="landing-link decoration-landing-accent hover:text-landing-accent underline underline-offset-4"
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <p className="mt-4 text-[length:calc(11px*var(--text-scale))] leading-[1.6] text-zinc-600">
+        <p className="text-ink-muted mt-4 max-w-prose text-sm leading-relaxed">
           © {copyrightYear} {operator.name} · {operator.city}. Информация на
           сайте носит справочный характер и не является публичной офертой (ст.
           437 ГК РФ).

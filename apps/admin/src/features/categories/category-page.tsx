@@ -1,15 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { api } from '@/lib/api';
-import { categorySchema } from './schemas';
-import { CategoryForm } from './category-form';
 import { QueryState } from '@/components/query-state';
+import { CategoryForm } from './category-form';
+import { categoryQuery } from './data';
 
 export function CategoryPage({ categoryId }: { categoryId: string }) {
-  const query = useQuery({
-    queryKey: ['category', categoryId],
-    queryFn: async () =>
-      categorySchema.parse(await api(`/admin/categories/${categoryId}`)),
-  });
+  const query = useQuery(categoryQuery(categoryId));
+
   return (
     <>
       <QueryState

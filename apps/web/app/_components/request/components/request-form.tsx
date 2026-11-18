@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm, useFormState } from 'react-hook-form';
-import { ArrowUpRight } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { ArrowUpRight, Check } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
 import {
   Field,
@@ -12,11 +12,10 @@ import {
   FieldLegend,
   FieldSet,
 } from '@workspace/ui/components/field';
-import { Input } from '@workspace/ui/components/input';
-import { toast } from '@workspace/ui/components/sonner';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { submitRequest } from '../../../_lib/requests/request-action';
 import type { RequestInput } from '../../../_lib/requests/request-schema';
+import { accentAction } from '../../landing-styles';
 import { RequestConsentField } from './request-consent-field';
 import {
   requestFieldClassName,
@@ -27,6 +26,7 @@ import {
   resolveRequest,
   type RequestFormValues,
 } from './request-form-resolver';
+import { RequestNameField } from './request-name-field';
 import { RequestPhoneField } from './request-phone-field';
 
 export function RequestForm() {
@@ -42,12 +42,12 @@ export function RequestForm() {
   } = useForm<RequestFormValues, undefined, RequestInput>({
     resolver: resolveRequest,
     reValidateMode: 'onChange',
-    defaultValues: { name: '', phone: '+7', comment: '', consent: true },
+    defaultValues: { name: '', phone: '+7', comment: '', consent: false },
   });
-  const {
-    errors: { name: nameError },
-  } = useFormState({ control, name: 'name', exact: true });
-  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [submission, setSubmission] = useState<{
+    ok: boolean;
+    message: string;
+  } | null>(null);
 
   async function onSubmit(values: RequestInput) {
     const body = new FormData();
@@ -58,16 +58,14 @@ export function RequestForm() {
     if (values.file !== undefined) body.set('file', values.file);
     try {
       const response = await submitRequest(body);
-      if (response.ok) {
-        reset();
-        toast.success(response.message);
-      } else {
-        setSubmissionError(response.message);
-      }
+      if (response.ok) reset();
+      setSubmission(response);
     } catch {
-      setSubmissionError(
-        'Не удалось отправить заявку. Попробуйте ещё раз или позвоните по номеру из раздела «Контакты».'
-      );
+      setSubmission({
+        ok: false,
+        message:
+          'Не удалось отправить заявку. Попробуйте ещё раз или позвоните по номеру из раздела «Контакты».',
+      });
     }
   }
 
@@ -75,37 +73,21 @@ export function RequestForm() {
     <form
       noValidate
       onSubmit={(event) => {
-        setSubmissionError(null);
+        setSubmission(null);
         void handleSubmit(onSubmit)(event);
       }}
-      className="rounded-[28px] border border-white/90 bg-[linear-gradient(145deg,#f5f5f6,#eaeaed)] p-7 shadow-[0_24px_60px_rgb(63_63_70_/_13%),0_4px_15px_rgb(63_63_70_/_6%),inset_0_1px_0_#fff] max-[700px]:p-[22px]"
+      className="rounded-panel border-line bg-surface text-ink min-w-0 border p-5 sm:p-8"
     >
-      <FieldSet className="min-w-0 gap-0">
-        <FieldLegend className="mb-[24px] font-[650] tracking-[0.1em] text-zinc-600 data-[variant=legend]:text-[length:calc(10px*var(--text-scale))] max-[700px]:mb-[30px]">
+      <FieldSet
+        disabled={isSubmitting}
+        className="min-w-0 gap-0 disabled:opacity-100"
+      >
+        <FieldLegend className="text-ink-muted mb-6 font-mono font-bold tracking-widest data-[variant=legend]:text-sm">
           ЗАЯВКА НА ИЗГОТОВЛЕНИЕ
         </FieldLegend>
         <FieldGroup className="gap-0">
-          <div className="grid grid-cols-2 gap-6 max-[900px]:grid-cols-1 max-[900px]:gap-0">
-            <Field className={requestFieldClassName}>
-              <FieldLabel htmlFor="name">Ваше имя *</FieldLabel>
-              <Input
-                id="name"
-                autoComplete="name"
-                required
-                aria-invalid={nameError !== undefined}
-                aria-describedby={
-                  nameError !== undefined ? 'name-error' : undefined
-                }
-                className={requestInputClassName}
-                placeholder="Введите имя"
-                {...register('name')}
-              />
-              <FieldError
-                id="name-error"
-                className="text-rose-700"
-                errors={[nameError]}
-              />
-            </Field>
+          <div className="landing:grid-cols-2 landing:gap-4 grid">
+            <RequestNameField control={control} register={register} />
             <RequestPhoneField control={control} setValue={setValue} />
           </div>
           <Field className={requestFieldClassName}>
@@ -114,7 +96,7 @@ export function RequestForm() {
               id="comment"
               rows={3}
               placeholder="Например: втулка 40×60 мм, 10 шт."
-              className={`${requestInputClassName} min-h-[94px]`}
+              className={`${requestInputClassName} min-h-24`}
               {...register('comment')}
             />
           </Field>
@@ -124,27 +106,34 @@ export function RequestForm() {
             resetField={resetField}
             setFocus={setFocus}
           />
-          <RequestConsentField control={control} />
+          <RequestConsentField control={control} disabled={isSubmitting} />
         </FieldGroup>
       </FieldSet>
-      <div className="mt-[35px] flex flex-col items-center gap-[14px]">
+      <div className="mt-6">
         <Button
           disabled={isSubmitting}
           type="submit"
-          className="h-[58px] w-full gap-5 rounded-full bg-zinc-700 px-5 text-white transition-colors duration-300 ease-in-out enabled:hover:bg-zinc-950 enabled:focus-visible:bg-zinc-950"
+          className={`${accentAction} h-submit disabled:bg-bg disabled:text-ink-muted w-full disabled:opacity-100`}
         >
-          {isSubmitting ? 'Отправляем…' : 'Отправить заявку'}{' '}
-          <ArrowUpRight
-            size={17}
-            aria-hidden="true"
-            className="box-content rounded-full bg-white/10 p-1.5 transition-colors duration-300 group-enabled/button:group-hover/button:bg-white/25 group-enabled/button:group-focus-visible/button:bg-white/25 motion-safe:transition-[background-color,rotate] motion-safe:group-enabled/button:group-hover/button:rotate-45 motion-safe:group-enabled/button:group-focus-visible/button:rotate-45"
-          />
+          {isSubmitting ? 'Отправляем…' : 'Отправить заявку'}
+          <ArrowUpRight aria-hidden="true" />
         </Button>
-        {submissionError !== null && (
-          <FieldError className="max-w-[320px] text-center text-sm leading-[1.5] text-red-700">
-            {submissionError}
+        {submission?.ok === false && (
+          <FieldError
+            role="alert"
+            className="text-field-error mt-4 text-sm leading-relaxed"
+          >
+            {submission.message}
           </FieldError>
         )}
+        <div role="status">
+          {submission?.ok === true && (
+            <p className="rounded-control border-line bg-bg mt-4 flex items-start gap-3 border p-4 font-medium">
+              <Check className="size-5 shrink-0" aria-hidden="true" />
+              {submission.message}
+            </p>
+          )}
+        </div>
       </div>
     </form>
   );

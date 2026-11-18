@@ -1,129 +1,59 @@
 import { Button } from '@workspace/ui/components/button';
 import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@workspace/ui/components/popover';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@workspace/ui/components/tooltip';
-import {
-  ArrowDown,
-  ArrowUp,
-  CircleHelp,
-  Trash2,
-  UploadCloud,
-} from 'lucide-react';
-import { useEffect, useRef, type Dispatch, type SetStateAction } from 'react';
-import type { UseFormReturn } from 'react-hook-form';
-import { useDropzone } from 'react-dropzone';
-import { toast } from 'sonner';
+import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react';
+import { useFormState, useWatch, type UseFormReturn } from 'react-hook-form';
 import type { CategoryFormValues } from './category-form-schema';
+import { CategoryHelp } from './category-help';
+import {
+  CategoryImageUpload,
+  type CategoryImageUploadProps,
+} from './category-image-upload';
 
 const imagesHelp =
   'Добавляйте изображения по одному: выберите файл, укажите описание и нажмите «Добавить изображение».';
 
-type CategoryImagesProps = {
-  form: UseFormReturn<CategoryFormValues>;
-  images: CategoryFormValues['images'];
-  move: (index: number, direction: number) => void;
-  file: File | null;
-  alt: string;
-  setFile: Dispatch<SetStateAction<File | null>>;
-  setAlt: Dispatch<SetStateAction<string>>;
-  uploadPending: boolean;
-  savePending: boolean;
-  onUpload: () => void;
+type CategoryImagesProps = CategoryImageUploadProps & {
+  form: Pick<
+    UseFormReturn<CategoryFormValues>,
+    'control' | 'getValues' | 'register' | 'setValue'
+  >;
 };
 
 export function CategoryImages({
-  form,
-  images,
-  move,
-  file,
-  alt,
-  setFile,
-  setAlt,
-  uploadPending,
-  savePending,
-  onUpload,
+  form: { control, getValues, register, setValue },
+  ...uploadProps
 }: CategoryImagesProps) {
-  const previewRef = useRef<HTMLImageElement>(null);
+  const images = useWatch({ control, name: 'images' });
+  const { errors } = useFormState({ control, name: 'images' });
 
-  useEffect(() => {
-    if (!file || !previewRef.current) return;
-    const url = URL.createObjectURL(file);
-    previewRef.current.src = url;
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+  function move(index: number, direction: -1 | 1) {
+    const items = [...getValues('images')];
+    const target = index + direction;
+    const current = items[index];
+    const next = items[target];
+    if (current === undefined || next === undefined) return;
 
-  const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
-    accept: {
-      'image/jpeg': ['.jpg', '.jpeg'],
-      'image/png': ['.png'],
-      'image/webp': ['.webp'],
-    },
-    maxSize: 10 * 1024 * 1024,
-    multiple: false,
-    noClick: true,
-    noKeyboard: true,
-    disabled: uploadPending || savePending,
-    onDrop: (acceptedFiles, rejectedFiles) => {
-      if (rejectedFiles.length) {
-        const code = rejectedFiles[0]?.errors[0]?.code;
-        toast.error(
-          code === 'file-too-large'
-            ? 'Файл слишком большой. Максимальный размер — 10 Мб.'
-            : code === 'too-many-files'
-              ? 'Выберите одно изображение.'
-              : 'Выберите изображение JPG, PNG или WebP.'
-        );
-        return;
+    items[index] = next;
+    items[target] = current;
+    setValue('images', items, { shouldDirty: true });
+  }
+
+  function remove(index: number) {
+    setValue(
+      'images',
+      getValues('images').filter((_, i) => i !== index),
+      {
+        shouldDirty: true,
       }
-      if (acceptedFiles[0]) setFile(acceptedFiles[0]);
-    },
-  });
+    );
+  }
 
   return (
     <section className="space-y-4">
       <div className="flex items-center gap-2">
         <h2 className="text-lg font-medium">Изображения</h2>
-        <Tooltip>
-          <TooltipTrigger
-            render={
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="size-8 [@media(hover:none)]:hidden"
-                aria-label="Как добавлять изображения?"
-              />
-            }
-          >
-            <CircleHelp aria-hidden="true" />
-          </TooltipTrigger>
-          <TooltipContent side="bottom">{imagesHelp}</TooltipContent>
-        </Tooltip>
-        <Popover>
-          <PopoverTrigger
-            render={
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="hidden size-8 [@media(hover:none)]:inline-flex"
-                aria-label="Как добавлять изображения?"
-              />
-            }
-          >
-            <CircleHelp aria-hidden="true" />
-          </PopoverTrigger>
-          <PopoverContent>{imagesHelp}</PopoverContent>
-        </Popover>
+        <CategoryHelp label="Как добавлять изображения?" text={imagesHelp} />
       </div>
       {images.map((image, index) => (
         <div
@@ -136,7 +66,7 @@ export function CategoryImages({
             className="size-24 rounded-md object-cover"
           />
           <div className="min-w-0 flex-1 basis-48">
-            <Field data-invalid={!!form.formState.errors.images?.[index]?.alt}>
+            <Field data-invalid={!!errors.images?.[index]?.alt}>
               <FieldLabel htmlFor={`image-alt-${index}`}>
                 Альтернативный текст <span aria-hidden="true">*</span>
               </FieldLabel>
@@ -144,17 +74,17 @@ export function CategoryImages({
                 id={`image-alt-${index}`}
                 maxLength={200}
                 aria-required="true"
-                aria-invalid={!!form.formState.errors.images?.[index]?.alt}
+                aria-invalid={!!errors.images?.[index]?.alt}
                 aria-describedby={
-                  form.formState.errors.images?.[index]?.alt
+                  errors.images?.[index]?.alt
                     ? `image-alt-error-${index}`
                     : undefined
                 }
-                {...form.register(`images.${index}.alt`)}
+                {...register(`images.${index}.alt`)}
               />
               <FieldError
                 id={`image-alt-error-${index}`}
-                errors={[form.formState.errors.images?.[index]?.alt]}
+                errors={[errors.images?.[index]?.alt]}
               />
             </Field>
           </div>
@@ -184,92 +114,14 @@ export function CategoryImages({
               variant="ghost"
               size="icon"
               aria-label="Убрать изображение из категории"
-              onClick={() =>
-                form.setValue(
-                  'images',
-                  images.filter((_, i) => i !== index),
-                  { shouldDirty: true }
-                )
-              }
+              onClick={() => remove(index)}
             >
               <Trash2 />
             </Button>
           </div>
         </div>
       ))}
-      <div className="space-y-4 rounded-lg border p-4">
-        <Field>
-          <FieldLabel htmlFor="image-file">Добавить изображение</FieldLabel>
-          <div
-            {...getRootProps({
-              role: 'presentation',
-              className: `flex min-h-36 flex-col items-center justify-center gap-3 rounded-lg border border-dashed px-4 py-6 text-center transition-colors motion-reduce:transition-none ${
-                isDragActive ? 'border-primary bg-muted' : 'border-border'
-              }`,
-            })}
-          >
-            <Input
-              {...getInputProps({
-                id: 'image-file',
-                'aria-describedby': 'image-file-help image-file-selection',
-              })}
-            />
-            {file ? (
-              <img
-                ref={previewRef}
-                alt="Предварительный просмотр выбранного изображения"
-                className="max-h-48 max-w-full rounded-md object-contain"
-              />
-            ) : (
-              <UploadCloud
-                className="size-5 text-muted-foreground"
-                aria-hidden="true"
-              />
-            )}
-            <p className="text-sm font-medium">Перетащите изображение сюда</p>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={open}
-              disabled={uploadPending || savePending}
-            >
-              Выбрать файл
-            </Button>
-            <p
-              id="image-file-selection"
-              role="status"
-              className="max-w-full text-sm break-all text-muted-foreground"
-            >
-              {file?.name || 'Файл не выбран'}
-            </p>
-          </div>
-          <p id="image-file-help" className="text-sm text-muted-foreground">
-            JPG, PNG или WebP, до 10 Мб. Для загрузки выберите файл и укажите
-            описание.
-          </p>
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="new-alt">
-            Альтернативный текст изображения при загрузке{' '}
-            <span aria-hidden="true">*</span>
-          </FieldLabel>
-          <Input
-            id="new-alt"
-            aria-required={file !== null}
-            value={alt}
-            maxLength={200}
-            onChange={(event) => setAlt(event.target.value)}
-          />
-        </Field>
-        <Button
-          type="button"
-          variant="outline"
-          disabled={uploadPending || savePending}
-          onClick={onUpload}
-        >
-          {uploadPending ? 'Загрузка…' : 'Добавить изображение'}
-        </Button>
-      </div>
+      <CategoryImageUpload {...uploadProps} />
     </section>
   );
 }

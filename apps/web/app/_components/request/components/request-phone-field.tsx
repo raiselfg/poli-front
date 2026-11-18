@@ -35,7 +35,7 @@ export function RequestPhoneField({
       <FieldContent className="relative flex-none">
         <span
           id="phone-prefix"
-          className="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-[length:calc(14px*var(--text-scale))]"
+          className="landing:text-sm pointer-events-none absolute inset-y-0 left-2.5 flex items-center font-mono text-base"
         >
           +7
         </span>
@@ -48,7 +48,7 @@ export function RequestPhoneField({
           aria-describedby={
             error !== undefined ? 'phone-prefix phone-error' : 'phone-prefix'
           }
-          className={`${requestInputClassName} pl-7.5`}
+          className={`${requestInputClassName} pl-8 font-mono`}
           {...phone}
           value={phone.value.slice(3)}
           onChange={(event) => {
@@ -81,7 +81,11 @@ export function RequestPhoneField({
           }}
         />
       </FieldContent>
-      <FieldError id="phone-error" className="text-rose-700" errors={[error]} />
+      <FieldError
+        id="phone-error"
+        className="text-field-error"
+        errors={[error]}
+      />
     </Field>
   );
 }

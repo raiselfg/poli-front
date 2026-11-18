@@ -6,12 +6,40 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-landing: 64rem;
+}
+
 @theme inline {
+  --color-bg: var(--landing-bg);
+  --color-surface: var(--landing-surface);
+  --color-ink: var(--landing-ink);
+  --color-ink-muted: var(--landing-ink-muted);
+  --color-ink-on-dark-muted: var(--landing-ink-on-dark-muted);
+  --color-line: var(--landing-line);
+  --color-line-dark: var(--landing-line-dark);
+  --color-landing-accent: var(--landing-accent);
+  --color-landing-accent-light: var(--landing-accent-light);
+  --color-field-line: var(--landing-field-line);
+  --color-field-error: var(--landing-field-error);
+  --radius-control: var(--landing-control-radius);
+  --radius-panel: var(--landing-panel-radius);
+  --radius-chip: var(--landing-chip-radius);
+  --font-mono: var(--font-jetbrains-mono), monospace;
+  --spacing-section: var(--landing-section-space);
+  --spacing-header: var(--landing-header-height);
+  --spacing-submit: 3.375rem;
+  --spacing-brand-mark: 0.875rem;
+  --spacing-order-form: 32.5rem;
+  --spacing-map: 18.75rem;
+  --container-landing: 82.5rem;
+  --text-hero: var(--landing-hero-size);
+  --text-section-heading: clamp(2rem, 5.2vw, 3.5rem);
+  --tracking-heading: -0.025em;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-heading: var(--font-sans);
-  --font-accent: var(--font-spectral), Georgia, serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -51,13 +79,6 @@
 }
 
 :root {
-  --page-background: linear-gradient(
-    160deg,
-    #d9d9df 0%,
-    #e5e5e9 38%,
-    #dbdbe1 68%,
-    #d0d0d6 100%
-  );
   --text-scale: 1.2;
   --text-xs: calc(0.75rem * var(--text-scale));
   --text-sm: calc(0.875rem * var(--text-scale));
@@ -147,4 +168,174 @@
 
 .toaster [data-sonner-toast][data-styled='true'] {
   font-size: calc(13px * var(--text-scale));
+}
+
+:root {
+  --landing-bg: #f4f4f2;
+  --landing-surface: #ffffff;
+  --landing-ink: #1f2124;
+  --landing-ink-muted: #3a3d42;
+  --landing-ink-on-dark-muted: #c9ccd1;
+  --landing-line: #d8d8d3;
+  --landing-line-dark: #3a3d42;
+  --landing-accent: #2a7b76;
+  --landing-accent-light: color-mix(in srgb, var(--landing-accent) 47%, white);
+  --landing-field-line: #bdbdb7;
+  --landing-field-error: #a51932;
+  --landing-control-radius: 6px;
+  --landing-panel-radius: 8px;
+  --landing-chip-radius: 4px;
+  --landing-section-space: 3rem;
+  --landing-header-height: 4rem;
+  --landing-hero-size: clamp(2rem, 9vw, 4.75rem);
+  --landing-contact-bar-height: calc(4rem + env(safe-area-inset-bottom));
+  --landing-motion-ease: cubic-bezier(0.22, 0.8, 0.35, 1);
+}
+
+@media (width >= 64rem) {
+  :root {
+    --landing-section-space: 6rem;
+    --landing-header-height: 4.5rem;
+    --landing-hero-size: clamp(3.5rem, 5.9vw, 4.75rem);
+  }
+}
+
+html:has(.landing) {
+  scroll-padding-block-start: calc(var(--landing-header-height) + 1rem);
+}
+
+@media (width < 64rem) {
+  html:has(.landing-contact-bar) {
+    scroll-padding-block-end: var(--landing-contact-bar-height);
+  }
+
+  .landing-footer:has(.landing-contact-bar) {
+    padding-block-end: calc(25px + var(--landing-contact-bar-height));
+  }
+
+  .landing-contact-bar {
+    padding: 0.5rem max(1.25rem, env(safe-area-inset-right))
+      calc(0.5rem + env(safe-area-inset-bottom))
+      max(1.25rem, env(safe-area-inset-left));
+  }
+}
+
+.landing,
+.landing-dialog {
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --ring: var(--landing-accent);
+  --destructive: var(--landing-field-error);
+  --muted-foreground: var(--landing-ink-muted);
+  font-family: var(--font-inter), sans-serif;
+  font-size: var(--text-base);
+}
+
+:is(.landing, .landing-dialog) :focus-visible {
+  outline: 2px solid var(--landing-accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--landing-ink);
+}
+
+.landing :is(input, textarea):focus-visible,
+.landing .request-file:has(input:focus-visible) .request-file-control {
+  outline-offset: 1px;
+}
+
+.landing .request-file:has(input:focus-visible) .request-file-control {
+  outline: 2px solid var(--landing-accent);
+  box-shadow: 0 0 0 1px var(--landing-ink);
+}
+
+.landing .hero-highlight {
+  box-shadow: inset 0 -0.18em 0 var(--landing-accent-light);
+  box-decoration-break: clone;
+}
+
+body:has(.landing) [data-slot='sheet-overlay'] {
+  backdrop-filter: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-dialog {
+    transition:
+      opacity 360ms var(--landing-motion-ease),
+      translate 360ms var(--landing-motion-ease),
+      scale 360ms var(--landing-motion-ease);
+  }
+
+  .landing-dialog[data-side='right']:is(
+      [data-starting-style],
+      [data-ending-style]
+    ) {
+    translate: 5rem 0;
+  }
+
+  .landing-dialog[data-side='bottom']:is(
+      [data-starting-style],
+      [data-ending-style]
+    ) {
+    scale: 0.96;
+  }
+
+  body:has(.landing) [data-slot='sheet-overlay'] {
+    transition: opacity 360ms var(--landing-motion-ease);
+  }
+
+  .landing-control,
+  .landing-link,
+  .landing-photo-trigger,
+  .landing-photo-expand,
+  .request-file-control,
+  .landing-dialog [data-slot='sheet-close'] {
+    transition-property:
+      background-color, border-color, color, opacity, scale,
+      text-decoration-color, translate;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+  }
+
+  .landing-control:not(:disabled):active {
+    scale: 0.97;
+  }
+
+  @media (hover: hover) {
+    .landing-control:not(:disabled, :active):hover {
+      scale: 1.015;
+    }
+
+    .landing-photo-trigger:hover .landing-photo-expand {
+      scale: 1.06;
+    }
+
+    .landing-link:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .landing [data-slot='skeleton'] {
+    animation: landing-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes landing-pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-control {
+    translate: none;
+  }
+
+  .landing-control,
+  .landing-photo-trigger,
+  .landing-dialog,
+  .landing-dialog [data-slot='sheet-close'],
+  body:has(.landing) [data-slot='sheet-overlay'] {
+    transition: none;
+  }
 }

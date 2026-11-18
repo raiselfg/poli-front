@@ -22,3 +22,10 @@ export async function getContacts(): Promise<Contacts | null> {
     throw error;
   }
 }
+
+export function getPhoneHref(phone: string) {
+  const digits = phone.replace(/\D/g, '');
+  return digits === ''
+    ? undefined
+    : `tel:${phone.trimStart().startsWith('+') ? '+' : ''}${digits}`;
+}

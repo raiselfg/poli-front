@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Nunito_Sans, Spectral } from 'next/font/google';
+import { Inter, JetBrains_Mono, Nunito_Sans } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@workspace/ui/components/sonner';
 
@@ -8,13 +8,16 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-sans',
 });
 
-const spectral = Spectral({
-  subsets: ['cyrillic'],
-  weight: '600',
-  style: ['normal', 'italic'],
-  display: 'swap',
-  preload: false,
-  variable: '--font-spectral',
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '700', '800'],
+  variable: '--font-inter',
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['500', '700'],
+  variable: '--font-jetbrains-mono',
 });
 
 export const metadata: Metadata = {
@@ -27,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`h-full scroll-pt-[88px] font-sans antialiased motion-safe:scroll-smooth max-[700px]:scroll-pt-[74px] ${nunitoSans.variable} ${spectral.variable}`}
+      className={`h-full scroll-pt-[88px] font-sans antialiased motion-safe:scroll-smooth max-[700px]:scroll-pt-[74px] ${nunitoSans.variable} ${inter.variable} ${jetBrainsMono.variable}`}
     >
       <body className="flex min-h-full flex-col">
         {children}

@@ -1,3 +1,4 @@
+import { unstable_rethrow } from 'next/navigation';
 import { getCategories } from '../../../_lib/catalog/catalog';
 import { Category } from './category';
 
@@ -5,6 +6,7 @@ export async function CatalogList() {
   const result = await getCategories().then(
     (categories) => ({ categories, error: false as const }),
     (error: unknown) => {
+      unstable_rethrow(error);
       console.error('Не удалось загрузить продукцию', error);
       return { error: true as const };
     }

@@ -118,43 +118,16 @@ export function ThemeProvider({
     [storageKey]
   );
 
-  const applyTheme = React.useCallback(
-    (nextTheme: Theme) => {
-      const root = document.documentElement;
-      const resolvedTheme =
-        nextTheme === 'system' ? getSystemTheme() : nextTheme;
-      const restoreTransitions = disableTransitionOnChange
-        ? disableTransitionsTemporarily()
-        : null;
-
-      root.classList.remove('light', 'dark');
-      root.classList.add(resolvedTheme);
-
-      if (restoreTransitions) {
-        restoreTransitions();
-      }
-    },
-    [disableTransitionOnChange]
-  );
-
   React.useEffect(() => {
-    applyTheme(theme);
+    const root = document.documentElement;
+    const restoreTransitions = disableTransitionOnChange
+      ? disableTransitionsTemporarily()
+      : null;
 
-    if (theme !== 'system') {
-      return undefined;
-    }
-
-    const mediaQuery = window.matchMedia(COLOR_SCHEME_QUERY);
-    const handleChange = () => {
-      applyTheme('system');
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange);
-    };
-  }, [theme, applyTheme]);
+    root.classList.remove('light', 'dark');
+    root.classList.add(resolvedTheme);
+    restoreTransitions?.();
+  }, [resolvedTheme, disableTransitionOnChange]);
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

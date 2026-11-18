@@ -42,29 +42,31 @@ export function RequestFileField({
   return (
     <Field className={requestFieldClassName}>
       <FieldLabel htmlFor="file">Чертёж, фото или ТЗ</FieldLabel>
-      <FieldContent className="relative min-w-0">
-        <Input
-          id="file"
-          type="file"
-          accept={fileAccept}
-          aria-invalid={error !== undefined}
-          aria-describedby={
-            error !== undefined ? 'file-help file-error' : 'file-help'
-          }
-          className="peer absolute inset-0 z-10 size-full cursor-pointer opacity-0 file:cursor-pointer"
-          {...register('file')}
-        />
-        <span
-          aria-hidden="true"
-          className="flex min-h-[46px] min-w-0 items-center gap-3 rounded-xl bg-zinc-100 px-2.5 py-2 pr-11 text-[length:calc(12px*var(--text-scale))] peer-hover:bg-zinc-200 peer-focus-visible:bg-zinc-200 peer-aria-invalid:bg-rose-50 peer-aria-invalid:peer-focus-visible:bg-rose-100 motion-safe:transition-colors motion-safe:duration-150 forced-colors:peer-focus-visible:outline-2"
-        >
-          <span className="shrink-0 rounded-full bg-white/75 px-2 py-1 font-semibold">
-            Выбрать файл
+      <FieldContent className="min-w-0 flex-row items-center gap-2">
+        <div className="request-file relative min-w-0 flex-1">
+          <Input
+            id="file"
+            type="file"
+            accept={fileAccept}
+            aria-invalid={error !== undefined}
+            aria-describedby={
+              error !== undefined ? 'file-help file-error' : 'file-help'
+            }
+            className="peer absolute inset-0 size-full cursor-pointer opacity-0 file:cursor-pointer"
+            {...register('file')}
+          />
+          <span
+            aria-hidden="true"
+            className="request-file-control rounded-control border-field-line bg-surface peer-hover:bg-bg peer-disabled:bg-bg peer-disabled:text-ink-muted peer-aria-invalid:border-field-error pointer-events-none flex min-h-12 min-w-0 items-center gap-2 border px-2.5 py-2 text-sm"
+          >
+            <span className="rounded-chip bg-bg shrink-0 px-2 py-1 font-semibold">
+              Выбрать файл
+            </span>
+            <span className="truncate">
+              {selectedFile?.name ?? 'Файл не выбран'}
+            </span>
           </span>
-          <span className="truncate">
-            {selectedFile?.name ?? 'Файл не выбран'}
-          </span>
-        </span>
+        </div>
         {selectedFile != null && (
           <Button
             type="button"
@@ -72,7 +74,7 @@ export function RequestFileField({
             size="icon"
             aria-label="Убрать файл из заявки"
             disabled={isSubmitting}
-            className="absolute top-1/2 right-2 z-20 size-8 -translate-y-1/2 rounded-full text-zinc-600 hover:bg-zinc-200"
+            className="landing-control rounded-control border-field-line text-ink-muted hover:bg-line size-12 border transition-none"
             onClick={() => {
               resetField('file');
               setFocus('file');
@@ -84,11 +86,15 @@ export function RequestFileField({
       </FieldContent>
       <FieldDescription
         id="file-help"
-        className="text-[length:calc(11px*var(--text-scale))] text-zinc-600"
+        className="text-ink-muted font-mono text-xs"
       >
         Один файл до 10 МБ: {fileFormats}
       </FieldDescription>
-      <FieldError id="file-error" className="text-rose-700" errors={[error]} />
+      <FieldError
+        id="file-error"
+        className="text-field-error"
+        errors={[error]}
+      />
     </Field>
   );
 }

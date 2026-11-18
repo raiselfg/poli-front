@@ -1,3 +1,4 @@
+import { unstable_rethrow } from 'next/navigation';
 import {
   ArrowUpRight,
   Clock,
@@ -7,12 +8,15 @@ import {
   Phone,
   type LucideIcon,
 } from 'lucide-react';
-import { getContacts } from '../../../_lib/contacts/contacts';
+import { getContacts, getPhoneHref } from '../../../_lib/contacts/contacts';
+import { accentAction } from '../../landing-styles';
+import { ContactMap } from './contact-map';
 
 export async function ContactDetails() {
   const result = await getContacts().then(
     (contacts) => ({ contacts, error: false as const }),
     (error: unknown) => {
+      unstable_rethrow(error);
       console.error('Не удалось загрузить контакты', error);
       return { error: true as const };
     }
@@ -26,56 +30,74 @@ export async function ContactDetails() {
   const contacts = result.contacts;
   if (contacts === null)
     return <p className="my-7 text-zinc-700">Контакты пока не добавлены.</p>;
-  const phoneNumber = contacts.phone.replace(/\D/g, '');
-  const phoneHref =
-    phoneNumber !== ''
-      ? `tel:${contacts.phone.trimStart().startsWith('+') ? '+' : ''}${phoneNumber}`
-      : undefined;
+
+  const phoneHref = getPhoneHref(contacts.phone);
+  const email = contacts.email ?? '';
+  const telegramHref = contacts.telegram_url ?? '';
+  const whatsappHref = contacts.whatsapp_url ?? '';
+  const rows = [
+    { icon: Phone, label: 'Телефон', value: contacts.phone, href: phoneHref },
+    {
+      icon: Mail,
+      label: 'Почта',
+      value: email,
+      href: email === '' ? undefined : `mailto:${email}`,
+    },
+    { icon: MapPin, label: 'Адрес', value: contacts.address },
+    { icon: Clock, label: 'Часы работы', value: contacts.working_hours ?? '' },
+    {
+      icon: MessageCircle,
+      label: 'Мессенджер',
+      value: telegramHref === '' ? '' : 'Telegram',
+      href: telegramHref,
+    },
+    {
+      icon: MessageCircle,
+      label: 'Мессенджер',
+      value: whatsappHref === '' ? '' : 'WhatsApp',
+      href: whatsappHref,
+    },
+  ].filter(({ value }) => value !== '');
+  const shortcuts = [
+    { label: 'Позвонить', href: phoneHref ?? '' },
+    { label: 'Telegram', href: telegramHref },
+    { label: 'WhatsApp', href: whatsappHref },
+  ].filter(({ href }) => href !== '');
+
   return (
-    <address className="grid divide-y divide-zinc-800/20 text-zinc-900 not-italic max-[900px]:mb-7">
-      {contacts.phone !== '' && (
-        <ContactRow
-          icon={Phone}
-          label="Телефон"
-          value={contacts.phone}
-          href={phoneHref}
+    <>
+      <div className="mt-12 flex flex-col gap-8 pb-[70px] max-[700px]:mt-8 max-[700px]:pb-8 min-[900px]:flex-row min-[900px]:justify-between min-[900px]:gap-[50px] min-[900px]:pb-[100px]">
+        <ContactMap
+          latitude={contacts.latitude}
+          longitude={contacts.longitude}
         />
-      )}
-      {contacts.email !== null && contacts.email !== '' && (
-        <ContactRow
-          icon={Mail}
-          label="Почта"
-          value={contacts.email}
-          href={`mailto:${contacts.email}`}
-        />
-      )}
-      {contacts.address !== '' && (
-        <ContactRow icon={MapPin} label="Адрес" value={contacts.address} />
-      )}
-      {contacts.working_hours !== null && contacts.working_hours !== '' && (
-        <ContactRow
-          icon={Clock}
-          label="Часы работы"
-          value={contacts.working_hours}
-        />
-      )}
-      {contacts.telegram_url !== null && contacts.telegram_url !== '' && (
-        <ContactRow
-          icon={MessageCircle}
-          label="Мессенджер"
-          value="Telegram"
-          href={contacts.telegram_url}
-        />
-      )}
-      {contacts.whatsapp_url !== null && contacts.whatsapp_url !== '' && (
-        <ContactRow
-          icon={MessageCircle}
-          label="Мессенджер"
-          value="WhatsApp"
-          href={contacts.whatsapp_url}
-        />
-      )}
-    </address>
+        <address className="grid w-full min-w-0 divide-y divide-zinc-800/20 self-start text-zinc-900 not-italic min-[900px]:max-w-[min(40%,480px)]">
+          {rows.map((row) => (
+            <ContactRow key={`${row.label}:${row.value}`} {...row} />
+          ))}
+        </address>
+      </div>
+      {shortcuts.length > 0 ? (
+        <nav
+          aria-label="Быстрая связь"
+          className="landing-contact-bar border-line bg-bg landing:hidden fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t"
+        >
+          {shortcuts.map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              className={
+                href === phoneHref
+                  ? `${accentAction} flex-1 px-2`
+                  : 'landing-control rounded-control border-ink bg-surface hover:bg-ink hover:text-surface inline-flex min-h-11 flex-1 items-center justify-center border px-2 text-sm font-bold'
+              }
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+      ) : null}
+    </>
   );
 }
 
@@ -92,14 +114,14 @@ function ContactRow({
 }) {
   const row = (
     <>
-      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/50 text-zinc-800 transition-colors duration-300 group-hover:bg-white/80 group-focus-visible:bg-white/80">
+      <span className="text-landing-accent grid size-10 shrink-0 place-items-center rounded-full bg-white/50 group-hover:bg-white/80 group-focus-visible:bg-white/80 motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-in-out">
         <Icon size={18} aria-hidden="true" />
       </span>
       <span className="min-w-0">
         <span className="block text-xs font-semibold text-zinc-600">
           {label}
         </span>
-        <span className="block text-base leading-snug font-bold wrap-anywhere decoration-zinc-800/35 underline-offset-4 group-hover:underline group-focus-visible:underline">
+        <span className="group-hover:decoration-landing-accent group-focus-visible:decoration-landing-accent block text-base leading-snug font-bold wrap-anywhere underline decoration-transparent underline-offset-4 motion-safe:transition-[text-decoration-color] motion-safe:duration-300 motion-safe:ease-in-out">
           {value}
         </span>
       </span>

@@ -1,28 +1,18 @@
-export const wrap =
+import { buttonVariants } from '@workspace/ui/components/button';
+import { cn } from '@workspace/ui/lib/utils';
+
+export const wrap = 'mx-auto w-full max-w-landing px-5 sm:px-8 landing:px-10';
+export const catalogFooterWrap =
   'mx-auto w-[min(100%-96px,1320px)] max-[900px]:w-[min(100%-48px,1320px)] max-[700px]:w-[calc(100%-36px)]';
 export const heading =
-  'mt-[26px] mb-0 text-[length:calc(clamp(46px,5vw,72px)*var(--text-scale))] leading-[0.98] font-medium tracking-[-0.045em] max-[700px]:text-[length:calc(clamp(43px,10vw,62px)*var(--text-scale))]';
-export const action =
-  'inline-flex min-h-[58px] items-center justify-between gap-[45px] bg-zinc-700 px-[21px] py-[19px] text-[length:calc(13px*var(--text-scale))] font-[650] text-white shadow-[0_9px_20px_rgb(39_39_42_/_18%)] hover:bg-zinc-950 transition-colors duration-300 ease-in-out focus-visible:bg-zinc-950 max-[700px]:min-h-[54px]';
+  'text-section-heading leading-none font-extrabold tracking-heading text-balance';
+export const action = cn(
+  buttonVariants(),
+  'landing-control rounded-control bg-ink text-surface hover:bg-landing-accent hover:text-surface min-h-12 gap-3 px-4 font-bold transition-none'
+);
+export const accentAction = cn(
+  buttonVariants(),
+  'landing-control rounded-control bg-landing-accent text-surface hover:bg-ink hover:text-surface min-h-11 gap-2 px-4 font-bold transition-none'
+);
 export const textLink =
-  'inline-flex items-center gap-5 border-b border-current py-[10px] text-[length:calc(13px*var(--text-scale))] font-[650] transition-colors duration-300 hover:text-zinc-800 focus-visible:text-zinc-800';
-
-export const serifHighlight = 'font-accent font-semibold text-zinc-900';
-
-export const wordReveal: import('motion/react').Variants = {
-  hidden: { opacity: 0, y: 22, filter: 'blur(8px)' },
-  show: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.56, ease: 'easeOut' },
-  },
-};
-
-export const lineReveal: import('motion/react').Variants = {
-  hidden: { clipPath: 'inset(-15% 100% -20% -5%)' },
-  show: {
-    clipPath: 'inset(-15% -5% -20% -5%)',
-    transition: { duration: 0.9, ease: 'easeInOut' },
-  },
-};
+  'landing-link inline-flex min-h-11 items-center gap-2 font-bold underline decoration-landing-accent decoration-2 underline-offset-6 hover:decoration-current';

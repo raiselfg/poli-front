@@ -1,6 +1,4 @@
-import { AnimatedCopy } from '../animated-phrase';
-import { heading, lineReveal, wrap } from '../landing-styles';
-import { TextAnimate } from '../magic-ui/text-animate';
+import { heading, wrap } from '../landing-styles';
 import { RequestForm } from './components/request-form';
 
 const steps = [
@@ -10,7 +8,7 @@ const steps = [
         Оставьте заявку,{' '}
         <a
           href="#contacts"
-          className="underline underline-offset-4 hover:text-zinc-700"
+          className="landing-link decoration-landing-accent-light underline underline-offset-4 hover:decoration-current"
         >
           напишите или позвоните
         </a>
@@ -32,54 +30,45 @@ export function Request() {
   return (
     <section
       id="request"
-      className={`${wrap} grid scroll-mt-6 grid-cols-[0.9fr_1.1fr] gap-[12%] py-[150px] max-[900px]:gap-[7%] max-[700px]:grid-cols-1 max-[700px]:gap-8 max-[700px]:py-8`}
+      aria-labelledby="request-title"
+      className="bg-ink py-section text-surface"
     >
-      <div>
-        <AnimatedCopy>
-          <h2 className={heading}>
-            Расчёт
-            <br />
-            <TextAnimate
-              as="span"
-              by="text"
-              startOnView={false}
-              animate={undefined}
-              variants={lineReveal}
-              className="text-zinc-800 motion-reduce:opacity-100!"
-              segmentClassName="motion-reduce:[clip-path:none]!"
-            >
-              по вашей детали
-            </TextAnimate>
+      <div
+        className={`${wrap} landing:grid-cols-[minmax(0,1fr)_minmax(0,var(--spacing-order-form))] landing:gap-12 grid items-start gap-8`}
+      >
+        <div>
+          <p className="text-ink-on-dark-muted mb-5 font-mono text-xs font-bold tracking-widest">
+            Расчёт по вашей детали
+          </p>
+          <h2 id="request-title" className={heading}>
+            Как оформить заказ
           </h2>
-        </AnimatedCopy>
-        <h3 className="mt-9 text-[length:calc(15px*var(--text-scale))] font-semibold text-zinc-900">
-          Как оформить заказ
-        </h3>
-        <ol className="mt-3 border-t border-zinc-300">
-          {steps.map((step, index) => (
-            <li
-              key={step.text}
-              className="flex gap-4 border-b border-zinc-300 py-4"
-            >
-              <span
-                aria-hidden="true"
-                className="grid size-8 shrink-0 place-items-center rounded-full border border-zinc-300 text-[length:calc(12px*var(--text-scale))] font-semibold text-zinc-700"
+          <ol role="list" className="mt-8">
+            {steps.map((step, index) => (
+              <li
+                key={step.text}
+                className="border-line-dark flex gap-4 border-t py-5"
               >
-                {index + 1}
-              </span>
-              <div>
-                <p className="text-[length:calc(14px*var(--text-scale))] leading-snug font-semibold text-zinc-900">
-                  {step.title}
-                </p>
-                <p className="mt-1 text-[length:calc(13px*var(--text-scale))] leading-[1.5] text-zinc-600">
-                  {step.text}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
+                <span
+                  aria-hidden="true"
+                  className="text-landing-accent-light shrink-0 font-mono text-lg font-bold"
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <h3 className="text-lg leading-snug font-bold">
+                    {step.title}
+                  </h3>
+                  <p className="text-ink-on-dark-muted mt-2 text-sm leading-relaxed">
+                    {step.text}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <RequestForm />
       </div>
-      <RequestForm />
     </section>
   );
 }

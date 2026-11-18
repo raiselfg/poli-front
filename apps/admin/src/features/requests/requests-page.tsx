@@ -8,19 +8,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select';
-import { requestsQuery } from '@/features/requests/data';
+import { requestsQuery } from './data';
 import { categoriesQuery } from '@/features/categories/data';
+import type { Category } from '@/features/categories/schemas';
 import { date } from '@/lib/date';
 import { QueryState } from '@/components/query-state';
-import { statusSchema } from '@/features/requests/schemas';
-import { statusLabels } from '@/features/requests/request-constants';
+import { statusSchema, type RequestStatus } from './schemas';
+import { statusLabels } from './request-constants';
+type StatusFilter = 'all' | RequestStatus;
+
+function indexCategoryTitles(categories: Category[]) {
+  const titles = new Map<string, string>();
+  for (const { id, title } of categories) {
+    if (!titles.has(id)) titles.set(id, title);
+  }
+  return titles;
+}
+
 export function Requests() {
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState<StatusFilter>('all');
   const requests = useQuery(requestsQuery);
-  const categories = useQuery(categoriesQuery);
-  const shown = requests.data?.filter(
-    (item) => filter === 'all' || item.status === filter
-  );
+  const categories = useQuery({
+    ...categoriesQuery,
+    select: indexCategoryTitles,
+  });
+  const shown =
+    filter === 'all'
+      ? requests.data
+      : requests.data?.filter((item) => item.status === filter);
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold tracking-tight">Заявки</h1>
@@ -30,13 +45,13 @@ export function Requests() {
         </label>
         <Select
           value={filter}
-          onValueChange={(value) => value && setFilter(value)}
+          onValueChange={(value) => {
+            if (value !== null) setFilter(value);
+          }}
         >
           <SelectTrigger id="status-filter" className="h-11 w-full sm:w-52">
             <SelectValue>
-              {filter === 'all'
-                ? 'Все заявки'
-                : statusLabels[statusSchema.parse(filter)]}
+              {filter === 'all' ? 'Все заявки' : statusLabels[filter]}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -72,8 +87,10 @@ export function Requests() {
                     <p className="font-medium break-words">{item.name}</p>
                     <p className="text-sm break-words text-muted-foreground">
                       {item.phone} ·{' '}
-                      {categories.data.find((c) => c.id === item.categoryId)
-                        ?.title ?? 'Без категории'}
+                      {(item.categoryId === null
+                        ? undefined
+                        : categories.data.get(item.categoryId)) ??
+                        'Без категории'}
                       {item.hasFile ? ' · Есть вложение' : ''}
                     </p>
                   </div>
