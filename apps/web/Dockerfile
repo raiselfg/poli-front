@@ -21,7 +21,8 @@ COPY --from=deps /repo/packages/ui/node_modules ./packages/ui/node_modules
 COPY . .
 # Next prerenders cached sections during build, so the API must be reachable here.
 ARG API_URL
-ENV API_URL=$API_URL
+ARG SITE_URL
+ENV API_URL=$API_URL SITE_URL=$SITE_URL
 RUN pnpm --filter web build
 
 FROM node:22-alpine AS runner

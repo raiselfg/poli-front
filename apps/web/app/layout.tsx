@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono, Nunito_Sans } from 'next/font/google';
+import { z } from 'zod';
 import './globals.css';
 import { SiteToaster } from '@/components/site-theme';
 import { brandName } from '@/lib/brand';
@@ -24,13 +25,40 @@ const jetBrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
 });
 
+const siteUrl = process.env.SITE_URL?.trim() ?? '';
+const metadataBase =
+  siteUrl === ''
+    ? undefined
+    : new URL(z.url({ protocol: /^https?$/ }).parse(siteUrl));
+
 export const metadata: Metadata = {
+  metadataBase,
+  applicationName: brandName,
   title: {
-    default: `Полиуретановые изделия на заказ в Санкт-Петербурге | ${brandName}`,
+    default: `${brandName} — полиуретановые изделия на заказ в Санкт-Петербурге`,
     template: `%s | ${brandName}`,
   },
-  description:
-    'Втулки, отбойники, демпферы, манжеты и детали по чертежам. Производство изделий из полиуретана в Санкт-Петербурге по чертежу, ТЗ или фото.',
+  description: `«${brandName}» — производство изделий из полиуретана в Санкт-Петербурге. Изготавливаем втулки, отбойники, демпферы, манжеты и детали по чертежу, ТЗ или фото.`,
+  openGraph: {
+    type: 'website',
+    siteName: brandName,
+    locale: 'ru_RU',
+    images:
+      metadataBase === undefined
+        ? undefined
+        : [
+            {
+              url: '/images/alvin-share.png',
+              width: 1200,
+              height: 630,
+              type: 'image/png',
+              alt: `${brandName} — полиуретановые изделия на заказ`,
+            },
+          ],
+  },
+  twitter: {
+    card: metadataBase === undefined ? 'summary' : 'summary_large_image',
+  },
 };
 
 export const viewport: Viewport = { viewportFit: 'cover' };
