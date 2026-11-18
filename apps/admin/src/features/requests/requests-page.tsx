@@ -38,7 +38,13 @@ export function Requests() {
       : requests.data?.filter((item) => item.status === filter);
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight">Заявки</h1>
+      <div className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight">Заявки</h1>
+        <p className="text-sm text-muted-foreground">
+          Просматривайте заявки с сайта, открывайте вложения и меняйте статус
+          обработки.
+        </p>
+      </div>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
         <label htmlFor="status-filter" className="text-sm font-medium">
           Статус

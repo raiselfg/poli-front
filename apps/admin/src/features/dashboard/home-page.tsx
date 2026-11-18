@@ -10,7 +10,12 @@ export function Home() {
   const query = useQuery(requestsQuery);
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-semibold tracking-tight">Главная</h1>
+      <div className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight">Главная</h1>
+        <p className="text-sm text-muted-foreground">
+          Сводка по статусам заявок и быстрый переход к настройкам сайта.
+        </p>
+      </div>
       <section className="space-y-4">
         <h2 className="text-lg font-medium">Заявки</h2>
         <QueryState
