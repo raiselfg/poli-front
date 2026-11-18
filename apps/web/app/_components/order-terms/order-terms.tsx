@@ -28,17 +28,17 @@ export function OrderTerms() {
   return (
     <section
       aria-label="Условия заказа"
-      className="bg-ink text-surface border-line-dark border-y py-8 sm:py-12 lg:py-16"
+      className="bg-dark-panel text-on-dark border-line-dark border-y py-8 sm:py-12 lg:py-16"
     >
       <dl className={`${wrap} landing:grid-cols-4 grid gap-4 sm:grid-cols-2`}>
         {terms.map(({ icon: Icon, title, text }) => (
           <div
             key={title}
-            className="rounded-panel border-surface/15 from-landing-accent/25 to-surface/5 min-w-0 border bg-linear-to-br p-5 shadow-[0_12px_24px_rgb(0_0_0/24%),inset_0_1px_0_rgb(255_255_255/8%)] sm:min-h-56 xl:p-6"
+            className="rounded-panel border-on-dark/15 from-landing-accent/25 to-on-dark/5 min-w-0 border bg-linear-to-br p-5 shadow-[0_12px_24px_rgb(0_0_0/24%),inset_0_1px_0_rgb(255_255_255/8%)] sm:min-h-56 xl:p-6"
           >
             <Icon
               aria-hidden="true"
-              className="rounded-control bg-landing-accent text-surface mb-5 size-11 p-2.5"
+              className="rounded-control bg-landing-accent text-on-dark mb-5 size-11 p-2.5"
             />
             <dt className="text-landing-accent-light text-xl leading-snug font-bold wrap-anywhere hyphens-auto xl:text-2xl">
               {title}

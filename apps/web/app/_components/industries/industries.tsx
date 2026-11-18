@@ -54,8 +54,8 @@ export function Industries() {
             className={cn(
               'rounded-panel flex min-w-0 flex-col overflow-hidden border bg-linear-to-br shadow-sm',
               featured === true
-                ? 'border-line-dark from-ink text-surface to-[#21403e] [--drawing-dark:#232e30] [--drawing-light:#80a9a4] [--drawing-mid:#346d68]'
-                : 'border-line from-surface to-landing-accent/10 [--drawing-dark:#91b8b4] [--drawing-light:var(--landing-surface)] [--drawing-mid:#c6deda]',
+                ? 'border-line-dark from-dark-panel text-on-dark to-[#21403e] [--drawing-dark:#232e30] [--drawing-light:#80a9a4] [--drawing-mid:#346d68]'
+                : 'border-line from-surface to-landing-accent/10 [--drawing-dark:#91b8b4] [--drawing-light:var(--landing-surface)] [--drawing-mid:#c6deda] dark:[--drawing-dark:#65a49e] dark:[--drawing-light:#c6deda] dark:[--drawing-mid:#355b58]',
               layout
             )}
           >
@@ -64,7 +64,7 @@ export function Industries() {
                 'relative grid min-h-0 flex-1 place-items-center overflow-hidden px-4 pt-4',
                 featured === true
                   ? 'text-landing-accent-light'
-                  : 'text-landing-accent'
+                  : 'text-accent-ink'
               )}
             >
               <div

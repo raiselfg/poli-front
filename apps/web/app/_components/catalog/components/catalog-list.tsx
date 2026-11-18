@@ -14,7 +14,7 @@ export async function CatalogList() {
 
   if (result.error || result.categories.length === 0) {
     return (
-      <p className="text-zinc-700">
+      <p className="text-ink-muted">
         {result.error
           ? 'Не удалось загрузить продукцию. Попробуйте обновить страницу.'
           : 'Продукция пока не добавлена.'}

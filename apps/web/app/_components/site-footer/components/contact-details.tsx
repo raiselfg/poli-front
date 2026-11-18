@@ -23,13 +23,13 @@ export async function ContactDetails() {
   );
   if (result.error)
     return (
-      <p className="my-7 text-zinc-700">
+      <p className="text-ink-muted my-7">
         Не удалось загрузить контакты. Попробуйте обновить страницу.
       </p>
     );
   const contacts = result.contacts;
   if (contacts === null)
-    return <p className="my-7 text-zinc-700">Контакты пока не добавлены.</p>;
+    return <p className="text-ink-muted my-7">Контакты пока не добавлены.</p>;
 
   const phoneHref = getPhoneHref(contacts.phone);
   const email = contacts.email ?? '';
@@ -71,7 +71,7 @@ export async function ContactDetails() {
           latitude={contacts.latitude}
           longitude={contacts.longitude}
         />
-        <address className="grid w-full min-w-0 divide-y divide-zinc-800/20 self-start text-zinc-900 not-italic min-[900px]:max-w-[min(40%,480px)]">
+        <address className="divide-line text-ink grid w-full min-w-0 divide-y self-start not-italic min-[900px]:max-w-[min(40%,480px)]">
           {rows.map((row) => (
             <ContactRow key={`${row.label}:${row.value}`} {...row} />
           ))}
@@ -114,11 +114,11 @@ function ContactRow({
 }) {
   const row = (
     <>
-      <span className="text-landing-accent grid size-10 shrink-0 place-items-center rounded-full bg-white/50 group-hover:bg-white/80 group-focus-visible:bg-white/80 motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-in-out">
+      <span className="text-accent-ink bg-surface/50 group-hover:bg-surface/80 group-focus-visible:bg-surface/80 grid size-10 shrink-0 place-items-center rounded-full motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-in-out">
         <Icon size={18} aria-hidden="true" />
       </span>
       <span className="min-w-0">
-        <span className="block text-xs font-semibold text-zinc-600">
+        <span className="text-ink-muted block text-xs font-semibold">
           {label}
         </span>
         <span className="group-hover:decoration-landing-accent group-focus-visible:decoration-landing-accent block text-base leading-snug font-bold wrap-anywhere underline decoration-transparent underline-offset-4 motion-safe:transition-[text-decoration-color] motion-safe:duration-300 motion-safe:ease-in-out">

@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/site-theme';
 import { brandName } from '@/lib/brand';
 import { copyrightYear, legalLinks, operator } from '@/lib/legal';
 import { catalogFooterWrap } from '../landing-styles';
@@ -19,8 +20,8 @@ export function SiteFooter() {
         <Suspense fallback={<ContactsSkeleton />}>
           <ContactDetails />
         </Suspense>
-        <div className="border-t border-zinc-300 pt-[22px]">
-          <dl className="mb-5 text-sm text-zinc-700">
+        <div className="border-line border-t pt-[22px]">
+          <dl className="text-ink-muted mb-5 text-sm">
             <dt className="text-xs font-semibold">Юридическое наименование</dt>
             <dd className="text-ink font-bold wrap-anywhere">
               {operator.name}
@@ -28,30 +29,31 @@ export function SiteFooter() {
           </dl>
           <nav
             aria-label="Юридическая информация"
-            className="flex flex-wrap gap-x-6 gap-y-2 text-[length:calc(12px*var(--text-scale))] font-medium text-zinc-700 max-[700px]:text-[length:calc(11px*var(--text-scale))]"
+            className="text-ink-muted flex flex-wrap gap-x-6 gap-y-2 text-[length:calc(12px*var(--text-scale))] font-medium max-[700px]:text-[length:calc(11px*var(--text-scale))]"
           >
             {legalLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-landing-accent focus-visible:text-landing-accent motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-in-out"
+                className="hover:text-accent-ink focus-visible:text-accent-ink motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-in-out"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <p className="mt-3 max-w-[760px] text-[length:calc(11px*var(--text-scale))] leading-[1.6] text-zinc-600">
+          <p className="text-ink-muted mt-3 max-w-[760px] text-[length:calc(11px*var(--text-scale))] leading-[1.6]">
             Информация на сайте носит справочный характер и не является
             публичной офертой (ст. 437 ГК РФ). Стоимость и сроки изготовления
             рассчитываются по запросу.
           </p>
-          <div className="mt-5 flex flex-wrap justify-between gap-4 text-[length:calc(10px*var(--text-scale))] font-[650] tracking-[0.1em] text-zinc-700 max-[700px]:text-[length:calc(9px*var(--text-scale))]">
+          <div className="text-ink-muted mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-[length:calc(10px*var(--text-scale))] font-[650] tracking-[0.1em] max-[700px]:text-[length:calc(9px*var(--text-scale))]">
             <span className="max-[700px]:max-w-[220px]">
               ПРОИЗВОДСТВО ПОЛИУРЕТАНОВЫХ ИЗДЕЛИЙ · САНКТ-ПЕТЕРБУРГ
             </span>
             <span>
               © {copyrightYear} {brandName}
             </span>
+            <ThemeToggle />
           </div>
         </div>
       </div>

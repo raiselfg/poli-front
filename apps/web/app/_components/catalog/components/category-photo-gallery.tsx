@@ -49,7 +49,7 @@ export function CategoryPhotoGallery({
             render={
               <Button
                 variant="ghost"
-                className="landing-photo-trigger relative aspect-[4/3] h-auto w-full cursor-zoom-in overflow-hidden rounded-[28px] border border-zinc-200 bg-zinc-100 p-0"
+                className="landing-photo-trigger border-line bg-bg relative aspect-[4/3] h-auto w-full cursor-zoom-in overflow-hidden rounded-[28px] border p-0"
               />
             }
           >
@@ -107,7 +107,7 @@ export function CategoryPhotoGallery({
                   variant="outline"
                   aria-label={`Показать фото ${String(photoIndex + 1)}`}
                   aria-pressed={activeIndex === photoIndex}
-                  className="aria-pressed:border-landing-accent aria-pressed:ring-landing-accent relative aspect-[4/3] h-auto w-20 overflow-hidden rounded-lg border-zinc-200 bg-zinc-100 p-0 transition-colors duration-300 ease-in-out aria-pressed:ring-1 motion-reduce:transition-none"
+                  className="aria-pressed:border-landing-accent aria-pressed:ring-landing-accent border-line bg-bg relative aspect-[4/3] h-auto w-20 overflow-hidden rounded-lg p-0 transition-colors duration-300 ease-in-out aria-pressed:ring-1 motion-reduce:transition-none"
                   onClick={() => {
                     setIndex(photoIndex);
                   }}
@@ -124,7 +124,7 @@ export function CategoryPhotoGallery({
             </div>
             <span
               role="status"
-              className="shrink-0 pr-1 text-xs text-zinc-700 tabular-nums"
+              className="text-ink-muted shrink-0 pr-1 text-xs tabular-nums"
             >
               {position}
             </span>

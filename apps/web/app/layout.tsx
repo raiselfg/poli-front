@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Nunito_Sans } from 'next/font/google';
 import './globals.css';
-import { Toaster } from '@workspace/ui/components/sonner';
+import { SiteToaster } from '@/components/site-theme';
 import { brandName } from '@/lib/brand';
+import { themeScript } from '@/lib/theme';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin', 'cyrillic'],
@@ -34,17 +35,15 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
+      suppressHydrationWarning
       className={`h-full scroll-pt-[88px] font-sans antialiased motion-safe:scroll-smooth max-[700px]:scroll-pt-[74px] ${nunitoSans.variable} ${inter.variable} ${jetBrainsMono.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="flex min-h-full flex-col">
         {children}
-        <Toaster
-          duration={5000}
-          toastOptions={{
-            classNames: { toast: 'cn-toast' },
-            closeButtonAriaLabel: 'Закрыть уведомление',
-          }}
-        />
+        <SiteToaster />
       </body>
     </html>
   );

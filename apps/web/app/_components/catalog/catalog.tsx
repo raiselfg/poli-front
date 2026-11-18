@@ -25,7 +25,7 @@ export function Catalog() {
             href="#request"
             className={cn(
               buttonVariants(),
-              'group/custom-link bg-landing-accent text-surface relative isolate h-auto min-h-13 justify-between gap-4 overflow-hidden rounded-full py-1.5 pr-1.5 pl-4 text-sm font-semibold shadow-md shadow-zinc-900/20 transition-none hover:bg-zinc-950 hover:shadow-lg hover:shadow-zinc-900/25 focus-visible:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-700 focus-visible:outline-solid motion-safe:transition-[background-color,box-shadow] motion-safe:duration-300 motion-safe:ease-in-out'
+              'group/custom-link bg-landing-accent text-on-dark relative isolate h-auto min-h-13 justify-between gap-4 overflow-hidden rounded-full py-1.5 pr-1.5 pl-4 text-sm font-semibold shadow-md shadow-zinc-900/20 transition-none hover:bg-zinc-950 hover:shadow-lg hover:shadow-zinc-900/25 focus-visible:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-700 focus-visible:outline-solid motion-safe:transition-[background-color,box-shadow] motion-safe:duration-300 motion-safe:ease-in-out'
             )}
           >
             <span
@@ -35,7 +35,7 @@ export function Catalog() {
             Изготовление на заказ
             <span
               aria-hidden="true"
-              className="bg-surface text-landing-accent grid size-9 shrink-0 place-items-center rounded-full"
+              className="bg-on-dark text-landing-accent grid size-9 shrink-0 place-items-center rounded-full"
             >
               <ArrowDown className="size-[18px]" />
             </span>

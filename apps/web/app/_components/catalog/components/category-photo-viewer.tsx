@@ -14,7 +14,7 @@ import {
 } from './photo-navigation';
 
 const viewerButtonClassName =
-  'landing-control rounded-control border-line bg-surface text-ink hover:bg-landing-accent hover:text-surface pointer-events-auto size-11 cursor-pointer transition-none';
+  'landing-control rounded-control border-line bg-surface text-ink hover:bg-landing-accent hover:text-on-dark pointer-events-auto size-11 cursor-pointer transition-none';
 
 type CategoryPhotoViewerProps = Pick<Category, 'images' | 'title'> & {
   index: number;
@@ -38,7 +38,7 @@ export function CategoryPhotoViewer({
     <SheetContent
       side="bottom"
       showCloseButton={false}
-      className="landing-dialog bg-ink text-surface top-0 grid grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] px-3 shadow-none data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 sm:px-5"
+      className="landing-dialog bg-dark-panel text-on-dark top-0 grid grid-rows-[3.5rem_minmax(0,1fr)_3.5rem] px-3 shadow-none data-[side=bottom]:h-dvh data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-0 data-[side=bottom]:data-starting-style:translate-y-0 sm:px-5"
       onKeyDown={(event) => {
         if (hasMultipleImages) navigateWithArrowKeys(event, track.current);
       }}
@@ -47,7 +47,7 @@ export function CategoryPhotoViewer({
       }}
     >
       <div className="pointer-events-none flex min-w-0 items-center justify-between gap-4">
-        <SheetTitle className="text-surface min-w-0 truncate">
+        <SheetTitle className="text-on-dark min-w-0 truncate">
           {title}
         </SheetTitle>
         <SheetClose

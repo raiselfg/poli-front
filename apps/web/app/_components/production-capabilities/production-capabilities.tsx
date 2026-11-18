@@ -31,11 +31,11 @@ export function ProductionCapabilities() {
             className="rounded-panel border-line from-surface to-landing-accent/8 landing:last:col-span-1 flex min-h-36 min-w-0 flex-col justify-between gap-4 border bg-linear-to-br p-3.5 shadow-sm last:col-span-2 sm:min-h-42 sm:p-5"
           >
             {Icon !== undefined ? (
-              <span className="rounded-control bg-landing-accent/10 text-landing-accent grid size-12 place-items-center">
+              <span className="rounded-control bg-landing-accent/10 text-accent-ink grid size-12 place-items-center">
                 <Icon size={27} aria-hidden="true" />
               </span>
             ) : (
-              <div className="text-landing-accent flex items-baseline gap-1.5 font-mono leading-none font-bold">
+              <div className="text-accent-ink flex items-baseline gap-1.5 font-mono leading-none font-bold">
                 {prefix !== undefined && (
                   <span className="text-xs">{prefix}</span>
                 )}

@@ -26,7 +26,7 @@ export function ContactMap({
         src={`https://yandex.ru/map-widget/v1/?${mapParams.toString()}`}
         loading="lazy"
         allowFullScreen
-        className="absolute inset-0 size-full rounded-[24px] border border-zinc-300 bg-zinc-100"
+        className="border-line bg-surface absolute inset-0 size-full rounded-[24px] border"
       />
     </div>
   );

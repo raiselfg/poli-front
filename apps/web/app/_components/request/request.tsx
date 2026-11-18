@@ -31,7 +31,7 @@ export function Request() {
     <section
       id="request"
       aria-labelledby="request-title"
-      className="bg-ink py-section text-surface"
+      className="bg-dark-panel text-on-dark py-section"
     >
       <div
         className={`${wrap} landing:grid-cols-[minmax(0,1fr)_minmax(0,var(--spacing-order-form))] landing:gap-12 grid items-start gap-8`}
