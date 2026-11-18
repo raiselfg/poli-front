@@ -127,9 +127,16 @@ export function CategoryForm({ category }: { category?: Category }) {
           <ArrowLeft aria-hidden="true" />
           Все категории
         </Button>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {category ? 'Редактирование категории' : 'Новая категория'}
-        </h1>
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            {category ? 'Редактирование категории' : 'Новая категория'}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {category
+              ? 'Обновите описание, фотографии и видимость категории на сайте.'
+              : 'Заполните данные новой категории и выберите, показывать ли её в каталоге на сайте.'}
+          </p>
+        </div>
       </div>
       <form
         className="space-y-6"

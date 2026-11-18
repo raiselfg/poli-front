@@ -50,7 +50,12 @@ export function RequestPage({ requestId }: { requestId: string }) {
           <ArrowLeft aria-hidden="true" />
           Все заявки
         </Button>
-        <h1 className="text-2xl font-semibold tracking-tight">Заявка</h1>
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight">Заявка</h1>
+          <p className="text-sm text-muted-foreground">
+            Просмотрите данные клиента и вложения, затем обновите статус заявки.
+          </p>
+        </div>
       </div>
       <QueryState
         loading={query.isLoading || categories.isLoading}
