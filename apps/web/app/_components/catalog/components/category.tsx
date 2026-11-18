@@ -23,7 +23,7 @@ export function Category({ category, index }: CategoryProps) {
         ) : (
           <div
             className={cn(
-              'dark:border-line dark:from-surface dark:to-bg relative grid aspect-[4/3] place-items-center overflow-hidden rounded-[28px] border border-white/90 shadow-[0_20px_45px_rgb(63_63_70_/_14%),0_4px_12px_rgb(63_63_70_/_7%),inset_0_1px_2px_#fff] dark:bg-linear-to-br dark:shadow-none',
+              'dark:border-line dark:from-surface dark:to-bg rounded-panel relative grid aspect-[4/3] place-items-center overflow-hidden border border-white/90 shadow-[0_20px_45px_rgb(63_63_70_/_14%),0_4px_12px_rgb(63_63_70_/_7%),inset_0_1px_2px_#fff] dark:bg-linear-to-br dark:shadow-none',
               style?.surface
             )}
           >

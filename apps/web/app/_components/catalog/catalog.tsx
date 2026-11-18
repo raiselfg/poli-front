@@ -1,8 +1,6 @@
 import { Suspense } from 'react';
 import { ArrowDown } from 'lucide-react';
-import { buttonVariants } from '@workspace/ui/components/button';
-import { cn } from '@workspace/ui/lib/utils';
-import { catalogFooterWrap } from '../landing-styles';
+import { accentAction, catalogFooterWrap } from '../landing-styles';
 import { CatalogList } from './components/catalog-list';
 import { CatalogSkeleton } from './components/catalog-skeleton';
 
@@ -21,24 +19,9 @@ export function Catalog() {
           >
             Что мы изготавливаем
           </h2>
-          <a
-            href="#request"
-            className={cn(
-              buttonVariants(),
-              'group/custom-link bg-landing-accent text-on-dark relative isolate h-auto min-h-13 justify-between gap-4 overflow-hidden rounded-full py-1.5 pr-1.5 pl-4 text-sm font-semibold shadow-md shadow-zinc-900/20 transition-none hover:bg-zinc-950 hover:shadow-lg hover:shadow-zinc-900/25 focus-visible:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-700 focus-visible:outline-solid motion-safe:transition-[background-color,box-shadow] motion-safe:duration-300 motion-safe:ease-in-out'
-            )}
-          >
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-br from-white/12 to-transparent opacity-0 group-hover/custom-link:opacity-100 group-focus-visible/custom-link:opacity-100 motion-safe:transition-opacity motion-safe:duration-300 motion-safe:ease-in-out motion-reduce:hidden"
-            />
+          <a href="#request" className={accentAction}>
             Изготовление на заказ
-            <span
-              aria-hidden="true"
-              className="bg-on-dark text-landing-accent grid size-9 shrink-0 place-items-center rounded-full"
-            >
-              <ArrowDown className="size-[18px]" />
-            </span>
+            <ArrowDown aria-hidden="true" />
           </a>
         </div>
         <Suspense fallback={<CatalogSkeleton />}>

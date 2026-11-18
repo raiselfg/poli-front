@@ -15,7 +15,7 @@ import {
 } from './photo-navigation';
 
 const previewButtonClassName =
-  'absolute top-1/2 size-11 -translate-y-1/2 rounded-full border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,border-color,color,translate] duration-300 ease-in-out active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden';
+  'absolute top-1/2 size-11 -translate-y-1/2 rounded-control border-white/80 bg-white/95 text-zinc-900 shadow-sm transition-[background-color,border-color,color,translate] duration-300 ease-in-out active:bg-zinc-200 active:not-aria-[haspopup]:translate-y-[calc(-50%+1px)] motion-reduce:transition-none pointer-coarse:hidden';
 
 export function CategoryPhotoGallery({
   images,
@@ -49,7 +49,7 @@ export function CategoryPhotoGallery({
             render={
               <Button
                 variant="ghost"
-                className="landing-photo-trigger border-line bg-bg relative aspect-[4/3] h-auto w-full cursor-zoom-in overflow-hidden rounded-[28px] border p-0"
+                className="landing-photo-trigger border-line bg-bg rounded-panel relative aspect-[4/3] h-auto w-full cursor-zoom-in overflow-hidden border p-0"
               />
             }
           >
@@ -63,7 +63,7 @@ export function CategoryPhotoGallery({
             />
             <span
               aria-hidden="true"
-              className="landing-photo-expand absolute right-3 bottom-3 grid size-9 cursor-pointer place-items-center rounded-full bg-white/95 text-zinc-900 shadow-sm"
+              className="landing-photo-expand rounded-control absolute right-3 bottom-3 grid size-9 cursor-pointer place-items-center bg-white/95 text-zinc-900 shadow-sm"
             >
               <Maximize2 />
             </span>
@@ -107,7 +107,7 @@ export function CategoryPhotoGallery({
                   variant="outline"
                   aria-label={`Показать фото ${String(photoIndex + 1)}`}
                   aria-pressed={activeIndex === photoIndex}
-                  className="aria-pressed:border-landing-accent aria-pressed:ring-landing-accent border-line bg-bg relative aspect-[4/3] h-auto w-20 overflow-hidden rounded-lg p-0 transition-colors duration-300 ease-in-out aria-pressed:ring-1 motion-reduce:transition-none"
+                  className="aria-pressed:border-landing-accent aria-pressed:ring-landing-accent border-line bg-bg rounded-control relative aspect-[4/3] h-auto w-20 overflow-hidden p-0 transition-colors duration-300 ease-in-out aria-pressed:ring-1 motion-reduce:transition-none"
                   onClick={() => {
                     setIndex(photoIndex);
                   }}
