@@ -4,7 +4,7 @@ import { unstable_rethrow } from 'next/navigation';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { getCategories } from '../../_lib/catalog/catalog';
 import type { Category } from '../../_lib/catalog/catalog-schema';
-import { action, textLink, wrap } from '../landing-styles';
+import { action, wrap } from '../landing-styles';
 
 const products = [
   'Втулки',
@@ -78,9 +78,22 @@ export function Hero() {
               Прислать чертёж или фото
               <ArrowUpRight aria-hidden="true" />
             </a>
-            <a className={textLink} href="#catalog">
-              Смотреть продукцию
-              <ArrowDown size={16} aria-hidden="true" />
+            <a
+              className="group/catalog inline-flex min-h-11 items-center gap-2.5 font-bold"
+              href="#catalog"
+            >
+              <span className="group-hover/catalog:text-accent-ink group-focus-visible/catalog:text-accent-ink after:bg-accent-ink before:bg-accent-ink/40 relative before:absolute before:inset-x-0 before:-bottom-0.5 before:h-0.5 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 group-hover/catalog:after:scale-x-100 group-focus-visible/catalog:after:scale-x-100 motion-safe:transition-colors motion-safe:duration-300 motion-safe:after:transition-transform motion-safe:after:duration-300 forced-colors:underline">
+                Смотреть продукцию
+              </span>
+              <span
+                aria-hidden="true"
+                className="bg-accent-ink/10 text-accent-ink group-hover/catalog:bg-landing-accent group-hover/catalog:text-on-dark group-focus-visible/catalog:bg-landing-accent group-focus-visible/catalog:text-on-dark size-8 shrink-0 overflow-hidden rounded-full motion-safe:transition-colors motion-safe:duration-300"
+              >
+                <span className="grid -translate-y-8 auto-rows-[2rem] place-items-center motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-(--landing-motion-ease) motion-safe:group-hover/catalog:translate-y-0 motion-safe:group-focus-visible/catalog:translate-y-0">
+                  <ArrowDown size={16} />
+                  <ArrowDown size={16} />
+                </span>
+              </span>
             </a>
           </div>
         </div>
