@@ -51,6 +51,13 @@ export function updateCategoryImageAlt(id: string, alt: string) {
   return api(`/admin/media/${id}`, { method: 'PATCH', body: { alt } });
 }
 
+export function deleteCategoryImage(id: string, categoryId?: string) {
+  return api(`/admin/media/${id}`, {
+    method: 'DELETE',
+    query: { category_id: categoryId },
+  });
+}
+
 export async function saveCategory(
   id: string | undefined,
   values: CategoryFormValues

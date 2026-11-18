@@ -7,6 +7,7 @@ import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { ArrowLeft } from 'lucide-react';
+import { FetchError } from 'ofetch';
 import { useRef } from 'react';
 import { Controller, useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -19,6 +20,8 @@ import {
 } from './category-form-schema';
 import {
   categoriesQuery,
+  categoryQuery,
+  deleteCategoryImage,
   saveCategory,
   updateCategoryImageAlt,
   uploadCategoryImage,
@@ -68,6 +71,29 @@ export function CategoryForm({ category }: { category?: Category }) {
       toast.error(
         error instanceof Error && !(error.name === 'FetchError')
           ? error.message
+          : errorMessage(error)
+      ),
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => deleteCategoryImage(id, category?.id),
+    onSuccess: async (_, id) => {
+      form.setValue(
+        'images',
+        form.getValues('images').filter((image) => image.id !== id),
+        { shouldDirty: true, shouldValidate: true }
+      );
+      savedAlts.current?.delete(id);
+      toast.success('Фото удалено');
+      await Promise.all([
+        client.invalidateQueries({ queryKey: categoriesQuery.queryKey }),
+        category &&
+          client.invalidateQueries({ queryKey: categoryQuery(category.id).queryKey }),
+      ]);
+    },
+    onError: (error) =>
+      toast.error(
+        error instanceof FetchError && error.statusCode === 409
+          ? 'Фото используется в другом месте. Сначала уберите его оттуда.'
           : errorMessage(error)
       ),
   });
@@ -164,13 +190,18 @@ export function CategoryForm({ category }: { category?: Category }) {
         />
         <CategoryImages
           form={form}
-          disabled={save.isPending || upload.isPending}
+          disabled={save.isPending || upload.isPending || remove.isPending}
+          onRemove={remove.mutate}
+          removingId={remove.isPending ? remove.variables : undefined}
           uploadPending={upload.isPending}
           onUpload={(draft, onSuccess) => {
             upload.mutate(draft, { onSuccess });
           }}
         />
-        <Button type="submit" disabled={save.isPending || upload.isPending}>
+        <Button
+          type="submit"
+          disabled={save.isPending || upload.isPending || remove.isPending}
+        >
           {save.isPending ? 'Сохранение…' : 'Сохранить'}
         </Button>
       </form>

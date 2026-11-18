@@ -1,3 +1,14 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@workspace/ui/components/alert-dialog';
 import { Button } from '@workspace/ui/components/button';
 import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
@@ -14,6 +25,8 @@ const imagesHelp =
   'Добавляйте изображения по одному: выберите файл, укажите описание и нажмите «Добавить изображение».';
 
 type CategoryImagesProps = CategoryImageUploadProps & {
+  onRemove: (id: string) => void;
+  removingId: string | undefined;
   form: Pick<
     UseFormReturn<CategoryFormValues>,
     'control' | 'getValues' | 'register' | 'setValue'
@@ -22,6 +35,8 @@ type CategoryImagesProps = CategoryImageUploadProps & {
 
 export function CategoryImages({
   form: { control, getValues, register, setValue },
+  onRemove,
+  removingId,
   ...uploadProps
 }: CategoryImagesProps) {
   const images = useWatch({ control, name: 'images' });
@@ -37,16 +52,6 @@ export function CategoryImages({
     items[index] = next;
     items[target] = current;
     setValue('images', items, { shouldDirty: true });
-  }
-
-  function remove(index: number) {
-    setValue(
-      'images',
-      getValues('images').filter((_, i) => i !== index),
-      {
-        shouldDirty: true,
-      }
-    );
   }
 
   return (
@@ -109,15 +114,43 @@ export function CategoryImages({
             >
               <ArrowDown />
             </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              aria-label="Убрать изображение из категории"
-              onClick={() => remove(index)}
-            >
-              <Trash2 />
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger
+                render={
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Удалить фото"
+                    disabled={uploadProps.disabled}
+                  />
+                }
+              >
+                <Trash2 />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Удалить фото?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Фото исчезнет из галереи, а файл будет удалён из хранилища.
+                    Восстановить его не получится.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel disabled={removingId === image.id}>
+                    Отмена
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    type="button"
+                    variant="destructive"
+                    disabled={uploadProps.disabled}
+                    onClick={() => onRemove(image.id)}
+                  >
+                    {removingId === image.id ? 'Удаление…' : 'Удалить'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       ))}
