@@ -5,13 +5,12 @@ import { requestSchema } from './request-schema';
 import { createRequest } from './requests';
 
 export async function submitRequest(formData: FormData) {
-  const file = formData.get('file');
   const parsed = requestSchema.safeParse({
     name: formData.get('name'),
     phone: formData.get('phone'),
     comment: formData.get('comment') ?? '',
     consent: formData.get('consent') === 'true',
-    file: file instanceof File && file.name !== '' ? file : undefined,
+    files: formData.getAll('file'),
   });
   if (!parsed.success)
     return {
@@ -30,7 +29,7 @@ export async function submitRequest(formData: FormData) {
     if (error instanceof FetchError && error.statusCode === 413)
       return {
         ok: false,
-        message: 'Файл слишком большой. Максимальный размер — 10 Мб.',
+        message: 'Каждый файл должен быть не больше 5 МБ.',
       };
     if (error instanceof FetchError && error.statusCode === 415)
       return {

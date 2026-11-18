@@ -14,19 +14,22 @@ const requestBase = {
   updatedAt: z.string(),
 };
 export const requestSchema = z.object({ ...requestBase, hasFile: z.boolean() });
-export const requestDetailSchema = z.object({
-  ...requestBase,
-  file: z
-    .object({
-      id: uuid,
-      originalName: z.string(),
-      mimeType: z.string(),
-      sizeBytes: z.number(),
-      downloadUrl: z.string(),
-    })
-    .nullable(),
+const requestFileSchema = z.object({
+  id: uuid,
+  originalName: z.string(),
+  mimeType: z.string(),
+  sizeBytes: z.number(),
+  downloadUrl: z.string(),
 });
+export const requestDetailSchema = z
+  .object({
+    ...requestBase,
+    file: requestFileSchema.nullable(),
+    files: z.array(requestFileSchema).optional(),
+  })
+  .transform(({ file, files, ...request }) => ({
+    ...request,
+    files: files ?? (file ? [file] : []),
+  }));
 
-export type RequestFile = NonNullable<
-  z.infer<typeof requestDetailSchema>['file']
->;
+export type RequestFile = z.infer<typeof requestFileSchema>;

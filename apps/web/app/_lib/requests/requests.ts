@@ -16,8 +16,8 @@ export async function createRequest(
     body.set('comment', input.comment);
   }
 
-  if (input.file !== undefined) {
-    body.set('file', input.file);
+  for (const file of input.files) {
+    body.append('file', file);
   }
 
   const response = await api<RequestCreated>('/requests', {

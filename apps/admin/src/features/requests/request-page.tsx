@@ -17,7 +17,6 @@ import { categoriesQuery } from '@/features/categories/data';
 import { date } from '@/lib/date';
 import { errorMessage } from '@/lib/errors';
 import {
-  requestFileQuery,
   requestQuery,
   requestsQuery,
   updateRequestStatus,
@@ -29,12 +28,6 @@ import { statusSchema } from './schemas';
 export function RequestPage({ requestId }: { requestId: string }) {
   const query = useQuery(requestQuery(requestId));
   const categories = useQuery(categoriesQuery);
-  const file = query.data?.file ?? null;
-  const isImage = file?.mimeType.toLowerCase().startsWith('image/') ?? false;
-  const preview = useQuery({
-    ...requestFileQuery(requestId, file?.id),
-    enabled: isImage,
-  });
   const client = useQueryClient();
   const update = useMutation({
     mutationFn: (status: string) => updateRequestStatus(requestId, status),
@@ -121,11 +114,25 @@ export function RequestPage({ requestId }: { requestId: string }) {
                 </div>
               ))}
             </dl>
-            <RequestAttachment
-              requestId={requestId}
-              file={file}
-              preview={preview}
-            />
+            <section
+              aria-labelledby="request-files-heading"
+              className="space-y-4 border-t pt-5"
+            >
+              <h2 id="request-files-heading" className="font-medium">
+                Вложения
+              </h2>
+              {item.files.length > 0 ? (
+                <ul className="divide-y">
+                  {item.files.map((file) => (
+                    <li key={file.id} className="py-3 first:pt-0 last:pb-0">
+                      <RequestAttachment requestId={requestId} file={file} />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-muted-foreground">Файлы не прикреплены</p>
+              )}
+            </section>
           </CardContent>
         </Card>
       )}

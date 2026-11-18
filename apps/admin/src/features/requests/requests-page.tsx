@@ -91,7 +91,7 @@ export function Requests() {
                         ? undefined
                         : categories.data.get(item.categoryId)) ??
                         'Без категории'}
-                      {item.hasFile ? ' · Есть вложение' : ''}
+                      {item.hasFile ? ' · Есть файлы' : ''}
                     </p>
                   </div>
                   <div className="text-sm">

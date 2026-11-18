@@ -36,14 +36,21 @@ export function RequestForm() {
     control,
     handleSubmit,
     reset,
-    resetField,
+    setError,
+    clearErrors,
     setFocus,
     setValue,
     formState: { isSubmitting },
   } = useForm<RequestFormValues, undefined, RequestInput>({
     resolver: resolveRequest,
     reValidateMode: 'onChange',
-    defaultValues: { name: '', phone: '+7', comment: '', consent: false },
+    defaultValues: {
+      name: '',
+      phone: '+7',
+      comment: '',
+      consent: false,
+      files: [],
+    },
   });
   const [submissionError, setSubmissionError] = useState<string | null>(null);
 
@@ -53,7 +60,7 @@ export function RequestForm() {
     body.set('phone', values.phone);
     body.set('comment', values.comment);
     body.set('consent', String(values.consent));
-    if (values.file !== undefined) body.set('file', values.file);
+    for (const file of values.files) body.append('file', file);
     try {
       const response = await submitRequest(body);
       if (!response.ok) {
@@ -109,8 +116,8 @@ export function RequestForm() {
           </Field>
           <RequestFileField
             control={control}
-            register={register}
-            resetField={resetField}
+            setError={setError}
+            clearErrors={clearErrors}
             setFocus={setFocus}
           />
           <RequestConsentField control={control} disabled={isSubmitting} />

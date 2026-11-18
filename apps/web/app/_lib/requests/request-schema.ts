@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-export const maxFileSize = 10 * 1024 * 1024;
+export const maxFiles = 3;
+export const maxFileSize = 5 * 1024 * 1024;
 export const acceptedExtensions = [
   'pdf',
   'jpg',
@@ -11,6 +12,24 @@ export const acceptedExtensions = [
   'dwg',
   'dxf',
 ];
+
+const requestFileSchema = z
+  .file()
+  .min(1, 'Пустой файл нельзя прикрепить')
+  .max(maxFileSize, 'Каждый файл должен быть не больше 5 МБ')
+  .refine((file) => {
+    const extensionStart = file.name.lastIndexOf('.');
+    return (
+      extensionStart > 0 &&
+      acceptedExtensions.includes(
+        file.name.slice(extensionStart + 1).toLowerCase()
+      )
+    );
+  }, 'Неподдерживаемый формат файла');
+
+export const requestFilesSchema = z
+  .array(requestFileSchema)
+  .max(maxFiles, 'Можно прикрепить до 3 файлов');
 
 export const requestSchema = z.object({
   name: z
@@ -29,22 +48,7 @@ export const requestSchema = z.object({
       (value) => value,
       'Подтвердите согласие на обработку персональных данных'
     ),
-  file: z
-    .file()
-    .refine(
-      (file) => file.size > 0 && file.size <= maxFileSize,
-      'Файл должен быть не больше 10 МБ'
-    )
-    .refine((file) => {
-      const extensionStart = file.name.lastIndexOf('.');
-      return (
-        extensionStart > 0 &&
-        acceptedExtensions.includes(
-          file.name.slice(extensionStart + 1).toLowerCase()
-        )
-      );
-    }, 'Неподдерживаемый формат файла')
-    .optional(),
+  files: requestFilesSchema,
 });
 
 export type RequestInput = z.output<typeof requestSchema>;

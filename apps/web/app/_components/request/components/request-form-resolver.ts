@@ -9,17 +9,14 @@ export type RequestFormValues = {
   phone: string;
   comment: string;
   consent: boolean;
-  file?: FileList;
+  files: File[];
 };
 export const resolveRequest: Resolver<
   RequestFormValues,
   undefined,
   RequestInput
 > = (values) => {
-  const result = requestSchema.safeParse({
-    ...values,
-    file: values.file?.item(0) ?? undefined,
-  });
+  const result = requestSchema.safeParse(values);
   if (result.success) return { values: result.data, errors: {} };
 
   const errors: FieldErrors<RequestFormValues> = {};
@@ -30,9 +27,9 @@ export const resolveRequest: Resolver<
       fieldName === 'phone' ||
       fieldName === 'comment' ||
       fieldName === 'consent' ||
-      fieldName === 'file'
+      fieldName === 'files'
     ) {
-      errors[fieldName] = { type: issue.code, message: issue.message };
+      errors[fieldName] ??= { type: issue.code, message: issue.message };
     }
   }
   return { values: {}, errors };

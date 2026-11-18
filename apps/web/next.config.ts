@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '../..'),
   cacheComponents: true,
   partialPrefetching: true,
-  experimental: { serverActions: { bodySizeLimit: '11mb' } },
+  experimental: { serverActions: { bodySizeLimit: '16mb' } },
   reactCompiler: true,
   turbopack: {
     rules: {

@@ -18,8 +18,13 @@ export function requestQuery(id: string) {
   });
 }
 
-export function fetchRequestFile(id: string, signal?: AbortSignal) {
-  return api(`/admin/requests/${id}/file`, {
+export function fetchRequestFile(
+  requestId: string,
+  fileId: string,
+  signal?: AbortSignal
+) {
+  return api(`/admin/requests/${requestId}/file`, {
+    query: { file_id: fileId },
     responseType: 'blob',
     signal,
   });
@@ -27,11 +32,11 @@ export function fetchRequestFile(id: string, signal?: AbortSignal) {
 
 export function requestFileQuery(
   requestId: string,
-  fileId: string | undefined
+  fileId: string
 ) {
   return queryOptions({
     queryKey: ['request-file', requestId, fileId],
-    queryFn: ({ signal }) => fetchRequestFile(requestId, signal),
+    queryFn: ({ signal }) => fetchRequestFile(requestId, fileId, signal),
   });
 }
 
