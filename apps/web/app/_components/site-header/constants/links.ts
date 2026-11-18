@@ -1,5 +1,7 @@
+export const requestHref = '/#request';
+
 export const links = [
-  { href: '#catalog', label: 'Продукция' },
-  { href: '#request', label: 'Заказ детали' },
-  { href: '#contacts', label: 'Контакты' },
+  { href: '/#catalog', label: 'Продукция' },
+  { href: requestHref, label: 'Заказ детали' },
+  { href: '/#contacts', label: 'Контакты' },
 ];

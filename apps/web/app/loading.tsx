@@ -4,18 +4,10 @@ import { catalogFooterWrap, wrap } from './_components/landing-styles';
 
 export default function Loading() {
   return (
-    <main className="landing bg-bg text-ink">
+    <main className="flex-1">
       <div role="status">
         <span className="sr-only">Загружаем страницу…</span>
         <div aria-hidden="true">
-          <div className="border-line border-b">
-            <div
-              className={`${wrap} h-header flex items-center justify-between`}
-            >
-              <Skeleton className="bg-line h-6 w-40 motion-reduce:animate-none" />
-              <Skeleton className="rounded-control bg-line landing:w-40 h-11 w-11 motion-reduce:animate-none" />
-            </div>
-          </div>
           <div
             className={`${wrap} py-section landing:grid-cols-2 grid items-center gap-8`}
           >

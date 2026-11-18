@@ -1,9 +1,11 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono, Nunito_Sans } from 'next/font/google';
 import './globals.css';
 import { SiteToaster } from '@/components/site-theme';
 import { brandName } from '@/lib/brand';
 import { themeScript } from '@/lib/theme';
+import { SiteFooter } from './_components/site-footer/site-footer';
+import { SiteHeader } from './_components/site-header/site-header';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin', 'cyrillic'],
@@ -31,10 +33,13 @@ export const metadata: Metadata = {
     'Втулки, отбойники, демпферы, манжеты и детали по чертежам. Производство изделий из полиуретана в Санкт-Петербурге по чертежу, ТЗ или фото.',
 };
 
+export const viewport: Viewport = { viewportFit: 'cover' };
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`h-full scroll-pt-[88px] font-sans antialiased motion-safe:scroll-smooth max-[700px]:scroll-pt-[74px] ${nunitoSans.variable} ${inter.variable} ${jetBrainsMono.variable}`}
     >
@@ -42,7 +47,14 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-full flex-col">
-        {children}
+        <div
+          id="top"
+          className="landing bg-bg text-ink flex min-h-dvh flex-col"
+        >
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </div>
         <SiteToaster />
       </body>
     </html>

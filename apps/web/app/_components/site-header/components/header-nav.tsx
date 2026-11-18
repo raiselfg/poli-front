@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { links } from '../constants/links';
 
 export function HeaderNav() {
@@ -7,13 +8,13 @@ export function HeaderNav() {
       className="landing:flex hidden items-center gap-5 text-sm"
     >
       {links.map((link) => (
-        <a
+        <Link
           key={link.href}
           href={link.href}
           className="landing-link text-ink-muted hover:text-ink py-2 font-medium whitespace-nowrap underline decoration-transparent underline-offset-4 hover:decoration-current"
         >
           {link.label}
-        </a>
+        </Link>
       ))}
     </nav>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { ArrowUpRight, Menu } from 'lucide-react';
 import {
   Sheet,
@@ -10,7 +11,7 @@ import {
   SheetTrigger,
 } from '@workspace/ui/components/sheet';
 import { accentAction } from '../../landing-styles';
-import { links } from '../constants/links';
+import { links, requestHref } from '../constants/links';
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -35,7 +36,7 @@ export function MobileNav() {
           className="flex flex-col gap-1 px-4"
         >
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               onClick={() => {
@@ -44,12 +45,12 @@ export function MobileNav() {
               className="landing-link rounded-control text-ink-muted hover:bg-line hover:text-ink px-3 py-3.5 font-medium"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="mt-auto p-4">
-          <a
-            href="#request"
+          <Link
+            href={requestHref}
             onClick={() => {
               setOpen(false);
             }}
@@ -57,7 +58,7 @@ export function MobileNav() {
           >
             Прислать чертёж
             <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
+          </Link>
         </div>
       </SheetContent>
     </Sheet>

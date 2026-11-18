@@ -302,11 +302,11 @@ html:has(.landing) {
 }
 
 @media (width < 64rem) {
-  html:has(.landing-contact-bar) {
+  html:has(.landing-contact-bar):has(.landing-footer[data-home='true']) {
     scroll-padding-block-end: var(--landing-contact-bar-height);
   }
 
-  .landing-footer:has(.landing-contact-bar) {
+  html:has(.landing-contact-bar) .landing-footer[data-home='true'] {
     padding-block-end: calc(25px + var(--landing-contact-bar-height));
   }
 

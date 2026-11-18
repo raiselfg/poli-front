@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import Link from 'next/link';
 import { unstable_rethrow } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import { BrandLogo } from '@/components/brand-logo';
@@ -6,6 +7,7 @@ import { getContacts, getPhoneHref } from '../../_lib/contacts/contacts';
 import { accentAction, wrap } from '../landing-styles';
 import { HeaderNav } from './components/header-nav';
 import { MobileNav } from './components/mobile-nav';
+import { requestHref } from './constants/links';
 
 async function HeaderPhone() {
   const contacts = await getContacts().catch((error: unknown) => {
@@ -31,18 +33,22 @@ export function SiteHeader() {
       <div
         className={`${wrap} min-h-header landing:grid landing:grid-cols-[1fr_auto_1fr] flex items-center justify-between gap-4`}
       >
-        <a href="#top" className="justify-self-start">
+        <Link
+          href="/#top"
+          aria-label="На главную"
+          className="justify-self-start"
+        >
           <BrandLogo />
-        </a>
+        </Link>
         <HeaderNav />
         <div className="landing:flex hidden items-center justify-end gap-4">
           <Suspense fallback={null}>
             <HeaderPhone />
           </Suspense>
-          <a href="#request" className={accentAction}>
+          <Link href={requestHref} className={accentAction}>
             Прислать чертёж
             <ArrowUpRight aria-hidden="true" />
-          </a>
+          </Link>
         </div>
         <div className="landing:hidden">
           <MobileNav />
